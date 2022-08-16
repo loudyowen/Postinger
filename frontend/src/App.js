@@ -2,14 +2,27 @@ import React from "react";
 import './App.css';
 // import Form from './Form/Form';
 import Auth from "./Component/Auth/Auth";
-// import Home from "./component/Home/Home"
+import Home from "./Component/Home/Home";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import {Container} from '@material-ui/core'
 
 function App() {
   return (
-    <div className="App">
-      <Auth />
+    // <div className="App">
+    //   <Auth />
       
-    </div>
+    // </div>
+    <BrowserRouter>
+        <Container maxWidth='lg'>
+            {/* <Navbar /> */}
+            <Routes>
+                <Route path="/" exact element={<Auth />} />
+                <Route path="/home" exact element={<Home />} />
+            </Routes>
+        </Container>
+    </BrowserRouter>
   );
 }
 

@@ -2,11 +2,13 @@ import React, {useState} from "react";
 import {Container, Grid, Typography, Paper, Button} from '@mui/material';
 import useStyles from './styles'
 import {useDispatch} from 'react-redux'
+import {useNavigate}from 'react-router-dom'
 import Input from "./Input"
 import {signUp, signIn} from "../../Actions/authAction"
 const Auth = () =>{
     const classes = useStyles();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isSignUp, setIsSignUp] = useState(true)
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -31,9 +33,9 @@ const Auth = () =>{
     const handleSubmit = (e) => {
         e.preventDefault();
         if(isSignUp){
-            dispatch(signUp({...formData}))
+            dispatch(signUp({...formData},navigate))
         }else{
-            dispatch(signIn({...formData}))
+            dispatch(signIn({...formData},navigate))
         }
     }
     return(

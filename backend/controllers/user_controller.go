@@ -86,20 +86,41 @@ func Createuser() gin.HandlerFunc {
 func GetUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		userId := c.Param("id")
+		// reqUserEmail := c.Param("email")
+		// reqUserPassword := c.Param("password")
+		// fmt.Println("==>email: ", reqUserEmail)
+		// fmt.Println("==>password: ", reqUserPassword)
+		var reqUser models.User
 		var user models.User
 		defer cancel()
 
-		objId, _ := primitive.ObjectIDFromHex(userId)
+		if err := c.BindJSON(&reqUser); err != nil {
+			ReqValidate(c, err, "Request Error")
+			return
+		}
+		// objId, _ := primitive.ObjectIDFromHex(userId)
 
 		// bson.M is objectId type that mongoDB use
-		if err := userCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&user); err != nil {
+
+		if err := userCollection.FindOne(ctx, bson.M{"email": reqUser.Email}).Decode(&user); err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
 				responses.UserResponse{
 					Status:  http.StatusInternalServerError,
 					Message: "Error User Not Found",
 					Data:    map[string]interface{}{"data": err.Error()},
+				},
+			)
+			return
+		}
+
+		if reqUser.Password != user.Password {
+			c.JSON(
+				http.StatusInternalServerError,
+				responses.UserResponse{
+					Status:  http.StatusInternalServerError,
+					Message: "Wrong Password",
+					Data:    map[string]interface{}{"data": nil},
 				},
 			)
 			return
