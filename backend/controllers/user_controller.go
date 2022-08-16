@@ -59,6 +59,7 @@ func Createuser() gin.HandlerFunc {
 
 		// insert to collection "Users"
 		result, err := userCollection.InsertOne(ctx, newUser)
+
 		if err != nil {
 			c.JSON(
 				http.StatusInternalServerError,

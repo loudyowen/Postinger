@@ -25,13 +25,6 @@ func CORSMiddleware() gin.HandlerFunc {
 	}
 }
 
-type FormBody struct {
-	Nama       string `json:"nama"`
-	Reason     string `json:"reason"`
-	StartValue string `json:"startValue"`
-	EndValue   string `json:"endValue"`
-}
-
 func main() {
 	var r *gin.Engine
 	r = gin.Default()
