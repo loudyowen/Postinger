@@ -41,7 +41,7 @@ func Createuser() gin.HandlerFunc {
 			ReqValidate(c, err, "Request Error")
 			return
 		}
-
+		fmt.Println(user)
 		// using validator to validate the required request field
 		if validationErr := validate.Struct(&user); validationErr != nil {
 			ReqValidate(c, validationErr, "Validation Error")

@@ -17,7 +17,6 @@ const Auth = () =>{
     })
 
     const handleChange = (e) => {
-        console.log({...formData, [e.target.name]: e.target.value})
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
@@ -32,9 +31,9 @@ const Auth = () =>{
     const handleSubmit = (e) => {
         e.preventDefault();
         if(isSignUp){
-            dispatch(signUp({formData}))
+            dispatch(signUp({...formData}))
         }else{
-            dispatch(signIn({formData}))
+            dispatch(signIn({...formData}))
         }
     }
     return(
