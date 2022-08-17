@@ -2,11 +2,15 @@ import React,{useState, useEffect} from 'react'
 import { 
     Container,
     Grow,
-    Grid
+    Grid,
+    Box
 } from '@material-ui/core';
 
+import useStyles from './Styles'
 
 import { useDispatch } from "react-redux";
+import Navbar from '../Navbar/Navbar';
+import Post from '../Post/Post';
 
 // import { getPosts } from "../../actions/posts";
 
@@ -14,7 +18,7 @@ import { useDispatch } from "react-redux";
 
 function Home() {
     const [currentId, setCurrentId] = useState(null);
-    // const styles = useStyles();
+    const classes = useStyles();
     const dispatch = useDispatch();
 
 
@@ -22,21 +26,20 @@ function Home() {
     //     dispatch(getPosts());
     // },[currentId, dispatch]) 
  return (
-    <h1>
-        HOME PAGE
-    </h1>
-    // <Grow in>
-    //     <Container>
-    //         <Grid container justifyContent="space-between" alignItem="strech" spacing={3} >
-    //             <Grid item xs={12} sm={4}>
-    //                 {/* <Form currentId={currentId} setCurrentId={setCurrentId}/> */}
-    //             </Grid>
-    //             <Grid item xs={12} sm={7}>
-    //                 {/* <Posts setCurrentId={setCurrentId} /> */}
-    //             </Grid>
-    //         </Grid>
-    //     </Container>
-    // </Grow>
+    <Grow in>
+        <Container className={classes.Container} disableGutters={true}>
+            <Navbar />
+            <Grid container justifyContent="space-between" alignItem="strech" spacing={3} >
+                <Grid item xs={0} sm={1} md={2}>
+                </Grid>
+                <Grid item xs={12} sm={10} md={8}>
+                    <Post />
+                </Grid>
+                <Grid item xs={0} sm={1} md={2}>
+                </Grid>
+            </Grid>
+        </Container>
+    </Grow>
   )
 }
 

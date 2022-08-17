@@ -10,13 +10,8 @@ import {Container} from '@material-ui/core'
 
 function App() {
   return (
-    // <div className="App">
-    //   <Auth />
-      
-    // </div>
     <BrowserRouter>
-        <Container maxWidth='lg'>
-            {/* <Navbar /> */}
+        <Container disableGutters={true}>
             <Routes>
                 <Route path="/" exact element={<Auth />} />
                 <Route path="/home" exact element={<Home />} />
