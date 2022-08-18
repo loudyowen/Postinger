@@ -26,7 +26,7 @@ function Home() {
     //     dispatch(getPosts());
     // },[currentId, dispatch]) 
  return (
-    <Grow in>
+    // <Grow out>
         <Container className={classes.Container} disableGutters={true}>
             <Navbar />
             <Grid container justifyContent="space-between" alignItem="strech" spacing={3} >
@@ -39,7 +39,7 @@ function Home() {
                 </Grid>
             </Grid>
         </Container>
-    </Grow>
+    // </Grow>
   )
 }
 

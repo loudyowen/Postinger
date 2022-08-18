@@ -6,8 +6,8 @@ export const signUp = (form, navigate) => async (dispatch) =>{
     console.log(form)
     try{
         const { data } = await api.signUpApi(form)
-        dispatch({type: AUTH, payload: data})
-        navigate('/home')
+        dispatch({type: AUTH, data: data})
+        // navigate('/home')
     }catch(error){
         console.log(error)
     }
@@ -16,7 +16,13 @@ export const signUp = (form, navigate) => async (dispatch) =>{
 export const signIn = (form, navigate) => async (dispatch) => {
     try{
         const {data} = await api.signInApi(form)
-        dispatch({type: AUTH, payload: data })
+        const profile = {
+            id: data.data.data.id,
+            email: data.data.data.email,
+            firstName: data.data.data.firstName,
+            lastName: data.data.data.lastName
+        }
+        dispatch({type: AUTH, data: profile })
         navigate('/home')
     }catch(err){
         console.log(err)
