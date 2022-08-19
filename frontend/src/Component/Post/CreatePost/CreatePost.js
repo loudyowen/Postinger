@@ -3,34 +3,51 @@ import { Button, TextField, Typography } from '@mui/material';
 import React,{useState, useEffect} from 'react'
 import useStyles from './Styles'
 import FileBase from 'react-file-base64';
+import {useNavigate}from 'react-router-dom'
+import { postStatus } from '../../../Actions/postAction';
+import {useDispatch} from 'react-redux'
 
 
 
 function CreatePost() {
+  const navigate = useNavigate();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const userData = JSON.parse(localStorage.getItem('profile'))
+  const [user, setUser] = React.useState(userData);
+  const userName = user.firstName + " " + user.lastName
+  const userImage = user.profileImage
   const [postData, setPostData] = useState({
-
+    postText: '',
+    image: ''
   })
   const handleChange = (e) =>{
     setPostData({...postData, [e.target.name]: e.target.value})
-    // setFormData({...formData, [e.target.name]: e.target.value})
+  }
+  const clear = () => {
+    setPostData({
+      postText: '',
+      image: ''
+    })
   }
   const handleSubmit = (e) =>{
     e.preventDefault();
+    dispatch(postStatus({...postData,userName,userImage}))
+    clear()
   }
  return (
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                     <Grid xs={12}>
-                    <TextField name="postText" label="What's on your mind?" type="textbox" variant='filled' multiline rows={4} fullWidth handleChange={handleChange}  />
+                    <TextField name="postText" label="What's on your mind?" variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
                     </Grid>
                     <Grid xs={4}>
                       <div >
                         <FileBase
                               type="file"
                               multiple={false}
-                              onDone={({base64})=> setPostData({...postData, selectedFile: base64})}
+                              onDone={({base64})=> setPostData({...postData, image: base64})}
                           />
                       </div>
                     </Grid>

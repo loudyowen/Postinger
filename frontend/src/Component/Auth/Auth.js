@@ -4,6 +4,7 @@ import useStyles from './Styles'
 import {useDispatch} from 'react-redux'
 import {useNavigate}from 'react-router-dom'
 import Input from "./Input"
+import FileBase from 'react-file-base64';
 import {signUp, signIn} from "../../Actions/authAction"
 const Auth = () =>{
     const classes = useStyles();
@@ -15,10 +16,13 @@ const Auth = () =>{
         firstName: '',
         lastName: '',
         email: '',
-        password: ''
+        password: '',
+        profileImage: ''
     })
 
     const handleChange = (e) => {
+        console.log(e.target.name)
+        console.log(e.target.value)
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
@@ -57,7 +61,17 @@ const Auth = () =>{
                     {isSignUp && (
                         <>
                             <Input name="confirmPassword" label="Confirm Password" type="password" fullWidth handleChange={handleChange}  />
+                        <Grid xs={4}>
+                            <div >
+                            <FileBase
+                                    type="file"
+                                    multiple={false}
+                                    onDone={({base64})=> setFormData({...formData, selectedFile: base64})}
+                                />
+                            </div>
+                        </Grid>
                         </>
+
                     )}
                 </Grid>
                 <Button  type='submit' color='primary' variant="contained" fullWidth>{isSignUp ? 'Sign Up' : 'Sign In'}</Button>

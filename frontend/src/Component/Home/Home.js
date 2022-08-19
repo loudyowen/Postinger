@@ -28,7 +28,7 @@ function Home() {
  return (
     // <Grow out>
         <Container className={classes.Container} disableGutters={true}>
-            <Navbar />
+            <Navbar  />
             <Grid container justifyContent="space-between" alignItem="strech" spacing={3} >
                 <Grid item xs={0} sm={1} md={2}>
                 </Grid>

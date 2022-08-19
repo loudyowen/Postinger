@@ -6,8 +6,15 @@ export const signUp = (form, navigate) => async (dispatch) =>{
     console.log(form)
     try{
         const { data } = await api.signUpApi(form)
-        dispatch({type: AUTH, data: data})
-        // navigate('/home')
+        const profile = {
+            id: data.data.data.id,
+            email: data.data.data.email,
+            firstName: data.data.data.firstName,
+            lastName: data.data.data.lastName,
+            profileImage: data.data.data.selectedFile
+        }
+        dispatch({type: AUTH, data: profile})
+        navigate('/home')
     }catch(error){
         console.log(error)
     }
@@ -20,7 +27,8 @@ export const signIn = (form, navigate) => async (dispatch) => {
             id: data.data.data.id,
             email: data.data.data.email,
             firstName: data.data.data.firstName,
-            lastName: data.data.data.lastName
+            lastName: data.data.data.lastName,
+            profileImage: data.data.data.selectedFile
         }
         dispatch({type: AUTH, data: profile })
         navigate('/home')

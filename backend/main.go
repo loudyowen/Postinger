@@ -31,6 +31,7 @@ func main() {
 	configs.ConnectDB()
 	r.Use(CORSMiddleware())
 	routes.UserRoute(r)
+	routes.PostRoute(r)
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(
 			http.StatusOK,

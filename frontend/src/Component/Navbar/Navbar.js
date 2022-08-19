@@ -15,6 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { Avatar } from '@material-ui/core';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,9 +57,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const userData = JSON.parse(localStorage.getItem('profile'))
+  const [user, setUser] = React.useState(userData);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -209,7 +213,10 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              {/* <AccountCircle /> */}
+              <Avatar src={user?.profileImage} alt={user?.firstName}>{user?.firstName?.charAt(0)}</Avatar>
+
+             
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -231,3 +238,5 @@ export default function PrimarySearchAppBar() {
     </Box>
   );
 }
+
+export default Navbar

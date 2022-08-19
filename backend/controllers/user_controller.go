@@ -23,9 +23,9 @@ func ReqValidate(c *gin.Context, err error, message string) {
 	c.JSON(
 		http.StatusBadRequest,
 		responses.UserResponse{
-			Status:  http.StatusBadRequest,
-			Message: message,
 			Data:    map[string]interface{}{"data": err.Error()},
+			Message: message,
+			Status:  http.StatusBadRequest,
 		},
 	)
 }
@@ -41,7 +41,6 @@ func Createuser() gin.HandlerFunc {
 			ReqValidate(c, err, "Request Error")
 			return
 		}
-		fmt.Println(user)
 		// using validator to validate the required request field
 		if validationErr := validate.Struct(&user); validationErr != nil {
 			ReqValidate(c, validationErr, "Validation Error")
@@ -50,11 +49,12 @@ func Createuser() gin.HandlerFunc {
 
 		// input new user data to new user
 		newUser := models.User{
-			Id:        primitive.NewObjectID(),
-			FirstName: user.FirstName,
-			LastName:  user.LastName,
-			Email:     user.Email,
-			Password:  user.Password,
+			Id:           primitive.NewObjectID(),
+			FirstName:    user.FirstName,
+			LastName:     user.LastName,
+			Email:        user.Email,
+			Password:     user.Password,
+			ProfileImage: user.ProfileImage,
 		}
 
 		// insert to collection "Users"
@@ -64,9 +64,9 @@ func Createuser() gin.HandlerFunc {
 			c.JSON(
 				http.StatusInternalServerError,
 				responses.UserResponse{
-					Status:  http.StatusInternalServerError,
-					Message: "error",
 					Data:    map[string]interface{}{"data": err.Error()},
+					Message: "error",
+					Status:  http.StatusInternalServerError,
 				},
 			)
 			return
@@ -75,9 +75,9 @@ func Createuser() gin.HandlerFunc {
 		c.JSON(
 			http.StatusCreated,
 			responses.UserResponse{
-				Status:  http.StatusCreated,
-				Message: "User Created!",
 				Data:    map[string]interface{}{"data": result},
+				Message: "User Created!",
+				Status:  http.StatusCreated,
 			},
 		)
 	}
@@ -98,17 +98,13 @@ func GetUser() gin.HandlerFunc {
 			ReqValidate(c, err, "Request Error")
 			return
 		}
-		// objId, _ := primitive.ObjectIDFromHex(userId)
-
-		// bson.M is objectId type that mongoDB use
-
 		if err := userCollection.FindOne(ctx, bson.M{"email": reqUser.Email}).Decode(&user); err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
 				responses.UserResponse{
-					Status:  http.StatusInternalServerError,
-					Message: "Error User Not Found",
 					Data:    map[string]interface{}{"data": err.Error()},
+					Message: "Error User Not Found",
+					Status:  http.StatusInternalServerError,
 				},
 			)
 			return
@@ -118,9 +114,9 @@ func GetUser() gin.HandlerFunc {
 			c.JSON(
 				http.StatusInternalServerError,
 				responses.UserResponse{
-					Status:  http.StatusInternalServerError,
-					Message: "Wrong Password",
 					Data:    map[string]interface{}{"data": nil},
+					Message: "Wrong Password",
+					Status:  http.StatusInternalServerError,
 				},
 			)
 			return
@@ -130,9 +126,9 @@ func GetUser() gin.HandlerFunc {
 		c.JSON(
 			http.StatusOK,
 			responses.UserResponse{
-				Status:  http.StatusOK,
-				Message: userFoundMsg,
 				Data:    map[string]interface{}{"data": user},
+				Message: userFoundMsg,
+				Status:  http.StatusOK,
 			},
 		)
 	}
