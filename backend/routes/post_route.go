@@ -7,5 +7,6 @@ import (
 )
 
 func PostRoute(r *gin.Engine) {
-	r.POST("/home/post", controllers.CreatePost())
+	r.POST("/post", controllers.CreatePost())
+	r.GET("/post", controllers.GetAllPosts())
 }

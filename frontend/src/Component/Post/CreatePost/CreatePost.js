@@ -14,9 +14,8 @@ function CreatePost() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userData = JSON.parse(localStorage.getItem('profile'))
-  const [user, setUser] = React.useState(userData);
-  const userName = user.firstName + " " + user.lastName
-  const userImage = user.profileImage
+  // console.log(userData)
+  const uId = userData.id
   const [postData, setPostData] = useState({
     postText: '',
     image: ''
@@ -32,7 +31,7 @@ function CreatePost() {
   }
   const handleSubmit = (e) =>{
     e.preventDefault();
-    dispatch(postStatus({...postData,userName,userImage}))
+    dispatch(postStatus({...postData,uId}))
     clear()
   }
  return (

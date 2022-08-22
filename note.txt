@@ -1,0 +1,33 @@
+- Middleware auth
+- Goroutine Get All Post
+- Auto Add new post card when submit new post
+- Search User
+- PostCard:
+    - Edit, Delete Post
+    - Time posting
+    - Show more feature...
+    - Comment 
+    - Like
+    - Get userData to card -> (From UID)
+    *Opt : -> Create share link
+- Add friend
+- show friend list
+- Send message to friend
+- Google Login integration
+- Edit Profile
+
+V2:
+-> Post visibility (Public,Private, etc)
+-> Notification
+-> Save post
+-> Show save post
+-> Show like post
+
+V3:
+-> Group
+-> Online chat
+
+Some Idea:
+-> Buy And Sell product feature
+-> Cart System
+-> Account balance to shop

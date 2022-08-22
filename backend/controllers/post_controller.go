@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -33,12 +34,10 @@ func CreatePost() gin.HandlerFunc {
 
 		newPost := models.Post{
 			Id:        primitive.NewObjectID(),
-			Username:  post.Username,
-			UserImage: post.UserImage,
+			UID:       post.UID,
 			Image:     post.Image,
 			PostText:  post.PostText,
 			CreatedAt: time.Now(),
-			Like:      []string{""},
 		}
 
 		result, err := postCollection.InsertOne(ctx, newPost)
@@ -62,5 +61,48 @@ func CreatePost() gin.HandlerFunc {
 				Status:  http.StatusCreated,
 			},
 		)
+	}
+}
+func GetAllPosts() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		datas, err := postCollection.Find(ctx, bson.M{})
+		if err != nil {
+			c.JSON(
+				http.StatusInternalServerError,
+				responses.UserResponse{
+					Data:    map[string]interface{}{"data": err.Error()},
+					Message: "Data ERROR!",
+					Status:  http.StatusInternalServerError,
+				},
+			)
+			return
+		}
+		defer datas.Close(ctx)
+		var data []bson.M
+		for datas.Next(ctx) {
+			if err = datas.All(ctx, &data); err != nil {
+				c.JSON(
+					http.StatusInternalServerError,
+					responses.UserResponse{
+						Data:    map[string]interface{}{"data": err.Error()},
+						Message: "CURSOR MAP ERROR!",
+						Status:  http.StatusInternalServerError,
+					},
+				)
+			}
+		}
+		c.JSON(
+			http.StatusOK,
+			&data,
+			// responses.UserResponse{
+			// 	Status:  http.StatusOK,
+			// 	Message: "Data received",
+			// 	Data:    map[string]interface{}{"data": data},
+			// },
+		)
+
 	}
 }

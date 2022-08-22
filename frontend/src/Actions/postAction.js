@@ -1,13 +1,31 @@
 import { display } from '@mui/system';
 import * as api from '../api';
-import {CREATE} from '../constant/actionType'
+import {CREATE, FETCH_ALL} from '../constant/actionType'
+
+export const getPosts = () => async (dispatch) =>{
+    try {
+        const { data } = await api.getPosts();
+        // console.log(data)
+        // const payload = {
+        //     // id: _id
+        //     data: data
+        // }
+        // console.log(payload)
+        // console.log("DATA RECEIVED IN REACT")
+        dispatch({type: FETCH_ALL, payload: data})
+    } catch (error) {
+        console.log(error)
+        // console.log("GET POST ERROR")
+    }
+}
 
 export const postStatus = (postData) => async (dispatch) =>{
-    console.log(postData)
     try{
         const { data } = await api.postStatus(postData)
-        dispatch({type: CREATE, data: data})
+        dispatch({type: CREATE, payload: data})
     }catch(error){
         console.log(error)
     }
 }
+
+
