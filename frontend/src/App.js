@@ -11,7 +11,7 @@ import {Container} from '@material-ui/core'
 function App() {
   return (
     <BrowserRouter>
-        <Container disableGutters={true}>
+        <Container disableGutters={true} maxWidth='false'>
             <Routes>
                 <Route path="/" exact element={<Auth />} />
                 <Route path="/home" exact element={<Home />} />

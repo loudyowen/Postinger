@@ -30,7 +30,7 @@ function Home() {
     },[dispatch]) 
     return (
         // <Grow out>
-            <Container className={classes.Container} disableGutters={true}>
+            <Container className={classes.Container} disableGutters={true} maxWidth='false'>
                 <Navbar  />
                 <Grid container justifyContent="space-between" alignItem="strech" spacing={3} >
                     <Grid item xs={0} sm={1} md={2}>

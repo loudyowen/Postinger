@@ -45,7 +45,13 @@ export default function PostCard(post) {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  
+  const handleMenuEdit = () => {
+    
+  }
+  const handleMenuDelete = () => {
+
+  }
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -53,6 +59,7 @@ export default function PostCard(post) {
         vertical: 'top',
         horizontal: 'right',
       }}
+      id={menuId}
       keepMounted
       transformOrigin={{
         vertical: 'top',
@@ -61,13 +68,12 @@ export default function PostCard(post) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuEdit}>Edit</MenuItem>
+      <MenuItem onClick={handleMenuDelete}>Delete</MenuItem>
     </Menu>
   );
   
  
-  // console.log(post?.post?.createdat)
   console.log(post.post)
   return (
     <Card sx={{ width: 550, marginTop: 2}}>
@@ -82,10 +88,11 @@ export default function PostCard(post) {
         // 1. EDIT POST
         // 2. DELETE POST
         action={
-            <IconButton
+        <IconButton
           size="large"
           edge="end"
           aria-label="account of current user"
+          aria-controls={menuId}
           aria-haspopup="true"
           onClick={handleProfileMenuOpen}
           color="inherit"
@@ -96,6 +103,7 @@ export default function PostCard(post) {
         title={post?.post?.username}
         // subheader="September 14, 2016"
       />
+      {renderMenu}
 
       {/* 2. IMAGE FILE */}
       <CardMedia

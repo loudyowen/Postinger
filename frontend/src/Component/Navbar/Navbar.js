@@ -16,6 +16,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Avatar } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { LOG_OUT } from '../../constant/actionType';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -64,6 +67,9 @@ const Navbar = () => {
   const userData = JSON.parse(localStorage.getItem('profile'))
   const [user, setUser] = React.useState(userData);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -84,6 +90,11 @@ const Navbar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogOut = () => {
+    dispatch({type: LOG_OUT})
+    navigate('/')
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -103,6 +114,7 @@ const Navbar = () => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -169,7 +181,7 @@ const Navbar = () => {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+          <MenuIcon />
           </IconButton>
           <Typography
             variant="h6"
@@ -213,10 +225,7 @@ const Navbar = () => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              {/* <AccountCircle /> */}
               <Avatar src={user?.profileImage} alt={user?.firstName}>{user?.firstName?.charAt(0)}</Avatar>
-
-             
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

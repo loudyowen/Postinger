@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Container, Grid, Typography, Paper, Button} from '@mui/material';
-import useStyles from './Styles'
+import useStyles from './styles'
 import {useDispatch} from 'react-redux'
 import {useNavigate}from 'react-router-dom'
 import Input from "./Input"

@@ -17,7 +17,9 @@ function Post() {
       <>
       { 
         posts.map((postData)=>(
-          <PostCard post={postData} />
+          <Grid className={classes.PostContainer} container justifyContent="center">
+            <PostCard post={postData} />
+          </Grid>
           ))
       }
       </>
