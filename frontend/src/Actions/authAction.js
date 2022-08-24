@@ -3,7 +3,6 @@ import * as api from '../api';
 import {AUTH, CREATE} from '../constant/actionType'
 
 export const signUp = (form, navigate) => async (dispatch) =>{
-    console.log(form)
     try{
         const { data } = await api.signUpApi(form)
         const profile = {
@@ -11,7 +10,7 @@ export const signUp = (form, navigate) => async (dispatch) =>{
             email: data.data.data.email,
             firstName: data.data.data.firstName,
             lastName: data.data.data.lastName,
-            profileImage: data.data.data.selectedFile
+            profileImage: data.data.data.profileImage
         }
         dispatch({type: AUTH, data: profile})
         navigate('/home')
@@ -28,7 +27,7 @@ export const signIn = (form, navigate) => async (dispatch) => {
             email: data.data.data.email,
             firstName: data.data.data.firstName,
             lastName: data.data.data.lastName,
-            profileImage: data.data.data.selectedFile
+            profileImage: data.data.data.profileImage
         }
         dispatch({type: AUTH, data: profile })
         navigate('/home')

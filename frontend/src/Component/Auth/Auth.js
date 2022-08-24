@@ -64,7 +64,7 @@ const Auth = () =>{
                             <FileBase
                                     type="file"
                                     multiple={false}
-                                    onDone={({base64})=> setFormData({...formData, selectedFile: base64})}
+                                    onDone={({base64})=> setFormData({...formData, profileImage: base64})}
                                 />
                             </div>
                         </Grid>

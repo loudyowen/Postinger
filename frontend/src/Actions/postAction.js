@@ -5,13 +5,7 @@ import {CREATE, FETCH_ALL} from '../constant/actionType'
 export const getPosts = () => async (dispatch) =>{
     try {
         const { data } = await api.getPosts();
-        // console.log(data)
-        // const payload = {
-        //     // id: _id
-        //     data: data
-        // }
-        // console.log(payload)
-        // console.log("DATA RECEIVED IN REACT")
+        console.log(data)
         dispatch({type: FETCH_ALL, payload: data})
     } catch (error) {
         console.log(error)

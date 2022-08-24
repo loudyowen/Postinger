@@ -35,7 +35,7 @@ func CreatePost() gin.HandlerFunc {
 		newPost := models.Post{
 			Id:        primitive.NewObjectID(),
 			UID:       post.UID,
-			Image:     post.Image,
+			PostImage: post.PostImage,
 			PostText:  post.PostText,
 			CreatedAt: time.Now(),
 		}
@@ -68,41 +68,50 @@ func GetAllPosts() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		datas, err := postCollection.Find(ctx, bson.M{})
+		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
+		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
+		showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage})
 		if err != nil {
-			c.JSON(
-				http.StatusInternalServerError,
-				responses.UserResponse{
-					Data:    map[string]interface{}{"data": err.Error()},
-					Message: "Data ERROR!",
-					Status:  http.StatusInternalServerError,
-				},
-			)
-			return
+			panic(err)
 		}
-		defer datas.Close(ctx)
-		var data []bson.M
-		for datas.Next(ctx) {
-			if err = datas.All(ctx, &data); err != nil {
-				c.JSON(
-					http.StatusInternalServerError,
-					responses.UserResponse{
-						Data:    map[string]interface{}{"data": err.Error()},
-						Message: "CURSOR MAP ERROR!",
-						Status:  http.StatusInternalServerError,
-					},
-				)
-			}
+		var showsLoaded []models.PostCard
+		if err = showLoadedCursor.All(ctx, &showsLoaded); err != nil {
+			panic(err)
 		}
 		c.JSON(
 			http.StatusOK,
-			&data,
-			// responses.UserResponse{
-			// 	Status:  http.StatusOK,
-			// 	Message: "Data received",
-			// 	Data:    map[string]interface{}{"data": data},
-			// },
+			&showsLoaded,
 		)
+		// Cursor, err := postCollection.Find(ctx, bson.M{})
+		// if err != nil {
+		// 	c.JSON(
+		// 		http.StatusInternalServerError,
+		// 		responses.UserResponse{
+		// 			Data:    map[string]interface{}{"data": err.Error()},
+		// 			Message: "Data ERROR!",
+		// 			Status:  http.StatusInternalServerError,
+		// 		},
+		// 	)
+		// 	return
+		// }
+		// defer Cursor.Close(ctx)
+		// var data []bson.M
+		// for Cursor.Next(ctx) {
+		// 	if err = Cursor.All(ctx, &data); err != nil {
+		// 		c.JSON(
+		// 			http.StatusInternalServerError,
+		// 			responses.UserResponse{
+		// 				Data:    map[string]interface{}{"data": err.Error()},
+		// 				Message: "CURSOR MAP ERROR!",
+		// 				Status:  http.StatusInternalServerError,
+		// 			},
+		// 		)
+		// 	}
+		// }
+		// c.JSON(
+		// 	http.StatusOK,
+		// 	&data,
+		// )
 
 	}
 }

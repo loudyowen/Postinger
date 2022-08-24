@@ -18,7 +18,7 @@ function CreatePost() {
   const uId = userData.id
   const [postData, setPostData] = useState({
     postText: '',
-    image: ''
+    postImage: ''
   })
   const handleChange = (e) =>{
     setPostData({...postData, [e.target.name]: e.target.value})
@@ -26,7 +26,7 @@ function CreatePost() {
   const clear = () => {
     setPostData({
       postText: '',
-      image: ''
+      postImage: ''
     })
   }
   const handleSubmit = (e) =>{
@@ -46,7 +46,7 @@ function CreatePost() {
                         <FileBase
                               type="file"
                               multiple={false}
-                              onDone={({base64})=> setPostData({...postData, image: base64})}
+                              onDone={({base64})=> setPostData({...postData, postImage: base64})}
                           />
                       </div>
                     </Grid>

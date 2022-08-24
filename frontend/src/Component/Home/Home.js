@@ -13,6 +13,7 @@ import Navbar from '../Navbar/Navbar';
 import Post from '../Post/Post';
 import { getPosts } from '../../Actions/postAction';
 import CreatePost from '../Post/CreatePost/CreatePost';
+import { useNavigate } from 'react-router-dom';
 
 // import { getPosts } from "../../actions/posts";
 
@@ -20,6 +21,7 @@ import CreatePost from '../Post/CreatePost/CreatePost';
 
 function Home() {
     const [currentId, setCurrentId] = useState(null);
+    const navigate = useNavigate();
     const classes = useStyles();
     const dispatch = useDispatch();
     // dispatch(getPosts())
@@ -27,6 +29,7 @@ function Home() {
     useEffect(()=>{
         // getPosts();
         dispatch(getPosts());
+        navigate('/home')
     },[dispatch]) 
     return (
         // <Grow out>

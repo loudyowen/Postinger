@@ -98,6 +98,7 @@ func GetUser() gin.HandlerFunc {
 			ReqValidate(c, err, "Request Error")
 			return
 		}
+
 		if err := userCollection.FindOne(ctx, bson.M{"email": reqUser.Email}).Decode(&user); err != nil {
 			c.JSON(
 				http.StatusInternalServerError,

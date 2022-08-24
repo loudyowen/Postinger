@@ -34,10 +34,11 @@ export default function PostCard(post) {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const profileName = post?.post?.UserData?.firstName + " " + post?.post?.UserData?.lastName
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  console.log(post)
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -74,15 +75,15 @@ export default function PostCard(post) {
   );
   
  
-  console.log(post.post)
   return (
     <Card sx={{ width: 550, marginTop: 2}}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {/* 1. AVATAR */}
-            R 
-          </Avatar>
+          // <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          //   {/* 1. AVATAR */}
+          //   R 
+          // </Avatar>
+          <Avatar src={post?.post?.UserData?.profileImage} alt={post?.post?.UserData?.firstName}>{post?.post?.UserData?.firstName?.charAt(0)}</Avatar>
         }
         // OPTIONAL: MENU ICON
         // 1. EDIT POST
@@ -100,7 +101,7 @@ export default function PostCard(post) {
           <MoreVertIcon />
         </IconButton>
         }
-        title={post?.post?.username}
+        title={profileName}
         // subheader="September 14, 2016"
       />
       {renderMenu}
@@ -109,20 +110,20 @@ export default function PostCard(post) {
       <CardMedia
         component="img"
         height="350"
-        image={post?.post?.image}
+        image={post?.post?.Image}
         alt="No Image"
       />
 
       {/* 3. POST TEXT */}
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {post?.post?.posttext}
+          {post?.post?.PostText}
         </Typography>
       </CardContent>
 
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon /> {post?.post?.like}
+          <FavoriteIcon /> {post?.post?.Like}
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />

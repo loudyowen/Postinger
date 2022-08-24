@@ -7,7 +7,7 @@ import (
 )
 
 func UserRoute(r *gin.Engine) {
-	r.POST("/user/signUp", controllers.Createuser())
+	r.POST("/user/signUp", controllers.Createuser()) // back to sign in
 	r.POST("/user/signIn", controllers.GetUser())
 	// r.GET("/user/:id", controllers.GetUser())
 	// r.PUT("/user/:id", controllers.UpdateUser())
