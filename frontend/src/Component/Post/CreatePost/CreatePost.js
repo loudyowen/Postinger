@@ -37,7 +37,7 @@ function CreatePost() {
  return (
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
+                <Grid container>
                     <Grid xs={12}>
                     <TextField name="postText" label="What's on your mind?" variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
                     </Grid>

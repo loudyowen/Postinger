@@ -15,6 +15,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Menu, MenuItem } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { deletePost } from '../../../Actions/postAction';
 
 // Tobe Cont.
 // const ExpandMore = styled((props) => {
@@ -33,12 +35,13 @@ import { Menu, MenuItem } from '@material-ui/core';
 export default function PostCard(post) {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
-  const profileName = post?.post?.UserData?.firstName + " " + post?.post?.UserData?.lastName
+  const profileName = post?.post?.UserData?.firstName + " " + post?.post?.UserData?.lastName;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  console.log(post)
+  console.log("Post data loaded")
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -50,7 +53,7 @@ export default function PostCard(post) {
     
   }
   const handleMenuDelete = () => {
-
+    dispatch(deletePost(post.post.Id))
   }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -79,10 +82,6 @@ export default function PostCard(post) {
     <Card sx={{ width: 550, marginTop: 2}}>
       <CardHeader
         avatar={
-          // <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-          //   {/* 1. AVATAR */}
-          //   R 
-          // </Avatar>
           <Avatar src={post?.post?.UserData?.profileImage} alt={post?.post?.UserData?.firstName}>{post?.post?.UserData?.firstName?.charAt(0)}</Avatar>
         }
         // OPTIONAL: MENU ICON

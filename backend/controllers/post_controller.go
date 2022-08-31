@@ -5,6 +5,7 @@ import (
 	"backend/models"
 	"backend/responses"
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -40,7 +41,7 @@ func CreatePost() gin.HandlerFunc {
 			CreatedAt: time.Now(),
 		}
 
-		result, err := postCollection.InsertOne(ctx, newPost)
+		res, err := postCollection.InsertOne(ctx, newPost)
 		if err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
@@ -52,11 +53,29 @@ func CreatePost() gin.HandlerFunc {
 			)
 			return
 		}
+		fmt.Println(res.InsertedID)
 
+		matchStage := bson.D{{"$match", bson.D{{"_id", res.InsertedID}}}}
+		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
+		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
+		showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{matchStage, lookupStage, unwindStage})
+		if err != nil {
+			panic(err)
+		}
+		var postCard []models.PostCard
+		if err = showLoadedCursor.All(ctx, &postCard); err != nil {
+			fmt.Println("ERROR DI CURSOR")
+			panic(err)
+		}
+
+		// if err := postCollection.FindOne(ctx, bson.M{"_id": res.InsertedID}).Decode(&postCard); err != nil {
+		// 	fmt.Println("SOMETHING WRONG")
+		// }
+		// fmt.Println(postCard)
 		c.JSON(
 			http.StatusCreated,
 			responses.UserResponse{
-				Data:    map[string]interface{}{"data": result},
+				Data:    map[string]interface{}{"data": postCard[0]},
 				Message: "Post Created!",
 				Status:  http.StatusCreated,
 			},
@@ -65,7 +84,7 @@ func CreatePost() gin.HandlerFunc {
 }
 func GetAllPosts() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 		defer cancel()
 
 		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
@@ -113,5 +132,36 @@ func GetAllPosts() gin.HandlerFunc {
 		// 	&data,
 		// )
 
+	}
+}
+
+func DeletePost() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		postId := c.Param("id")
+
+		objId, _ := primitive.ObjectIDFromHex(postId)
+		fmt.Println("OBJECT ID:", objId)
+
+		result, err := postCollection.DeleteOne(ctx, bson.M{"id": objId})
+		if err != nil {
+			c.JSON(
+				http.StatusInternalServerError,
+				responses.UserResponse{
+					Data:    map[string]interface{}{"data": err.Error()},
+					Message: "Post Not Found",
+					Status:  http.StatusInternalServerError,
+				})
+			return
+		}
+		c.JSON(
+			http.StatusOK,
+			responses.UserResponse{
+				Data:    map[string]interface{}{"data": result},
+				Message: "Post Deleted!",
+				Status:  http.StatusInternalServerError,
+			})
 	}
 }

@@ -5,7 +5,7 @@ export default makeStyles((theme)=>({
         background: '#7EC8E3',
         direction:"column",
         alignItems:"center",
-        justifyContent:"center"
+        justifyContent:"center",
     },
     grid: {
     }

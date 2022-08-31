@@ -26,11 +26,7 @@ function Home() {
     const dispatch = useDispatch();
     // dispatch(getPosts())
 
-    useEffect(()=>{
-        // getPosts();
-        dispatch(getPosts());
-        navigate('/home')
-    },[dispatch]) 
+    
     return (
         // <Grow out>
             <Container className={classes.Container} disableGutters={true} maxWidth='false'>
@@ -39,8 +35,10 @@ function Home() {
                     <Grid item xs={0} sm={1} md={2}>
                     </Grid>
                     <Grid item xs={12} sm={10} md={8}>
-                        <CreatePost />
-                        <Post />
+                    <CreatePost />
+                        <Grid className={classes.Post}>
+                            <Post />
+                        </Grid>
                     </Grid>
                     <Grid item xs={0} sm={1} md={2}>
                     </Grid>
