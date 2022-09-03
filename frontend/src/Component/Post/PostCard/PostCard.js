@@ -1,47 +1,27 @@
 import React,{useState, useEffect} from 'react'
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Menu, MenuItem } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { deletePost } from '../../../Actions/postAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePost, showModal } from '../../../Actions/postAction';
+import { Button } from '@mui/material';
 
-// Tobe Cont.
-// const ExpandMore = styled((props) => {
-//   const { expand, ...other } = props;
-//   return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-//   marginLeft: 'auto',
-//   transition: theme.transitions.create('transform', {
-//     duration: theme.transitions.duration.shortest,
-//   }),
-// }));
-
-
-
-export default function PostCard(post) {
-  const [expanded, setExpanded] = useState(false);
+const PostCard = ( {post, setCurrentId, setOpenModal}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
-  const profileName = post?.post?.UserData?.firstName + " " + post?.post?.UserData?.lastName;
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const profileName = post?.UserData?.firstName + " " + post?.UserData?.lastName;
   console.log("Post data loaded")
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -50,10 +30,11 @@ export default function PostCard(post) {
     setAnchorEl(null);
   };
   const handleMenuEdit = () => {
-    
+    setOpenModal(true)
+    setCurrentId(post.Id)
   }
   const handleMenuDelete = () => {
-    dispatch(deletePost(post.post.Id))
+    dispatch(deletePost(post.Id))
   }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -72,23 +53,23 @@ export default function PostCard(post) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+    
       <MenuItem onClick={handleMenuEdit}>Edit</MenuItem>
       <MenuItem onClick={handleMenuDelete}>Delete</MenuItem>
     </Menu>
   );
   
- 
   return (
     <Card sx={{ width: 550, marginTop: 2}}>
       <CardHeader
         avatar={
-          <Avatar src={post?.post?.UserData?.profileImage} alt={post?.post?.UserData?.firstName}>{post?.post?.UserData?.firstName?.charAt(0)}</Avatar>
+          <Avatar src={post?.UserData?.profileImage} alt={post?.UserData?.firstName}>{post?.UserData?.firstName?.charAt(0)}</Avatar>
         }
         // OPTIONAL: MENU ICON
         // 1. EDIT POST
         // 2. DELETE POST
         action={
-        <IconButton
+          <IconButton
           size="large"
           edge="end"
           aria-label="account of current user"
@@ -101,47 +82,37 @@ export default function PostCard(post) {
         </IconButton>
         }
         title={profileName}
-        // subheader="September 14, 2016"
-      />
+        />
       {renderMenu}
 
-      {/* 2. IMAGE FILE */}
-      <CardMedia
+      {!post?.Image.length ? '' : (
+        <CardMedia
         component="img"
         height="350"
-        image={post?.post?.Image}
+        image={post?.Image}
         alt="No Image"
-      />
-
-      {/* 3. POST TEXT */}
+        />
+        )}
+        
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {post?.post?.PostText}
+          {post?.PostText}
         </Typography>
       </CardContent>
 
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon /> {post?.post?.Like}
+          <FavoriteIcon /> {post?.Like}
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        {/* SEE MORE FEATURE */}
-        {/* <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore> */}
+        <Typography>
+          Comment
+        </Typography>
       </CardActions>
-      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography>
-        </CardContent />
-      </Collapse> */}
     </Card>
   );
 }
+
+export default PostCard

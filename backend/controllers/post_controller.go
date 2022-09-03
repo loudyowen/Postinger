@@ -86,6 +86,7 @@ func GetAllPosts() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 		defer cancel()
+		var showLoadedCursor *mongo.Cursor
 
 		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
 		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
@@ -101,6 +102,8 @@ func GetAllPosts() gin.HandlerFunc {
 			http.StatusOK,
 			&showsLoaded,
 		)
+		fmt.Println("DATA PASSSED")
+
 		// Cursor, err := postCollection.Find(ctx, bson.M{})
 		// if err != nil {
 		// 	c.JSON(

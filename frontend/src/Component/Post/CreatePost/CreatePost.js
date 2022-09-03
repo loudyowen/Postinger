@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux'
 
 
 
-function CreatePost() {
+const CreatePost = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -58,8 +58,6 @@ function CreatePost() {
                     </Grid>
                    
                 </Grid>
-                
-          
             </form>
     </Grid>
   )

@@ -1,14 +1,15 @@
 - Middleware auth
-- Goroutine Get All Post
+- Lazy Loading fetching
+ -> https://stackoverflow.com/questions/6435122/lazy-loading-in-mongodb
 - Auto Add new post card when submit new post
 - Search User
 - PostCard:
     - Edit, Delete Post
     - Time posting
-    - Show more feature...
+    - Show more feature... 
     - Comment 
     - Like
-    - Get userData to card -> (From UID)
+    - Get userData to card -> (From UID) (Done)
     *Opt : -> Create share link
 - Add friend
 - show friend list

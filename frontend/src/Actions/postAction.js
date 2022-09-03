@@ -1,6 +1,6 @@
 import { display } from '@mui/system';
 import * as api from '../api';
-import {CREATE, DELETE, FETCH_ALL} from '../constant/actionType'
+import {CREATE, DELETE, FETCH_ALL, EDIT_MODAL} from '../constant/actionType'
 
 export const getPosts = () => async (dispatch) =>{
     try {
@@ -28,6 +28,7 @@ export const postStatus = (postData) => async (dispatch) =>{
 export const deletePost = (postId) => async (dispatch) =>{
     try{
         await api.deletePost(postId)
+        console.log(postId)
         dispatch({type: DELETE, payload: postId})
     console.log("DELETE POST CALLED!!!")
 
@@ -36,4 +37,7 @@ export const deletePost = (postId) => async (dispatch) =>{
     }
 }
 
-
+export const showModal = (postId) => async (dispatch) => {
+    dispatch({type: EDIT_MODAL, payload: postId})
+    console.log("Edit Modal Called")
+}
