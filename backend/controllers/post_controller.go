@@ -67,11 +67,6 @@ func CreatePost() gin.HandlerFunc {
 			fmt.Println("ERROR DI CURSOR")
 			panic(err)
 		}
-
-		// if err := postCollection.FindOne(ctx, bson.M{"_id": res.InsertedID}).Decode(&postCard); err != nil {
-		// 	fmt.Println("SOMETHING WRONG")
-		// }
-		// fmt.Println(postCard)
 		c.JSON(
 			http.StatusCreated,
 			responses.UserResponse{
@@ -102,38 +97,64 @@ func GetAllPosts() gin.HandlerFunc {
 			http.StatusOK,
 			&showsLoaded,
 		)
-		fmt.Println("DATA PASSSED")
+	}
+}
 
-		// Cursor, err := postCollection.Find(ctx, bson.M{})
-		// if err != nil {
-		// 	c.JSON(
-		// 		http.StatusInternalServerError,
-		// 		responses.UserResponse{
-		// 			Data:    map[string]interface{}{"data": err.Error()},
-		// 			Message: "Data ERROR!",
-		// 			Status:  http.StatusInternalServerError,
-		// 		},
-		// 	)
-		// 	return
-		// }
-		// defer Cursor.Close(ctx)
-		// var data []bson.M
-		// for Cursor.Next(ctx) {
-		// 	if err = Cursor.All(ctx, &data); err != nil {
-		// 		c.JSON(
-		// 			http.StatusInternalServerError,
-		// 			responses.UserResponse{
-		// 				Data:    map[string]interface{}{"data": err.Error()},
-		// 				Message: "CURSOR MAP ERROR!",
-		// 				Status:  http.StatusInternalServerError,
-		// 			},
-		// 		)
-		// 	}
-		// }
-		// c.JSON(
-		// 	http.StatusOK,
-		// 	&data,
-		// )
+func UpdatePost() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		var post models.Post
+		postId := c.Param("id")
+		objId, _ := primitive.ObjectIDFromHex(postId)
+
+		if err := c.BindJSON(&post); err != nil {
+			ReqValidate(c, err, "Request Error")
+			return
+		}
+		if validationErr := validate.Struct(&post); validationErr != nil {
+			ReqValidate(c, validationErr, "Validation Error")
+			return
+		}
+		updateData := bson.M{
+			"postimage": post.PostImage,
+			"posttext":  post.PostText,
+		}
+		result, err := postCollection.UpdateOne(c, bson.M{"id": objId}, bson.M{"$set": updateData})
+		if err != nil {
+			c.JSON(
+				http.StatusInternalServerError,
+				responses.UserResponse{
+					Status:  http.StatusInternalServerError,
+					Message: "error",
+					Data:    map[string]interface{}{"data": err.Error()},
+				},
+			)
+			return
+		}
+
+		var updatedPost models.Post
+		if result.MatchedCount == 1 {
+			err := postCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&updatedPost)
+			if err != nil {
+				c.JSON(
+					http.StatusInternalServerError,
+					responses.UserResponse{
+						Status:  http.StatusInternalServerError,
+						Message: "Error UpdatedPost Not Found",
+						Data:    map[string]interface{}{"data": err.Error()},
+					})
+				return
+			}
+		}
+		c.JSON(
+			http.StatusOK,
+			responses.UserResponse{
+				Status:  http.StatusOK,
+				Message: "Update Success!!!",
+				Data:    map[string]interface{}{"data": updatedPost},
+			},
+		)
 
 	}
 }
@@ -146,7 +167,6 @@ func DeletePost() gin.HandlerFunc {
 		postId := c.Param("id")
 
 		objId, _ := primitive.ObjectIDFromHex(postId)
-		fmt.Println("OBJECT ID:", objId)
 
 		result, err := postCollection.DeleteOne(ctx, bson.M{"id": objId})
 		if err != nil {

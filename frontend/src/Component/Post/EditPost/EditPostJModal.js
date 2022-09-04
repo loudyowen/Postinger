@@ -6,31 +6,33 @@ import Modal from '@mui/material/Modal';
 import { Grid, TextField } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from "react-redux";
+import { updatePost } from '../../../Actions/postAction';
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: '60vw',
+  height: '75vh',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
 };
 
 const EditPostModal = ({show, close, currentId}) => {
-  console.log("Modal terpanggil")
+  const postEdit = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
+  const dispatch =  useDispatch();
   const [editPost, setEditPost] = useState({
-    editText: '',
-    editImage: ''
+    postText: '',
+    postImage: ''
   })
-  const handleSubmit = () => {
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updatePost(postEdit.Id,editPost))
   }
   const handleChange = (e) =>{
     setEditPost({...editPost, [e.target.name]: e.target.value})
   }
-  const postsEdit = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
-  console.log(postsEdit)
   return (
       <Modal 
       disableAutoFocus
@@ -39,23 +41,46 @@ const EditPostModal = ({show, close, currentId}) => {
       open={show} 
       onClose={close} 
       sx={{overflowY:'auto'}}
-      >
+        >
         <Box sx={style}>
-
-          <TextField id="outlined-basic" label={postsEdit.PostText} variant="outlined" />
-          {/* <h1>{currentId}</h1> */}
-        {/* <form autoComplete="off" onSubmit={handleSubmit}>
-                <Grid container>
-                  <div>
-                    <FileBase
-                          type="file"
-                          multiple={false}
-                          // onDone={({base64})=> setPostData({...postData, postImage: base64})}
+        <form autoComplete="off" onSubmit={handleSubmit}>
+          <Grid container
+          sx={{
+            textAlign: '-webkit-center',
+            margin: '10px'
+          }}
+          >
+            <Grid xs={12} >
+              <Typography variant="h4" sx={{textAlign: 'center'}}>Edit Post</Typography>
+            </Grid>
+            <Grid xs={12} sx={{width: '80%'}} >
+              <Typography variant="h6">Edit Text :</Typography>
+              <TextField
+                name="postText"
+                variant="filled"
+                multiline
+                fullWidth
+                rows={6}
+                onChange={handleChange} 
+                defaultValue={postEdit!==null?postEdit.PostText:null}
+              />  
+            </Grid>
+            <Grid xs={12}>
+              <Typography variant="h6">Edit Image :</Typography>
+              <img src={postEdit!==null?postEdit.Image:null} style={{width:'auto',height:'30vh', }}/>
+            </Grid>
+            <Grid xs={12}>
+              <div>
+                <FileBase
+                      type="file"
+                      multiple={false}
+                      onDone={({base64})=> setEditPost({...editPost, postImage: base64})}
                       />
-                  </div>
-                  <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
-                </Grid>
-            </form> */}
+              </div>
+            </Grid>
+            <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
+          </Grid>
+        </form>
         </Box>
       </Modal>
   );

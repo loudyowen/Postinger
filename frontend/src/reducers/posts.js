@@ -9,8 +9,9 @@ export default (posts = [], action) => {
         case DELETE:
             return posts.filter((post)=>(post.Id!==action.payload));
             // return posts.filter((post)=>(console.log(post.Id, action.payload)))
-        case EDIT_MODAL:
-            return action.payload;
+        case UPDATE:
+            
+            return posts.map((post)=>(post.Id === action.payload.id ? action.payload : post, console.log(action.payload) ))
         default:
             return posts;
     }

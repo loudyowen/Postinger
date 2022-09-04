@@ -20,7 +20,6 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const profileName = post?.UserData?.firstName + " " + post?.UserData?.lastName;
-  console.log("Post data loaded")
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -32,6 +31,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
   const handleMenuEdit = () => {
     setOpenModal(true)
     setCurrentId(post.Id)
+    handleMenuClose()
   }
   const handleMenuDelete = () => {
     dispatch(deletePost(post.Id))
@@ -52,22 +52,20 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      
     >
     
-      <MenuItem onClick={handleMenuEdit}>Edit</MenuItem>
+      <MenuItem onClick={handleMenuEdit} >Edit</MenuItem>
       <MenuItem onClick={handleMenuDelete}>Delete</MenuItem>
     </Menu>
   );
   
   return (
-    <Card sx={{ width: 550, marginTop: 2}}>
+    <Card sx={{ width: 550, marginTop: 2, overflowY:'auto'}}>
       <CardHeader
         avatar={
           <Avatar src={post?.UserData?.profileImage} alt={post?.UserData?.firstName}>{post?.UserData?.firstName?.charAt(0)}</Avatar>
         }
-        // OPTIONAL: MENU ICON
-        // 1. EDIT POST
-        // 2. DELETE POST
         action={
           <IconButton
           size="large"
@@ -77,6 +75,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
           aria-haspopup="true"
           onClick={handleProfileMenuOpen}
           color="inherit"
+          
         >
           <MoreVertIcon />
         </IconButton>
