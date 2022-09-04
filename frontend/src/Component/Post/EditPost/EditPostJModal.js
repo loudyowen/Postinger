@@ -21,6 +21,7 @@ const style = {
 
 const EditPostModal = ({show, close, currentId}) => {
   const postEdit = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
+  const postId = postEdit!==null?postEdit.Id:null
   const dispatch =  useDispatch();
   const [editPost, setEditPost] = useState({
     postText: '',
@@ -28,7 +29,7 @@ const EditPostModal = ({show, close, currentId}) => {
   })
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updatePost(postEdit.Id,editPost))
+    dispatch(updatePost(postId,editPost))
   }
   const handleChange = (e) =>{
     setEditPost({...editPost, [e.target.name]: e.target.value})

@@ -42,10 +42,10 @@ export const updatePost = (id,postData) => async (dispatch) => {
     console.log(postData)
     try{
         const { data }  = await api.updatePost(id,postData)
-        // const  payload  = data.data.data
+        const  payload  = data.data.data
         // console.log("update payload: ",payload)
-        console.log(data)
-        // dispatch({type: UPDATE, payload: data})
+        console.log(payload)
+        dispatch({type: UPDATE, payload: data})
     }catch(error){
         console.log(error)
     }

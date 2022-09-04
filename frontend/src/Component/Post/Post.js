@@ -18,6 +18,8 @@ const Post = ({setCurrentId,setOpenModal}) => {
   const posts = useSelector((state)=>state.posts)
   useEffect(()=>{
     dispatch(getPosts());
+  console.log(posts)
+
   },[dispatch]) 
 
 

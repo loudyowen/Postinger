@@ -53,7 +53,6 @@ func CreatePost() gin.HandlerFunc {
 			)
 			return
 		}
-		fmt.Println(res.InsertedID)
 
 		matchStage := bson.D{{"$match", bson.D{{"_id", res.InsertedID}}}}
 		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
@@ -133,28 +132,43 @@ func UpdatePost() gin.HandlerFunc {
 			return
 		}
 
-		var updatedPost models.Post
+		// var updatedPost models.Post
+		// if result.MatchedCount == 1 {
+		// 	err := postCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&updatedPost)
+		// 	if err != nil {
+		// 		c.JSON(
+		// 			http.StatusInternalServerError,
+		// 			responses.UserResponse{
+		// 				Status:  http.StatusInternalServerError,
+		// 				Message: "Error UpdatedPost Not Found",
+		// 				Data:    map[string]interface{}{"data": err.Error()},
+		// 			})
+		// 		return
+		// 	}
+		// }
 		if result.MatchedCount == 1 {
-			err := postCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&updatedPost)
+			matchStage := bson.D{{"$match", bson.D{{"id", objId}}}}
+			lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
+			unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
+			showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{matchStage, lookupStage, unwindStage})
 			if err != nil {
-				c.JSON(
-					http.StatusInternalServerError,
-					responses.UserResponse{
-						Status:  http.StatusInternalServerError,
-						Message: "Error UpdatedPost Not Found",
-						Data:    map[string]interface{}{"data": err.Error()},
-					})
-				return
+				panic(err)
 			}
+			var postCard []models.PostCard
+			if err = showLoadedCursor.All(ctx, &postCard); err != nil {
+				fmt.Println("ERROR DI CURSOR")
+				panic(err)
+			}
+
+			c.JSON(
+				http.StatusOK,
+				responses.UserResponse{
+					Status:  http.StatusOK,
+					Message: "Update Success!!!",
+					Data:    map[string]interface{}{"data": postCard[0]},
+				},
+			)
 		}
-		c.JSON(
-			http.StatusOK,
-			responses.UserResponse{
-				Status:  http.StatusOK,
-				Message: "Update Success!!!",
-				Data:    map[string]interface{}{"data": updatedPost},
-			},
-		)
 
 	}
 }
