@@ -45,7 +45,7 @@ export const updatePost = (id,postData) => async (dispatch) => {
         const  payload  = data.data.data
         // console.log("update payload: ",payload)
         console.log(payload)
-        dispatch({type: UPDATE, payload: data})
+        dispatch({type: UPDATE, payload: payload})
     }catch(error){
         console.log(error)
     }

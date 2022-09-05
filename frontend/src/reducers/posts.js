@@ -8,9 +8,8 @@ export default (posts = [], action) => {
             return [...posts, action.payload];      
         case DELETE:
             return posts.filter((post)=>(post.Id!==action.payload));
-            // return posts.filter((post)=>(console.log(post.Id, action.payload)))
         case UPDATE:
-            return posts.map((post)=>(post.Id === action.payload.id ? action.payload : post ))
+            return posts.map((post)=>(post.Id===action.payload.Id?action.payload:post))
         default:
             return posts;
     }

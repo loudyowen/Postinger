@@ -25,7 +25,7 @@ const EditPostModal = ({show, close, currentId}) => {
   const dispatch =  useDispatch();
   const [editPost, setEditPost] = useState({
     postText: '',
-    postImage: ''
+    postImage: postEdit!==null?postEdit.PostImage:''
   })
   const handleSubmit = (e) => {
     e.preventDefault();
