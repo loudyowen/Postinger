@@ -14,6 +14,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var userCollection *mongo.Collection = configs.GetCollection(configs.DB, "Users")
@@ -47,13 +48,15 @@ func Createuser() gin.HandlerFunc {
 			return
 		}
 
+		password, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+
 		// input new user data to new user
 		newUser := models.User{
 			Id:           primitive.NewObjectID(),
 			FirstName:    user.FirstName,
 			LastName:     user.LastName,
 			Email:        user.Email,
-			Password:     user.Password,
+			Password:     string(password),
 			ProfileImage: user.ProfileImage,
 		}
 
@@ -111,7 +114,12 @@ func GetUser() gin.HandlerFunc {
 			return
 		}
 
-		if reqUser.Password != user.Password {
+		// reqUserPassword, err := bcrypt.GenerateFromPassword([]byte(reqUser.Password), 10)
+		// if err != nil {
+		// 	log.Fatal(err)
+		//
+		hashPass := []byte(user.Password)
+		if err := bcrypt.CompareHashAndPassword(hashPass, []byte(reqUser.Password)); err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
 				responses.UserResponse{
