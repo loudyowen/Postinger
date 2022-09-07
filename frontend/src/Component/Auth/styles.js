@@ -20,4 +20,7 @@ export default makeStyles((theme)=>({
         // flexWrap: 'wrap',
         // justifyContent: 'center',
       },
+      Input: {
+        color: 'white'
+      }
 }))
