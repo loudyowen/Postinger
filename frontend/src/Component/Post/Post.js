@@ -1,10 +1,8 @@
-import { Box, Grid } from '@material-ui/core'
-import { Button } from '@mui/material';
+import { Grid } from '@material-ui/core'
 import React,{useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getPosts  } from '../../Actions/postAction';
-import EditPostModal from './EditPost/EditPostJModal';
 import PostCard from './PostCard/PostCard';
 import useStyles from './Styles'
 
@@ -18,8 +16,6 @@ const Post = ({setCurrentId,setOpenModal}) => {
   const posts = useSelector((state)=>state.posts)
   useEffect(()=>{
     dispatch(getPosts());
-  console.log(posts)
-
   },[dispatch]) 
 
 

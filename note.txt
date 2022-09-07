@@ -1,10 +1,10 @@
 - Middleware auth
 - Lazy Loading fetching
  -> https://stackoverflow.com/questions/6435122/lazy-loading-in-mongodb
-- Auto Add new post card when submit new post
-- Search User
+- Auto Add new post card when submit new post (Done)
+- Navbar Function
 - PostCard:
-    - Edit, Delete Post
+    - Edit, Delete Post (Done)
     - Time posting
     - Show more feature... 
     - Comment 

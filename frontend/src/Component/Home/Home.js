@@ -18,23 +18,17 @@ import { useNavigate } from 'react-router-dom';
 import EditPostModal from '../Post/EditPost/EditPostJModal';
 import { Modal } from '@mui/material';
 
-// import { getPosts } from "../../actions/posts";
 
 
 
 function Home() {
     const [currentId, setCurrentId] = useState(null);
     const [openModal, setOpenModal] = useState(false)
-    const navigate = useNavigate();
     const classes = useStyles();
-    const dispatch = useDispatch();
-    // dispatch(getPosts())
-    const posts = useSelector((state)=>state.posts)
-    // const editModalConfig = () =>{
-    //     setOpenModal(false)
-    // }
-
-    
+    const handleClose = () => {
+        setOpenModal(false)
+        setCurrentId(null)
+    }
     return (
         <Container className={classes.Container} disableGutters={true} maxWidth='false'>
             <Navbar  />
@@ -47,12 +41,7 @@ function Home() {
                     </Grid>
                 </Grid>
                 <Grid item xs={0} sm={1} md={2} />
-             
-                
-                {/* ERROR MAXIMUM CALLSTACK BECAUSE MULTIPLE POST CALLING TRUE */}
-                {/* SOLUTION: SEARCH HOW TO CALL ONLY FROM 1 Post */}
-                {/* <EditPostModal currentId={currentId} show={currentId===currentId?true:false} close={()=>setOpenModal(false)} /> */}
-                <EditPostModal currentId={currentId} show={openModal} close={()=>setOpenModal(false)} />
+                <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModal} close={handleClose} />
                
             </Grid>
         </Container>

@@ -11,9 +11,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Menu, MenuItem } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { deletePost, showModal } from '../../../Actions/postAction';
-import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { deletePost } from '../../../Actions/postAction';
 
 const PostCard = ( {post, setCurrentId, setOpenModal}) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -29,8 +28,8 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
     setAnchorEl(null);
   };
   const handleMenuEdit = () => {
-    setOpenModal(true)
     setCurrentId(post.Id)
+    setOpenModal(true)
     handleMenuClose()
   }
   const handleMenuDelete = () => {
@@ -61,7 +60,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
   );
   
   return (
-    <Card sx={{ width: 550, marginTop: 2, overflowY:'auto'}}>
+    <Card sx={{ width: 550, marginTop: 2, overflowY:'auto', boxShadow: 4} }>
       <CardHeader
         avatar={
           <Avatar src={post?.UserData?.profileImage} alt={post?.UserData?.firstName}>{post?.UserData?.firstName?.charAt(0)}</Avatar>

@@ -3,6 +3,7 @@ import {CREATE,UPDATE,LIKE, DELETE,FETCH_ALL, EDIT_MODAL} from '../constant/acti
 export default (posts = [], action) => {
     switch(action.type){
         case FETCH_ALL:
+            // console.log(posts)
             return action.payload;
         case CREATE:
             return [...posts, action.payload];      

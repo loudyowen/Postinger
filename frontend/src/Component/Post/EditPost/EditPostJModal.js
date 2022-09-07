@@ -7,6 +7,8 @@ import { Grid, TextField } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from "react-redux";
 import { updatePost } from '../../../Actions/postAction';
+import useStyles from './Styles'
+import $ from 'jquery';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -23,26 +25,32 @@ const EditPostModal = ({show, close, currentId}) => {
   const postEdit = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
   const postId = postEdit!==null?postEdit.Id:null
   const dispatch =  useDispatch();
+  const classes = useStyles();
+  const postEditImage = postEdit!==null?postEdit.Image:null
   const [editPost, setEditPost] = useState({
-    postText: '',
-    postImage: postEdit!==null?postEdit.PostImage:''
+    postText: "",
+    postImage: postEditImage
   })
   const handleSubmit = (e) => {
     e.preventDefault();
+    if({...editPost.postImage==""}){
+      setEditPost({postImage: postEdit.Image})
+    }
     dispatch(updatePost(postId,editPost))
   }
   const handleChange = (e) =>{
     setEditPost({...editPost, [e.target.name]: e.target.value})
   }
+  // console.log(postEditImage)
+  console.log({...editPost})
+  // if(postEdit!==null){
+  //   console.log("Post Edit: ",postEdit.PostText, postEdit.Image)
+  // }else{
+  //   console.log("Post Edit: ", null)
+  // }
+
   return (
-      <Modal 
-      disableAutoFocus
-      disablePortal 
-      disableScrollLock
-      open={show} 
-      onClose={close} 
-      sx={{overflowY:'auto'}}
-        >
+      <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={close} sx={{overflowY:'auto'}} >
         <Box sx={style}>
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Grid container
@@ -56,19 +64,16 @@ const EditPostModal = ({show, close, currentId}) => {
             </Grid>
             <Grid xs={12} sx={{width: '80%'}} >
               <Typography variant="h6">Edit Text :</Typography>
-              <TextField
-                name="postText"
-                variant="filled"
-                multiline
-                fullWidth
-                rows={6}
-                onChange={handleChange} 
-                defaultValue={postEdit!==null?postEdit.PostText:null}
+              <TextField name="postText" variant="filled" multiline fullWidth rows={6} onChange={handleChange}
+                InputProps={{
+                    className: classes.input,
+                }}
+                defaultValue={postEdit!==null?postEdit.PostText:null}  
               />  
             </Grid>
             <Grid xs={12}>
               <Typography variant="h6">Edit Image :</Typography>
-              <img src={postEdit!==null?postEdit.Image:null} style={{width:'auto',height:'30vh', }}/>
+              <img src={postEdit!==null?postEdit.Image:null} style={{width:'auto',height:'30vh'}}/>
             </Grid>
             <Grid xs={12}>
               <div>
