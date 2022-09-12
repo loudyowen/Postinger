@@ -127,9 +127,6 @@ func GetUser() gin.HandlerFunc {
 			return
 		}
 
-		// username := user.FirstName + " " + user.LastName
-		// fmt.Println(user.Email)
-		// fmt.Println(username)
 		tokenString, err := auth.GenerateJWT(user.Email)
 		if err != nil {
 			c.JSON(
@@ -142,7 +139,6 @@ func GetUser() gin.HandlerFunc {
 			)
 			return
 		}
-		fmt.Println("Login Token:", tokenString)
 		userPost := models.UserPost{
 			FirstName:    user.FirstName,
 			LastName:     user.LastName,

@@ -5,14 +5,14 @@ import {AUTH, CREATE} from '../constant/actionType'
 export const signUp = (form, navigate) => async (dispatch) =>{
     try{
         const { data } = await api.signUpApi(form)
-        const profile = {
-            id: data.data.data.id,
-            email: data.data.data.email,
-            firstName: data.data.data.firstName,
-            lastName: data.data.data.lastName,
-            profileImage: data.data.data.profileImage
-        }
-        dispatch({type: AUTH, data: profile})
+        // const profile = {
+        //     id: data.data.data.id,
+        //     email: data.data.data.email,
+        //     firstName: data.data.data.firstName,
+        //     lastName: data.data.data.lastName,
+        //     profileImage: data.data.data.profileImage
+        // }
+        dispatch({type: AUTH, data: data.data})
         navigate('/home')
     }catch(error){
         console.log(error)
@@ -29,7 +29,6 @@ export const signIn = (form, navigate) => async (dispatch) => {
         //     lastName: data.data.data.lastName,
         //     profileImage: data.data.data.profileImage
         // }
-        console.log(data)
         dispatch({type: AUTH, data: data.data })
         navigate('/home')
     }catch(err){

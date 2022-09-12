@@ -14,7 +14,6 @@ const CreatePost = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userData = JSON.parse(localStorage.getItem('profile'))
-  // console.log(userData)
   const uId = userData.id
   const [postData, setPostData] = useState({
     postText: '',
@@ -44,9 +43,9 @@ const CreatePost = () => {
                     <Grid xs={4}>
                       <div >
                         <FileBase
-                              type="file"
-                              multiple={false}
-                              onDone={({base64})=> setPostData({...postData, postImage: base64})}
+                            type="file"
+                            multiple={false}
+                            onDone={({base64})=> setPostData({...postData, postImage: base64})}
                           />
                       </div>
                     </Grid>

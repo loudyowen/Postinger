@@ -18,7 +18,6 @@ const Post = ({setCurrentId,setOpenModal}) => {
     dispatch(getPosts());
   },[dispatch]) 
 
-  console.log(posts)
 
   return (
       !posts.length?<h1>Data Still Loading</h1>:(

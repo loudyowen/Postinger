@@ -10,17 +10,19 @@ export default makeStyles((theme)=>({
       alignItems: 'center'
     },
     paper: {
-        width: '50%',
-        height: '70%',
-        margin: 'auto',
-        padding: theme.spacing(2)
+      width: '40%',
+      top: '50%',
+      left: '50%',
+      position: 'absolute',
+      transform: 'translate(-50%, -50%)',
+      margin: 'auto',
+      padding: theme.spacing(2),
+      textAlign: 'center'
     },
-    form: {
-        // display: 'flex',
-        // flexWrap: 'wrap',
-        // justifyContent: 'center',
+    filebase: {
+        padding: '15%'
       },
-      Input: {
-        color: 'white'
-      }
+    Input: {
+      color: 'white'
+    }
 }))

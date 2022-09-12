@@ -27,7 +27,6 @@ function Home() {
     const classes = useStyles();
     const handleClose = () => {
         setOpenModal(false)
-        setCurrentId(null)
     }
     return (
         <Container className={classes.Container} disableGutters={true} maxWidth='false'>
@@ -41,8 +40,7 @@ function Home() {
                     </Grid>
                 </Grid>
                 <Grid item xs={0} sm={1} md={1} />
-                <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModal} close={handleClose} />
-               
+                <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModal} handleClose={handleClose} />
             </Grid>
         </Container>
     )

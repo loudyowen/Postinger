@@ -60,7 +60,7 @@ const Auth = () =>{
                         <>
                             <Input name="confirmPassword" label="Confirm Password" type="password" fullWidth handleChange={handleChange}  />
                         <Grid xs={4}>
-                            <div >
+                            <div className={classes.filebase}>
                             <FileBase
                                     type="file"
                                     multiple={false}
