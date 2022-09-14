@@ -6,7 +6,7 @@ import FileBase from 'react-file-base64';
 import {useNavigate}from 'react-router-dom'
 import { postStatus } from '../../../Actions/postAction';
 import {useDispatch} from 'react-redux'
-
+import Compressor from 'compressorjs';
 
 
 const CreatePost = () => {
@@ -34,6 +34,20 @@ const CreatePost = () => {
     dispatch(postStatus({...postData,uId}))
     clear()
   }
+
+  const handleCompressedUpload = (e) => {
+    const image = e.target.files[0];
+    console.log(image)
+    new Compressor(image, {
+      quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
+      success: (compressedResult) => {
+        // compressedResult has the compressed file.
+        // Use the compressed file to upload the images to your server.        
+        setPostData({...postData, postImage: compressedResult})
+      },
+    });
+  };
+  console.log({...postData})
  return (
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>
@@ -46,8 +60,14 @@ const CreatePost = () => {
                         <FileBase
                               type="file"
                               multiple={false}
-                              onDone={({base64})=> setPostData({...postData, postImage: base64})}
+                              onDone={(e)=> this.handleCompressedUpload(e)}
                           />
+                          {/* <input
+                            accept="image/*,capture=camera"
+                            capture="”camera"
+                            type="file"
+                            onChange={(event) => handleCompressedUpload(event)}
+                          /> */}
                       </div>
                     </Grid>
                     <Grid xs={4}>

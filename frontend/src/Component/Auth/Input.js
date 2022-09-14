@@ -36,12 +36,10 @@ const Input = ({half,name,handleChange,label,autoFocus,type,handleShowPassword})
                         color: 'white'
                     }
                 }:{
-                    style:{
-                        color: 'white',
-                    },
-                    InputLabelProps: {
-                        color: 'white'
-                    }
+                    // style:{
+                    //     color: 'white',
+                    // },
+                    inputProps:{ style: {  color: 'white', borderColor: 'white'}}
                 }
             }
             />

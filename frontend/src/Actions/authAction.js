@@ -5,6 +5,7 @@ import {AUTH, CREATE} from '../constant/actionType'
 export const signUp = (form, navigate) => async (dispatch) =>{
     try{
         const { data } = await api.signUpApi(form)
+        console.log(data)
         const profile = {
             id: data.data.data.id,
             email: data.data.data.email,

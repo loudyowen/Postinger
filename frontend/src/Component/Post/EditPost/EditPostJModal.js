@@ -8,7 +8,6 @@ import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from "react-redux";
 import { updatePost } from '../../../Actions/postAction';
 import useStyles from './Styles'
-import $ from 'jquery';
 const style = {
   position: 'absolute',
   top: '50%',

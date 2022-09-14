@@ -7,7 +7,7 @@ import Auth from "./Component/Auth/Auth";
 import Home from "./Component/Home/Home";
 
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import {Container} from '@material-ui/core'
 
@@ -19,6 +19,7 @@ const darkTheme = createTheme({
 
 
 function App() {
+  const userData = JSON.parse(localStorage.getItem('profile'))
   return (
 
      <ThemeProvider theme={darkTheme}>
@@ -26,7 +27,14 @@ function App() {
      <BrowserRouter>
         <Container disableGutters={true} maxWidth='false'>
             <Routes>
-                <Route path="/" exact element={<Auth />} />
+                {!userData ?
+                <Route path="/" exact element={<Auth />} />  
+                :  
+                <Route
+                    path="/"
+                    element={<Navigate to="/home" replace />}
+                />
+                }
                 <Route path="/home" exact element={<Home />} />
             </Routes>
         </Container>

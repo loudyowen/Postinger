@@ -16,6 +16,8 @@
 - Send message to friend
 - Google Login integration
 - Edit Profile
+- *get user data only id rather than insert all data in post, then
+   call the data from reducers state
 
 V2:
 -> Post visibility (Public,Private, etc)

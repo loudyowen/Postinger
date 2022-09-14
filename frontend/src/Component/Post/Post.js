@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getPosts  } from '../../Actions/postAction';
 import PostCard from './PostCard/PostCard';
 import useStyles from './Styles'
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -20,7 +21,7 @@ const Post = ({setCurrentId,setOpenModal}) => {
 
 
   return (
-      !posts.length?<h1>Data Still Loading</h1>:(
+      !posts.length?<h1>Data Still Loading <CircularProgress /></h1>:(
         <>
         { 
           posts.map((postData)=>(

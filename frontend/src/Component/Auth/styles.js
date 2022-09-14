@@ -15,10 +15,8 @@ export default makeStyles((theme)=>({
         margin: 'auto',
         padding: theme.spacing(2)
     },
-    form: {
-        // display: 'flex',
-        // flexWrap: 'wrap',
-        // justifyContent: 'center',
+    fileBase: {
+        padding: '15%'
       },
       Input: {
         color: 'white'

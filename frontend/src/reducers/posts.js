@@ -4,7 +4,7 @@ export default (posts = [], action) => {
     switch(action.type){
         case FETCH_ALL:
             // console.log(posts)
-            return action.payload;
+            return action.payload?action.payload:"";
         case CREATE:
             return [...posts, action.payload];      
         case DELETE:
