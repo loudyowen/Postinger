@@ -65,7 +65,7 @@ const Navbar = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const userData = JSON.parse(localStorage.getItem('profile'))
-  const [user, setUser] = React.useState(userData);
+  const [user, setUser] = React.useState(userData.userData);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -90,6 +90,10 @@ const Navbar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleProfile = () => {
+    navigate('/profile')
+  }
+
   const handleLogOut = () => {
     dispatch({type: LOG_OUT})
     navigate('/')
@@ -112,7 +116,7 @@ const Navbar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
     </Menu>

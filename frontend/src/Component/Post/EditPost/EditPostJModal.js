@@ -20,36 +20,32 @@ const style = {
   boxShadow: 24,
 };
 
-const EditPostModal = ({show, close, currentId}) => {
+const EditPostModal = ({show, handleClose, currentId}) => {
   const postEdit = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
   const postId = postEdit!==null?postEdit.Id:null
   const dispatch =  useDispatch();
   const classes = useStyles();
   const postEditImage = postEdit!==null?postEdit.Image:null
   const [editPost, setEditPost] = useState({
-    postText: "",
+    postText: postEdit!==null?postEdit.PostText:"",
     postImage: postEditImage
   })
   const handleSubmit = (e) => {
     e.preventDefault();
-    if({...editPost.postImage==""}){
+    if({...editPost.postImage===""}){
       setEditPost({postImage: postEdit.Image})
     }
     dispatch(updatePost(postId,editPost))
+    handleClose()
   }
   const handleChange = (e) =>{
     setEditPost({...editPost, [e.target.name]: e.target.value})
   }
-  // console.log(postEditImage)
-  console.log({...editPost})
-  // if(postEdit!==null){
-  //   console.log("Post Edit: ",postEdit.PostText, postEdit.Image)
-  // }else{
-  //   console.log("Post Edit: ", null)
-  // }
+  // console.log({...editPost})
+
 
   return (
-      <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={close} sx={{overflowY:'auto'}} >
+      <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
         <Box sx={style}>
         <form autoComplete="off" onSubmit={handleSubmit}>
           <Grid container
@@ -58,10 +54,10 @@ const EditPostModal = ({show, close, currentId}) => {
             margin: '10px'
           }}
           >
-            <Grid xs={12} >
+            <Grid item xs={12} >
               <Typography variant="h4" sx={{textAlign: 'center'}}>Edit Post</Typography>
             </Grid>
-            <Grid xs={12} sx={{width: '80%'}} >
+            <Grid item xs={12} sx={{width: '80%'}} >
               <Typography variant="h6">Edit Text :</Typography>
               <TextField name="postText" variant="filled" multiline fullWidth rows={6} onChange={handleChange}
                 InputProps={{
@@ -70,17 +66,17 @@ const EditPostModal = ({show, close, currentId}) => {
                 defaultValue={postEdit!==null?postEdit.PostText:null}  
               />  
             </Grid>
-            <Grid xs={12}>
+            <Grid item xs={12}>
               <Typography variant="h6">Edit Image :</Typography>
               <img src={postEdit!==null?postEdit.Image:null} style={{width:'auto',height:'30vh'}}/>
             </Grid>
-            <Grid xs={12}>
+            <Grid item xs={12}>
               <div>
                 <FileBase
-                      type="file"
-                      multiple={false}
-                      onDone={({base64})=> setEditPost({...editPost, postImage: base64})}
-                      />
+                  type="file"
+                  multiple={false}
+                  onDone={({base64})=> setEditPost({...editPost, postImage: base64})}
+                />
               </div>
             </Grid>
             <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>

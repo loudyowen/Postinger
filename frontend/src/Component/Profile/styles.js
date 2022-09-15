@@ -5,12 +5,15 @@ export default makeStyles((theme)=>({
         '& .MuiTextField-root': {
           margin: theme.spacing(1),
         },
+        '& .MuiInputLabel-outlined': {
+          color: 'white'
+        }
       },
     container: {
       alignItems: 'center'
     },
     paper: {
-      width: '40%',
+      width: '90%',
       top: '50%',
       left: '50%',
       position: 'absolute',

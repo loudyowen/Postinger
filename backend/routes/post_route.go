@@ -2,14 +2,18 @@ package routes
 
 import (
 	"backend/controllers"
+	middlewares "backend/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func PostRoute(r *gin.Engine) {
-	r.POST("/post", controllers.CreatePost())
-	r.GET("/post", controllers.GetAllPosts())
-	r.DELETE("/post/:id", controllers.DeletePost())
-	r.POST("/post/:id", controllers.UpdatePost())
+	auth := r.Use(middlewares.Auth())
+	{
+		auth.POST("/post", controllers.CreatePost())
+		auth.GET("/post", controllers.GetAllPosts())
+		auth.DELETE("/post/:id", controllers.DeletePost())
+		auth.POST("/post/:id", controllers.UpdatePost())
+	}
 
 }

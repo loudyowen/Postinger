@@ -3,14 +3,13 @@ import { TextField, Grid, InputAdornment, IconButton, Icon } from '@material-ui/
 
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import useStyles from './styles'
 
 
 const Input = ({half,name,handleChange,label,autoFocus,type,handleShowPassword}) => (
 
-        <Grid item xs={12} sm={half?6:12}>
+        <Grid item={true} xs={12} sm={half?6:12}>
             <TextField 
-                color="white"
+                color="neutral"
                 name={name}
                 onChange={handleChange}
                 variant="outlined"

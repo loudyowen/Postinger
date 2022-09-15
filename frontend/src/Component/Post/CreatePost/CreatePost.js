@@ -14,7 +14,6 @@ const CreatePost = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userData = JSON.parse(localStorage.getItem('profile'))
-  // console.log(userData)
   const uId = userData.id
   const [postData, setPostData] = useState({
     postText: '',
@@ -52,15 +51,15 @@ const CreatePost = () => {
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>
                 <Grid container>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                     <TextField name="postText" label="What's on your mind?" variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
                     </Grid>
-                    <Grid xs={4}>
+                    <Grid item xs={4}>
                       <div >
                         <FileBase
-                              type="file"
-                              multiple={false}
-                              onDone={(e)=> this.handleCompressedUpload(e)}
+                            type="file"
+                            multiple={false}
+                            onDone={({base64})=> setPostData({...postData, postImage: base64})}
                           />
                           {/* <input
                             accept="image/*,capture=camera"
@@ -70,10 +69,10 @@ const CreatePost = () => {
                           /> */}
                       </div>
                     </Grid>
-                    <Grid xs={4}>
+                    <Grid item xs={4}>
 
                     </Grid>
-                    <Grid xs={4}>
+                    <Grid item xs={4}>
                       <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
                     </Grid>
                    

@@ -1,10 +1,9 @@
-import {CREATE,UPDATE,LIKE, DELETE,FETCH_ALL, EDIT_MODAL} from '../constant/actionType'
+import {CREATE,UPDATE,LIKE, DELETE,FETCH_ALL} from '../constant/actionType'
 
 export default (posts = [], action) => {
     switch(action.type){
         case FETCH_ALL:
-            // console.log(posts)
-            return action.payload?action.payload:"";
+            return action.payload;
         case CREATE:
             return [...posts, action.payload];      
         case DELETE:
