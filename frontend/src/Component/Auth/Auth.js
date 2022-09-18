@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {Container, Grid, Typography, Paper, Button} from '@mui/material';
-import useStyles from './Styles'
+import useStyles from './styles'
 import {useDispatch} from 'react-redux'
 import {useNavigate}from 'react-router-dom'
-import Input from "./Input"
+import Input from "../Input/Input"
 import FileBase from 'react-file-base64';
 import {signUp, signIn} from "../../Actions/authAction"
 const Auth = () =>{
@@ -59,12 +59,12 @@ const Auth = () =>{
                     {isSignUp && (
                         <>
                             <Input name="confirmPassword" label="Confirm Password" type="password" fullWidth handleChange={handleChange}  />
-                        <Grid xs={4}>
-                            <div >
+                        <Grid item xs={4}>
+                            <div className={classes.filebase}>
                             <FileBase
                                     type="file"
                                     multiple={false}
-                                    onDone={({base64})=> setFormData({...formData, selectedFile: base64})}
+                                    onDone={({base64})=> setFormData({...formData, profileImage: base64})}
                                 />
                             </div>
                         </Grid>

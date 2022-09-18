@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"backend/auth"
 	"backend/configs"
 	"backend/models"
 	"backend/responses"
@@ -9,15 +10,40 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var userCollection *mongo.Collection = configs.GetCollection(configs.DB, "Users")
 var validate = validator.New()
+
+var jwtkey = []byte("supersecretkey") //should be stored in env
+type JWTClaim struct {
+	Email string `json:"email,omitempty" validate:"required"`
+	// FirstName string `json:"firstName,omitempty" validate:"required"`
+	// LastName  string `json:"lastName,omitempty"`
+	Username string `json:"firstName"+"lastName"`
+	jwt.StandardClaims
+}
+
+func GenerateJWT(email, username string) (tokenString string, err error) {
+	expirationTime := time.Now().Add(1 * time.Hour)
+	claims := &JWTClaim{
+		Email:    email,
+		Username: username,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	tokenString, err = token.SignedString(jwtkey)
+	return
+}
 
 func ReqValidate(c *gin.Context, err error, message string) {
 	c.JSON(
@@ -47,19 +73,20 @@ func Createuser() gin.HandlerFunc {
 			return
 		}
 
+		password, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
+
 		// input new user data to new user
 		newUser := models.User{
 			Id:           primitive.NewObjectID(),
 			FirstName:    user.FirstName,
 			LastName:     user.LastName,
 			Email:        user.Email,
-			Password:     user.Password,
+			Password:     string(password),
 			ProfileImage: user.ProfileImage,
 		}
 
 		// insert to collection "Users"
 		result, err := userCollection.InsertOne(ctx, newUser)
-
 		if err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
@@ -72,10 +99,24 @@ func Createuser() gin.HandlerFunc {
 			return
 		}
 
+		var userPost models.UserPost
+
+		if err := userCollection.FindOne(ctx, bson.M{"_id": result.InsertedID}).Decode(&userPost); err != nil {
+			c.JSON(
+				http.StatusInternalServerError,
+				responses.UserResponse{
+					Data:    map[string]interface{}{"data": err.Error()},
+					Message: "Error User Not Found",
+					Status:  http.StatusInternalServerError,
+				},
+			)
+			return
+		}
+
 		c.JSON(
 			http.StatusCreated,
 			responses.UserResponse{
-				Data:    map[string]interface{}{"data": result},
+				Data:    map[string]interface{}{"data": userPost},
 				Message: "User Created!",
 				Status:  http.StatusCreated,
 			},
@@ -86,10 +127,7 @@ func Createuser() gin.HandlerFunc {
 func GetUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		// reqUserEmail := c.Param("email")
-		// reqUserPassword := c.Param("password")
-		// fmt.Println("==>email: ", reqUserEmail)
-		// fmt.Println("==>password: ", reqUserPassword)
+
 		var reqUser models.User
 		var user models.User
 		defer cancel()
@@ -98,6 +136,8 @@ func GetUser() gin.HandlerFunc {
 			ReqValidate(c, err, "Request Error")
 			return
 		}
+
+		// check if user exist
 		if err := userCollection.FindOne(ctx, bson.M{"email": reqUser.Email}).Decode(&user); err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
@@ -110,7 +150,9 @@ func GetUser() gin.HandlerFunc {
 			return
 		}
 
-		if reqUser.Password != user.Password {
+		// check if password is correct
+		hashPass := []byte(user.Password)
+		if err := bcrypt.CompareHashAndPassword(hashPass, []byte(reqUser.Password)); err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
 				responses.UserResponse{
@@ -122,12 +164,29 @@ func GetUser() gin.HandlerFunc {
 			return
 		}
 
-		userFoundMsg := fmt.Sprintf("User %v %v is found!!!", user.FirstName, user.LastName)
+		tokenString, err := auth.GenerateJWT(user.Email)
+		if err != nil {
+			c.JSON(
+				http.StatusInternalServerError,
+				responses.UserResponse{
+					Data:    map[string]interface{}{"error": err.Error()},
+					Message: "Token Invalid!",
+					Status:  http.StatusInternalServerError,
+				},
+			)
+			return
+		}
+		userPost := models.UserPost{
+			FirstName:    user.FirstName,
+			LastName:     user.LastName,
+			Email:        user.Email,
+			ProfileImage: user.ProfileImage,
+		}
 		c.JSON(
 			http.StatusOK,
 			responses.UserResponse{
-				Data:    map[string]interface{}{"data": user},
-				Message: userFoundMsg,
+				Data:    map[string]interface{}{"userData": userPost, "token": tokenString},
+				Message: "Authenticated!",
 				Status:  http.StatusOK,
 			},
 		)

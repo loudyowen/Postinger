@@ -1,20 +1,23 @@
 - Middleware auth
-- Goroutine Get All Post
-- Auto Add new post card when submit new post
-- Search User
+- Lazy Loading fetching
+ -> https://stackoverflow.com/questions/6435122/lazy-loading-in-mongodb
+- Auto Add new post card when submit new post (Done)
+- Navbar Function
 - PostCard:
-    - Edit, Delete Post
+    - Edit, Delete Post (Done)
     - Time posting
-    - Show more feature...
+    - Show more feature... 
     - Comment 
     - Like
-    - Get userData to card -> (From UID)
+    - Get userData to card -> (From UID) (Done)
     *Opt : -> Create share link
 - Add friend
 - show friend list
 - Send message to friend
 - Google Login integration
 - Edit Profile
+- *get user data only id rather than insert all data in post, then
+   call the data from reducers state
 
 V2:
 -> Post visibility (Public,Private, etc)

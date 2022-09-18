@@ -7,10 +7,20 @@ import (
 )
 
 type Post struct {
-	Id        primitive.ObjectID `json:"id,omitempty"`
-	UID       string             `json:"uId,omitempty"`
-	Image     string             `json:"image,omitempty"`
+	Id        primitive.ObjectID `json:"id"`
+	UID       primitive.ObjectID `json:"uId"`
+	PostImage string             `json:"postImage,omitempty"`
 	PostText  string             `json:"postText,omitempty"`
-	CreatedAt time.Time          `json:"createdAt,omitempty"`
+	CreatedAt time.Time          `json:"createdAt"`
 	Like      []string           `json:"likeUID,omitempty"`
+}
+
+type PostCard struct {
+	Id        primitive.ObjectID `bson:"id"`
+	UID       primitive.ObjectID `bson:"uid"`
+	Image     string             `bson:"postimage,omitempty"`
+	PostText  string             `bson:"posttext,omitempty"`
+	Like      []string           `bson:"like,omitempty"`
+	CreatedAt time.Time          `bson:"createdat"`
+	UserData  UserPost           `bson:"userData"`
 }
