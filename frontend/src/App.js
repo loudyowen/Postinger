@@ -28,7 +28,7 @@ function App() {
      <BrowserRouter>
         <Container disableGutters={true} maxWidth={false}>
             <Routes>
-                {!userData.token ?
+                {!userData ?
                 <Route path="/" exact element={<Auth />} />  
                 :  
                 <Route
