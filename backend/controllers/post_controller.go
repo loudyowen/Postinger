@@ -64,7 +64,7 @@ func CreatePost() gin.HandlerFunc {
 		var postCard []models.PostCard
 		if err = showLoadedCursor.All(ctx, &postCard); err != nil {
 			fmt.Println("ERROR DI CURSOR")
-			panic(err)
+			// panic(err)
 		}
 		c.JSON(
 			http.StatusCreated,
@@ -105,6 +105,7 @@ func UpdatePost() gin.HandlerFunc {
 		defer cancel()
 		var post models.Post
 		postId := c.Param("id")
+		// need update only valid user ID can update the post
 		objId, _ := primitive.ObjectIDFromHex(postId)
 
 		if err := c.BindJSON(&post); err != nil {
@@ -132,20 +133,6 @@ func UpdatePost() gin.HandlerFunc {
 			return
 		}
 
-		// var updatedPost models.Post
-		// if result.MatchedCount == 1 {
-		// 	err := postCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&updatedPost)
-		// 	if err != nil {
-		// 		c.JSON(
-		// 			http.StatusInternalServerError,
-		// 			responses.UserResponse{
-		// 				Status:  http.StatusInternalServerError,
-		// 				Message: "Error UpdatedPost Not Found",
-		// 				Data:    map[string]interface{}{"data": err.Error()},
-		// 			})
-		// 		return
-		// 	}
-		// }
 		if result.MatchedCount == 1 {
 			matchStage := bson.D{{"$match", bson.D{{"id", objId}}}}
 			lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}

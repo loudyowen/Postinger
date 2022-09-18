@@ -19,7 +19,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const profileName = post?.UserData?.firstName + " " + post?.UserData?.lastName;
-
+  const user = JSON.parse(localStorage.getItem('profile'))
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -66,22 +66,23 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
           <Avatar src={post?.UserData?.profileImage} alt={post?.UserData?.firstName}>{post?.UserData?.firstName?.charAt(0)}</Avatar>
         }
         action={
-          <IconButton
-          size="large"
-          edge="end"
-          aria-label="account of current user"
-          aria-controls={menuId}
-          aria-haspopup="true"
-          onClick={handleProfileMenuOpen}
-          color="inherit"
-          
-        >
-          <MoreVertIcon />
-        </IconButton>
+            user.userData.id === post.UserData.id && 
+            <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+            
+          >
+            <MoreVertIcon />
+          </IconButton>
         }
         title={profileName}
         />
-      {renderMenu}
+         {renderMenu}
 
       {!post?.Image.length ? '' : (
         <CardMedia

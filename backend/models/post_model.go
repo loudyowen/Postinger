@@ -17,7 +17,6 @@ type Post struct {
 
 type PostCard struct {
 	Id        primitive.ObjectID `bson:"id"`
-	UID       primitive.ObjectID `bson:"uid"`
 	Image     string             `bson:"postimage,omitempty"`
 	PostText  string             `bson:"posttext,omitempty"`
 	Like      []string           `bson:"like,omitempty"`
