@@ -3,7 +3,6 @@ package middlewares
 import (
 	"backend/auth"
 	"backend/responses"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,7 +11,6 @@ import (
 func Auth() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		tokenString := context.GetHeader("authorization")
-		fmt.Println("Token Header: ", tokenString)
 		if tokenString == "" {
 			context.JSON(
 				http.StatusUnauthorized,
@@ -22,6 +20,8 @@ func Auth() gin.HandlerFunc {
 					Status:  http.StatusUnauthorized,
 				},
 			)
+			context.Abort()
+			return
 		}
 		err := auth.ValidateToken(tokenString)
 		if err != nil {
@@ -33,6 +33,8 @@ func Auth() gin.HandlerFunc {
 					Status:  http.StatusUnauthorized,
 				},
 			)
+			context.Abort()
+			return
 		}
 		context.Next()
 	}
