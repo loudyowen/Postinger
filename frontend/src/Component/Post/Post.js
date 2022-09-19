@@ -11,13 +11,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const Post = ({setCurrentId,setOpenModal}) => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  //get item from redux store
   const posts = useSelector((state)=>state.posts)
   useEffect(()=>{
     dispatch(getPosts());
   },[dispatch]) 
+  console.log(posts)
 
 
   return (

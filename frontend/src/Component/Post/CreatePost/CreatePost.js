@@ -13,8 +13,8 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const userData = JSON.parse(localStorage.getItem('profile'))
-  const uId = userData.id
+  const user = JSON.parse(localStorage.getItem('profile'))
+  const uId = user.userData.id
   const [postData, setPostData] = useState({
     postText: '',
     postImage: ''

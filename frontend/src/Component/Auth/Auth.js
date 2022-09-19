@@ -59,7 +59,7 @@ const Auth = () =>{
                     {isSignUp && (
                         <>
                             <Input name="confirmPassword" label="Confirm Password" type="password" fullWidth handleChange={handleChange}  />
-                        <Grid item xs={4}>
+                        <Grid xs={4}>
                             <div className={classes.filebase}>
                             <FileBase
                                     type="file"
