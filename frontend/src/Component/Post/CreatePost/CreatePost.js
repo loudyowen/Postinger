@@ -33,6 +33,8 @@ const CreatePost = () => {
     dispatch(postStatus({...postData,uId}))
     clear()
   }
+  console.log(setPostData.postImage)
+
 
   const handleCompressedUpload = (e) => {
     const image = e.target.files[0];

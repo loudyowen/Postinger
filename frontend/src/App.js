@@ -5,7 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Auth from "./Component/Auth/Auth";
 import Home from "./Component/Home/Home";
-
+import Testing from "./Component/Testing/Testing"
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -40,6 +40,7 @@ function App() {
                 <Route path="/home" exact element={<Home />} />
                 <Route path="/profile" exact element={<Profile />} />
                 <Route path="/accountSetting" exact element={<AccountSetting />} />
+                <Route path="/testing" exact element={<Testing/>}/>
             </Routes>
         </Container>
     </BrowserRouter>

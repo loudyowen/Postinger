@@ -32,9 +32,9 @@ const EditPostModal = ({show, handleClose, currentId}) => {
   })
   const handleSubmit = (e) => {
     e.preventDefault();
-    if({...editPost.postImage===""}){
-      setEditPost({postImage: postEdit.Image})
-    }
+    // if({...editPost.postImage===""}){
+    //   setEditPost({postImage: postEdit.Image})
+    // }
     dispatch(updatePost(postId,editPost))
     handleClose()
   }
@@ -77,6 +77,19 @@ const EditPostModal = ({show, handleClose, currentId}) => {
                   multiple={false}
                   onDone={({base64})=> setEditPost({...editPost, postImage: base64})}
                 />
+                {/* <Dropzone
+                  onDrop={handleDrop}
+                  noClick
+                  noKeyboard
+                  style={{ width: '250px', height: '250px' }}
+                  >
+                  {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps()}>
+                      <AvatarEditor width={250} height={250} image={postData.postImage} />
+                      <input {...getInputProps()} />
+                  </div>
+                  )}
+              </Dropzone> */}
               </div>
             </Grid>
             <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
