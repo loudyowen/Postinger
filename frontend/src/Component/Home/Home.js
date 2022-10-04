@@ -31,15 +31,15 @@ function Home() {
     return (
         <Container className={classes.Container} disableGutters={true} maxWidth={false}>
             <Navbar  />
-            <Grid container justifyContent="space-between" alignItem="strech" spacing={3} >
-                <Grid item xs={0} sm={1} md={1} />
+            <Grid container justifyContent="space-between" alignitem="strech" spacing={3} >
+                <Grid item xs={false} sm={1} md={1} />
                 <Grid item xs={12} sm={10} md={10}>
                     <CreatePost />
                     <Grid className={classes.Post}>
                         <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} />
                     </Grid>
                 </Grid>
-                <Grid item xs={0} sm={1} md={1} />
+                <Grid item xs={false} sm={1} md={1} />
                 <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModal} handleClose={handleClose} />
             </Grid>
         </Container>

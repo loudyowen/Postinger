@@ -13,8 +13,8 @@ export default makeStyles((theme)=>({
       alignItems: 'center'
     },
     paper: {
-      width: '80%',
-      top: '50%',
+      width: '50%',
+      top: '60%',
       left: '50%',
       position: 'absolute',
       transform: 'translate(-50%, -50%)',
@@ -27,5 +27,14 @@ export default makeStyles((theme)=>({
       },
     Input: {
       color: 'white'
+    },
+    textMenu: {
+      textAlign: 'left'
+    },
+    profileImage: {
+      position: 'relative',
+      left: '50%',
+      transform: 'translateX(-50%)',
     }
+
 }))

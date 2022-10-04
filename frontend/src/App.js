@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import {Container} from '@material-ui/core'
 import Profile from "./Component/Profile/Profile";
+import AccountSetting from "./Component/AccountSetting/AccountSetting";
 
 const darkTheme = createTheme({
   palette: {
@@ -38,6 +39,7 @@ function App() {
                 }
                 <Route path="/home" exact element={<Home />} />
                 <Route path="/profile" exact element={<Profile />} />
+                <Route path="/accountSetting" exact element={<AccountSetting />} />
             </Routes>
         </Container>
     </BrowserRouter>

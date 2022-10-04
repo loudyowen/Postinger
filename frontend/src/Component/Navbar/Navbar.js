@@ -15,10 +15,11 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Avatar } from '@material-ui/core';
+import { Avatar, Button } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { LOG_OUT } from '../../constant/actionType';
 import { useNavigate } from 'react-router-dom';
+import useStyles from './styles';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -69,6 +70,7 @@ const Navbar = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const classes = useStyles();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -90,8 +92,16 @@ const Navbar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogoBtn = () => {
+    navigate('/home')
+  }
+
   const handleProfile = () => {
     navigate('/profile')
+  }
+
+  const handleAccountSetting = () => {
+    navigate('/accountSetting')
   }
 
   const handleLogOut = () => {
@@ -117,7 +127,7 @@ const Navbar = () => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleProfile}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleAccountSetting}>My account</MenuItem>
       <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
     </Menu>
   );
@@ -187,14 +197,16 @@ const Navbar = () => {
           >
           <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            Postinger
-          </Typography>
+          <Button className={classes.logoBtn} disableRipple onClick={handleLogoBtn} >
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              >
+              Postinger
+            </Typography>
+          </Button>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
