@@ -8,6 +8,8 @@ import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from "react-redux";
 import { updatePost } from '../../../Actions/postAction';
 import useStyles from './Styles'
+import Dropzone from 'react-dropzone';
+import AvatarEditor from 'react-avatar-editor';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -30,18 +32,34 @@ const EditPostModal = ({show, handleClose, currentId}) => {
     postText: postEdit!==null?postEdit.PostText:"",
     postImage: postEditImage
   })
+  // console.log(postEditImage)
+  // console.log(editPost.postImage)
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if({...editPost.postImage===""}){
-    //   setEditPost({postImage: postEdit.Image})
-    // }
+   
     dispatch(updatePost(postId,editPost))
     handleClose()
   }
   const handleChange = (e) =>{
     setEditPost({...editPost, [e.target.name]: e.target.value})
   }
-  // console.log({...editPost})
+
+  const getBase64 = (file) => {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+      //   console.log(reader.result);
+      setEditPost({ ...editPost,postImage: reader.result })
+      };
+      reader.onerror = function (error) {
+      console.log('Error: ', error);
+      };
+  }
+
+  const handleDrop = (dropped) => {
+      // console.log(dropped)
+      getBase64(dropped[0])
+  }
 
 
   return (
@@ -68,16 +86,16 @@ const EditPostModal = ({show, handleClose, currentId}) => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6">Edit Image :</Typography>
-              <img src={postEdit!==null?postEdit.Image:null} style={{width:'auto',height:'30vh'}}/>
+              {/* <img src={postEdit!==null?postEdit.Image:null} style={{width:'auto',height:'30vh'}}/> */}
             </Grid>
             <Grid item xs={12}>
               <div>
-                <FileBase
+                {/* <FileBase
                   type="file"
                   multiple={false}
                   onDone={({base64})=> setEditPost({...editPost, postImage: base64})}
-                />
-                {/* <Dropzone
+                /> */}
+                <Dropzone
                   onDrop={handleDrop}
                   noClick
                   noKeyboard
@@ -85,11 +103,11 @@ const EditPostModal = ({show, handleClose, currentId}) => {
                   >
                   {({ getRootProps, getInputProps }) => (
                       <div {...getRootProps()}>
-                      <AvatarEditor width={250} height={250} image={postData.postImage} />
+                      <img width={250} height={250} src={editPost.postImage} />
                       <input {...getInputProps()} />
                   </div>
                   )}
-              </Dropzone> */}
+              </Dropzone>
               </div>
             </Grid>
             <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
