@@ -89,6 +89,8 @@ func GetAllPosts() gin.HandlerFunc {
 			panic(err)
 		}
 		var showsLoaded []models.PostCard
+		// showLoadedCursor.
+		// iterate cursor then using limit, and skip & limit the next load
 		if err = showLoadedCursor.All(ctx, &showsLoaded); err != nil {
 			panic(err)
 		}
