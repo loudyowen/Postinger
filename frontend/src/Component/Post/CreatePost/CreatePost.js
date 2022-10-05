@@ -33,7 +33,7 @@ const CreatePost = () => {
     dispatch(postStatus({...postData,uId}))
     clear()
   }
-  console.log(setPostData.postImage)
+  // console.log(setPostData.postImage)
 
 
   const handleCompressedUpload = (e) => {
@@ -48,7 +48,7 @@ const CreatePost = () => {
       },
     });
   };
-  console.log({...postData})
+  // console.log({...postData})
  return (
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>

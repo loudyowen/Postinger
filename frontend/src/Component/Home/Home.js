@@ -26,6 +26,7 @@ function Home() {
     const [openModal, setOpenModal] = useState(false)
     const classes = useStyles();
     const handleClose = () => {
+        setCurrentId(null)
         setOpenModal(false)
     }
     return (

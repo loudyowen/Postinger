@@ -27,13 +27,23 @@ const EditPostModal = ({show, handleClose, currentId}) => {
   const postId = postEdit!==null?postEdit.Id:null
   const dispatch =  useDispatch();
   const classes = useStyles();
-  const postEditImage = postEdit!==null?postEdit.Image:null
   const [editPost, setEditPost] = useState({
-    postText: postEdit!==null?postEdit.PostText:"",
-    postImage: postEditImage
+    postText: "",
+    postImage: null
   })
-  // console.log(postEditImage)
+  useEffect(()=>{
+    if(postEdit){
+      setEditPost({...editPost, postText: postEdit.PostText})
+      setEditPost({...editPost, postImage: postEdit.Image})
+    }
+  },postEdit)
+  // useEffect(()=>{
+    
+  // })
+
+  console.log(postEdit!==null?postEdit.PostText:null)
   // console.log(editPost.postImage)
+  console.log(editPost.postText)
   const handleSubmit = (e) => {
     e.preventDefault();
    
@@ -77,11 +87,11 @@ const EditPostModal = ({show, handleClose, currentId}) => {
             </Grid>
             <Grid item xs={12} sx={{width: '80%'}} >
               <Typography variant="h6">Edit Text :</Typography>
-              <TextField name="postText" variant="filled" multiline fullWidth rows={6} onChange={handleChange}
+              <TextField name="postText" variant="filled" multiline fullWidth minRows={6} onChange={handleChange}
                 InputProps={{
                     className: classes.input,
                 }}
-                defaultValue={postEdit!==null?postEdit.PostText:null}  
+                defaultValue={editPost.PostText}  
               />  
             </Grid>
             <Grid item xs={12}>

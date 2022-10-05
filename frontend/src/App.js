@@ -29,14 +29,20 @@ function App() {
      <BrowserRouter>
         <Container disableGutters={true} maxWidth={false}>
             <Routes>
-                {!userData ?
-                <Route path="/" exact element={<Auth />} />  
-                :  
-                <Route
-                    path="/"
-                    element={<Navigate to="/home" replace />}
-                />
+           
+                {userData ?
+                  <Route path="/" element={<Navigate to="/home" replace />} />
+                  :
+                  <Route path="/home" element={<Navigate to="/" replace />} />
+                // :  
+                // <>
+                //   <Route
+                //     path="/"
+                //     element={<Navigate to="/home" replace />}
+                //     />
+                // </>
                 }
+                <Route path="/" exact element={<Auth />} />  
                 <Route path="/home" exact element={<Home />} />
                 <Route path="/profile" exact element={<Profile />} />
                 <Route path="/accountSetting" exact element={<AccountSetting />} />

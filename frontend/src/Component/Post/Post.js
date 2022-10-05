@@ -16,7 +16,7 @@ const Post = ({setCurrentId,setOpenModal}) => {
   useEffect(()=>{
     dispatch(getPosts());
   },[dispatch]) 
-  console.log(posts)
+  // console.log(posts)
 
 
   return (
