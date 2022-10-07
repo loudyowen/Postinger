@@ -17,7 +17,7 @@ const Post = ({setCurrentId,setOpenModal}) => {
   const posts = useSelector((state)=>state.posts)
   useEffect(()=>{
     dispatch(getPosts());
-  },[skip]) 
+  },[getPosts]) 
   const handleLoadMore = () =>{
     console.log("skip data:",skip)
     dispatch(getMorePost(skip))
@@ -55,3 +55,8 @@ export default Post
 
 // first initial load data with limit 2 and skip 0
 // then when reach the end call getPost(limit,skip) -> skip set 2
+
+// resolve create post conflict
+// 2 data from backend -> 7,6
+// reverse data from backend
+// reverse-column in style 
