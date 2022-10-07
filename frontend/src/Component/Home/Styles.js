@@ -7,6 +7,6 @@ export default makeStyles((theme)=>({
     },
     Post:{
         display: 'flex',
-        flexDirection: 'column-reverse'
+        flexDirection: 'column'
     }
 }))

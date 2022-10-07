@@ -1,6 +1,6 @@
 import { display } from '@mui/system';
 import * as api from '../api';
-import {CREATE, DELETE, FETCH_ALL, EDIT_MODAL, UPDATE} from '../constant/actionType'
+import {CREATE, DELETE, FETCH_ALL, FETCH_MORE, EDIT_MODAL, UPDATE} from '../constant/actionType'
 
 export const getPosts = () => async (dispatch) =>{
     try {
@@ -8,7 +8,19 @@ export const getPosts = () => async (dispatch) =>{
         dispatch({type: FETCH_ALL, payload: data})
         // console.table(data)
     } catch (error) {
-        console.log(error.response.data)
+        console.log(error)
+        // console.log(error.response.data)
+    }
+}
+
+export const getMorePost = (skip) => async (dispatch) => {
+    try{
+        const { data } = await api.getMorePosts(skip);
+        console.log(data)
+        dispatch({type: FETCH_MORE, payload: data})
+        
+    }catch(error){
+        console.log(error)
     }
 }
 

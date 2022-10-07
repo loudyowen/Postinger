@@ -29,6 +29,7 @@ function Home() {
         setCurrentId(null)
         setOpenModal(false)
     }
+    
     return (
         <Container className={classes.Container} disableGutters={true} maxWidth={false}>
             <Navbar  />
@@ -44,6 +45,7 @@ function Home() {
                 <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModal} handleClose={handleClose} />
             </Grid>
         </Container>
+        
     )
 }
 

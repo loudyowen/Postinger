@@ -23,3 +23,7 @@ type PostCard struct {
 	CreatedAt time.Time          `bson:"createdat"`
 	UserData  UserPost           `bson:"userData"`
 }
+
+type SkipStep struct {
+	Skip int `json: "skip"`
+}

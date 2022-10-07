@@ -10,6 +10,7 @@ API.interceptors.request.use((req)=>{
 
 
 export const getPosts = () => API.get('/post')
+export const getMorePosts = (skip) => API.post('/postMore', skip)
 export const postStatus = (postData) => API.post('/post', postData)
 export const deletePost = (id) => API.delete(`${'/post'}/${id}`)
 export const updatePost = (id, postData) => API.post(`${'/post'}/${id}`, postData)
