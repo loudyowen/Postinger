@@ -34,13 +34,6 @@ function App() {
                   <Route path="/" element={<Navigate to="/home" replace />} />
                   :
                   <Route path="/home" element={<Navigate to="/" replace />} />
-                // :  
-                // <>
-                //   <Route
-                //     path="/"
-                //     element={<Navigate to="/home" replace />}
-                //     />
-                // </>
                 }
                 <Route path="/" exact element={<Auth />} />  
                 <Route path="/home" exact element={<Home />} />

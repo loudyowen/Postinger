@@ -14,6 +14,7 @@ export const signUp = (form, navigate) => async (dispatch) =>{
         // }
         dispatch({type: AUTH, data: data.data})
         navigate('/home')
+        navigate(0)
     }catch(error){
         console.log(error)
     }
@@ -31,6 +32,8 @@ export const signIn = (form, navigate) => async (dispatch) => {
         // }
         dispatch({type: AUTH, data: data.data })
         navigate('/home')
+        navigate(0)
+
     }catch(err){
         console.log(err)
     }

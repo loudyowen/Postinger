@@ -107,6 +107,7 @@ const Navbar = () => {
   const handleLogOut = () => {
     dispatch({type: LOG_OUT})
     navigate('/')
+    navigate(0)
   }
 
   const menuId = 'primary-search-account-menu';

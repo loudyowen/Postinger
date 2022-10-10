@@ -6,6 +6,8 @@ export default (posts = [], action) => {
             // console.log("Fetch:", action.payload)
             return action.payload;
         case FETCH_MORE:
+         
+            // console.log(action.payload)
             return [...posts, ...action.payload];
         case CREATE:
             // console.log("CreateL ", action.payload)

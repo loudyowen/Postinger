@@ -1,4 +1,4 @@
-import { Button, Grid } from '@material-ui/core'
+import { Button, Grid, TextField } from '@material-ui/core'
 import React,{useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,8 +6,8 @@ import { getMorePost, getPosts  } from '../../Actions/postAction';
 import PostCard from './PostCard/PostCard';
 import useStyles from './Styles'
 import CircularProgress from '@mui/material/CircularProgress';
-
-
+// import { useInView } from 'react-intersection-observer'
+import { InView } from 'react-intersection-observer';
 
 const Post = ({setCurrentId,setOpenModal}) => {
   const [skip,setSkip] = useState(2)
@@ -18,21 +18,21 @@ const Post = ({setCurrentId,setOpenModal}) => {
   useEffect(()=>{
     dispatch(getPosts());
   },[getPosts]) 
+
+  // infinite load
   const handleLoadMore = () =>{
     console.log("skip data:",skip)
-    dispatch(getMorePost(skip))
-    setSkip(skip+2)
-    // if (skip==1) {
-    //   setSkip == 
-    // }
+    console.log(posts)
+    if (posts.length == skip){
+      dispatch(getMorePost(skip))
+      setSkip(posts.length+1)
+    }
   }
-  console.log(posts.length)
-  // console.log(posts)
 
 
   return (
 
-        !posts.length?<h1>Loading <CircularProgress /></h1>:(
+        !posts.length?<h1 style={{textAlign: "center"}}>Loading <CircularProgress /></h1>:(
           <>
           { 
             posts.map((postData)=>(
@@ -41,9 +41,11 @@ const Post = ({setCurrentId,setOpenModal}) => {
               </Grid>
               ))
             } 
-            <Button onClick={handleLoadMore} variant="contained" sx={{width: 300}}>
-              Load More
-            </Button>
+           {/* { dispatch(getMorePost(skip)),
+            setSkip(skip+2)} */}
+              <InView as="div" onChange={handleLoadMore}>
+                <h1 style={{textAlign: "center"}}>Loading <CircularProgress /></h1>
+              </InView>
           </>
         )
 

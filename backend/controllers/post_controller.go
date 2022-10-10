@@ -150,11 +150,11 @@ func GetMorePost() gin.HandlerFunc {
 			return
 		}
 
-		fmt.Println("SkipStep:", step)
+		// fmt.Println("SkipStep:", step)
 
 		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
 		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
-		limit := bson.D{{"$limit", 2}}
+		limit := bson.D{{"$limit", 1}}
 		skip := bson.D{{"$skip", step}}
 		sort := bson.D{{"$sort", bson.D{{"id", -1}}}}
 		showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage, sort, skip, limit})

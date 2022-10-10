@@ -1,21 +1,22 @@
 - Middleware auth
-- Lazy Loading fetching
+- Lazy Loading fetching image -> NEXT 
+- INFINTE SCROLLING -> (done) -> https://www.npmjs.com/package/react-intersection-observer
  -> https://stackoverflow.com/questions/6435122/lazy-loading-in-mongodb
 - Auto Add new post card when submit new post (Done)
-- Navbar Function
+- Navbar Function (almost done)
 - PostCard:
     - Edit, Delete Post (Done)
     - Time posting
-    - Show more feature... 
+    - Show more feature... (Done) 
     - Comment 
     - Like
     - Get userData to card -> (From UID) (Done)
-    *Opt : -> Create share link
+    *Opt : -> Create share linkg
 - Add friend
 - show friend list
 - Send message to friend
-- Google Login integration
-- Edit Profile
+- Google Login integration -> After lazy loading
+- Edit Profile -> On Progress
 - *get user data only id rather than insert all data in post, then
    call the data from reducers state
 

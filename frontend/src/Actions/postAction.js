@@ -17,6 +17,9 @@ export const getMorePost = (skip) => async (dispatch) => {
     try{
         const { data } = await api.getMorePosts(skip);
         console.log(data)
+        if(data == null){
+            return null
+        }
         dispatch({type: FETCH_MORE, payload: data})
         
     }catch(error){
