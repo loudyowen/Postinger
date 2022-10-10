@@ -11,7 +11,11 @@ export default (posts = [], action) => {
             return [...posts, ...action.payload];
         case CREATE:
             // console.log("CreateL ", action.payload)
-            return [...posts, action.payload];      
+            // for(let i=0;i<posts.length-1;i++){
+            //     posts[i] = posts[i+1]
+            // }
+            console.log(posts)
+            return [action.payload, ...posts];      
         case DELETE:
             return posts.filter((post)=>(post.Id!==action.payload));
         case UPDATE:

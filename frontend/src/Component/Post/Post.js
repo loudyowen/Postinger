@@ -9,8 +9,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 // import { useInView } from 'react-intersection-observer'
 import { InView } from 'react-intersection-observer';
 
-const Post = ({setCurrentId,setOpenModal}) => {
-  const [skip,setSkip] = useState(2)
+const Post = ({setCurrentId,setOpenModal, setSkip}) => {
+  // const [skip,setSkip] = useState(2)
   // const limit = 2
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -20,14 +20,14 @@ const Post = ({setCurrentId,setOpenModal}) => {
   },[getPosts]) 
 
   // infinite load
-  const handleLoadMore = () =>{
-    console.log("skip data:",skip)
-    console.log(posts)
-    if (posts.length == skip){
-      dispatch(getMorePost(skip))
-      setSkip(posts.length+1)
-    }
-  }
+  // const handleLoadMore = () =>{
+  //   console.log("skip data:",skip)
+  //   console.log(posts)
+  //   if (posts.length == skip){
+  //     dispatch(getMorePost(skip))
+  //     setSkip(posts.length+1)
+  //   }
+  // }
 
 
   return (
@@ -37,15 +37,15 @@ const Post = ({setCurrentId,setOpenModal}) => {
           { 
             posts.map((postData)=>(
               <Grid key={postData.Id} className={classes.PostContainer} container  justifyContent="center">
-                <PostCard post={postData} setCurrentId={setCurrentId} setOpenModal={setOpenModal} />
+                <PostCard post={postData} setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkip={setSkip} />
               </Grid>
               ))
             } 
            {/* { dispatch(getMorePost(skip)),
             setSkip(skip+2)} */}
-              <InView as="div" onChange={handleLoadMore}>
+              {/* <InView as="div" onChange={handleLoadMore}>
                 <h1 style={{textAlign: "center"}}>Loading <CircularProgress /></h1>
-              </InView>
+              </InView> */}
           </>
         )
 

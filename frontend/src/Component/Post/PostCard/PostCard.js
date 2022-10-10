@@ -11,15 +11,16 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Menu, MenuItem } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { deletePost } from '../../../Actions/postAction';
 
-const PostCard = ( {post, setCurrentId, setOpenModal}) => {
+const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const profileName = post?.UserData?.firstName + " " + post?.UserData?.lastName;
   const user = JSON.parse(localStorage.getItem('profile'))
+  const posts = useSelector((state)=>state.posts)
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -34,6 +35,8 @@ const PostCard = ( {post, setCurrentId, setOpenModal}) => {
   }
   const handleMenuDelete = () => {
     dispatch(deletePost(post.Id))
+    // if(posts.length==skip)
+    setSkip(posts.length)
   }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
