@@ -10,6 +10,7 @@ import { updatePost } from '../../../Actions/postAction';
 import useStyles from './Styles'
 import Dropzone from 'react-dropzone';
 import AvatarEditor from 'react-avatar-editor';
+import Resizer from "react-image-file-resizer";
 const style = {
   position: 'absolute',
   top: '50%',
@@ -21,6 +22,22 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
 };
+
+const resizeFile = (file) =>
+new Promise((resolve) => {
+    Resizer.imageFileResizer(
+    file, // file image
+    1920, //maxWidth
+    1080, // maxHeigh
+    "JPEG", // compressFormat
+    80, // quality
+    0, // rotation
+    (uri) => {
+        resolve(uri);
+    },
+    "base64"
+);
+});
 
 const EditPostModal = ({show, handleClose, currentId}) => {
   const postEdit = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
@@ -41,9 +58,9 @@ const EditPostModal = ({show, handleClose, currentId}) => {
     
   // })
 
-  console.log(postEdit!==null?postEdit.PostText:null)
+  // console.log(postEdit!==null?postEdit.PostText:null)
   // console.log(editPost.postImage)
-  console.log(editPost.postText)
+  // console.log(editPost.postText)
   const handleSubmit = (e) => {
     e.preventDefault();
    
@@ -54,21 +71,39 @@ const EditPostModal = ({show, handleClose, currentId}) => {
     setEditPost({...editPost, [e.target.name]: e.target.value})
   }
 
-  const getBase64 = (file) => {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-      //   console.log(reader.result);
-      setEditPost({ ...editPost,postImage: reader.result })
-      };
-      reader.onerror = function (error) {
-      console.log('Error: ', error);
-      };
-  }
+  // convert dropzone file to filebase64
+  // const getBase64 = (file) => {
+  //     var reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = function () {
+  //     //   console.log(reader.result);
+  //     setEditPost({ ...editPost,postImage: reader.result })
+  //     };
+  //     reader.onerror = function (error) {
+  //     console.log('Error: ', error);
+  //     };
+  // }
 
-  const handleDrop = (dropped) => {
-      // console.log(dropped)
-      getBase64(dropped[0])
+//   const handleDrop = async (dropped) => {
+//     try {
+//         // const file = dropped.target.files[0];
+//         const file = dropped[0]
+//         console.log(file)
+//         const image = await resizeFile(file);
+//         console.log(image);
+//       } catch (err) {
+//         console.log(err);
+//       }
+// }
+
+  const handleDrop = async (dropped) => {
+    try{
+      const file = dropped[0]
+      const image = await resizeFile(file)
+      setEditPost({ ...editPost,postImage: image })
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 
@@ -107,17 +142,17 @@ const EditPostModal = ({show, handleClose, currentId}) => {
                 /> */}
                 <Dropzone
                   onDrop={handleDrop}
-                  noClick
                   noKeyboard
                   style={{ width: '250px', height: '250px' }}
                   >
                   {({ getRootProps, getInputProps }) => (
                       <div {...getRootProps()}>
-                      <img width={250} height={250} src={editPost.postImage} />
+                      {/* preview only */}
+                      <img width={"80%"} height={"80%"} src={editPost.postImage} />
                       <input {...getInputProps()} />
                   </div>
                   )}
-              </Dropzone>
+                </Dropzone>
               </div>
             </Grid>
             <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>

@@ -5,6 +5,9 @@ import imagess from '../../Asset/pexels-stein-egil-liland-3408744.jpg'
 import { postStatus } from '../../Actions/postAction'
 import {useDispatch} from 'react-redux'
 import { Button } from '@material-ui/core';
+import Resizer from "react-image-file-resizer";
+
+
 
 
 
@@ -22,27 +25,61 @@ function MyEditor() {
         e.preventDefault();
         dispatch(postStatus({...postData,uId}))
     }
-    const getBase64 = (file) => {
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-        //   console.log(reader.result);
-        setPostData({ ...postData,postImage: reader.result })
-        };
-        reader.onerror = function (error) {
-        console.log('Error: ', error);
-        };
-    }
+    // const getBase64 = (file) => {
+    //     var reader = new FileReader();
+    //     reader.readAsDataURL(file);
+    //     reader.onload = function () {
+    //     //   console.log(reader.result);
+    //     setPostData({ ...postData,postImage: reader.result })
+    //     };
+    //     reader.onerror = function (error) {
+    //     console.log('Error: ', error);
+    //     };
+    // }
 
-    const handleDrop = (dropped) => {
-        console.log(dropped)
-        getBase64(dropped[0])
+    const resizeFile = (file) =>
+        new Promise((resolve) => {
+            Resizer.imageFileResizer(
+            file,
+            300,
+            300,
+            "JPEG",
+            100,
+            0,
+            (uri) => {
+                resolve(uri);
+            },
+            "base64"
+        );
+    });
+
+    // const onChange = async (event) => {
+    //     try {
+    //       const file = event.target.files[0];
+    //       const image = await resizeFile(file);
+    //       console.log(image);
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
+    //   };
+
+    const handleDrop = async (dropped) => {
+        try {
+            // const file = dropped.target.files[0];
+            console.log(dropped)
+            const file = dropped[0]
+            const image = await resizeFile(file);
+            console.log(image);
+          } catch (err) {
+            console.log(err);
+          }
     }
     return (
         <form autoComplete="off" onSubmit={handleSubmit}>
              <Dropzone
                 onDrop={handleDrop}
-                noClick
+
+                // noClick
                 noKeyboard
                 style={{ width: '250px', height: '250px' }}
                 >
@@ -53,7 +90,7 @@ function MyEditor() {
                 </div>
                 )}
             </Dropzone>
-            <Button type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
+            {/* <Button type='submit' color='primary' variant="contained" fullWidth>Submit</Button> */}
         </form>
     )
   }

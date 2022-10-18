@@ -34,9 +34,10 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
     handleMenuClose()
   }
   const handleMenuDelete = () => {
+    console.log("called menu delete")
     dispatch(deletePost(post.Id))
     // if(posts.length==skip)
-    setSkip(posts.length)
+    setSkip(posts.length-1)
   }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (

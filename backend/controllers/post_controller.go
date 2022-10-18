@@ -157,6 +157,8 @@ func GetMorePost() gin.HandlerFunc {
 		limit := bson.D{{"$limit", 1}}
 		skip := bson.D{{"$skip", step}}
 		sort := bson.D{{"$sort", bson.D{{"id", -1}}}}
+		// memory := bson.D{{"$allowDiskUse", true}}
+
 		showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage, sort, skip, limit})
 		// showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage})
 		if err != nil {
