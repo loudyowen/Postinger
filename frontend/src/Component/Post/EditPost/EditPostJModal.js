@@ -24,19 +24,19 @@ const style = {
 };
 
 const resizeFile = (file) =>
-new Promise((resolve) => {
-    Resizer.imageFileResizer(
-    file, // file image
-    1920, //maxWidth
-    1080, // maxHeigh
-    "JPEG", // compressFormat
-    80, // quality
-    0, // rotation
-    (uri) => {
-        resolve(uri);
-    },
-    "base64"
-);
+  new Promise((resolve) => {
+      Resizer.imageFileResizer(
+      file, // file image
+      1920, //maxWidth
+      1080, // maxHeigh
+      "JPEG", // compressFormat
+      80, // quality
+      0, // rotation
+      (uri) => {
+          resolve(uri);
+      },
+      "base64"
+  );
 });
 
 const EditPostModal = ({show, handleClose, currentId}) => {
@@ -45,22 +45,17 @@ const EditPostModal = ({show, handleClose, currentId}) => {
   const dispatch =  useDispatch();
   const classes = useStyles();
   const [editPost, setEditPost] = useState({
-    postText: "",
+    text: null,
     postImage: null
   })
+
+  // do useEffect so it will show the image when we load the modal 
   useEffect(()=>{
     if(postEdit){
-      setEditPost({...editPost, postText: postEdit.PostText})
+      setEditPost({...editPost, text: postEdit.PostText})
       setEditPost({...editPost, postImage: postEdit.Image})
     }
   },postEdit)
-  // useEffect(()=>{
-    
-  // })
-
-  // console.log(postEdit!==null?postEdit.PostText:null)
-  // console.log(editPost.postImage)
-  // console.log(editPost.postText)
   const handleSubmit = (e) => {
     e.preventDefault();
    
@@ -71,30 +66,6 @@ const EditPostModal = ({show, handleClose, currentId}) => {
     setEditPost({...editPost, [e.target.name]: e.target.value})
   }
 
-  // convert dropzone file to filebase64
-  // const getBase64 = (file) => {
-  //     var reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onload = function () {
-  //     //   console.log(reader.result);
-  //     setEditPost({ ...editPost,postImage: reader.result })
-  //     };
-  //     reader.onerror = function (error) {
-  //     console.log('Error: ', error);
-  //     };
-  // }
-
-//   const handleDrop = async (dropped) => {
-//     try {
-//         // const file = dropped.target.files[0];
-//         const file = dropped[0]
-//         console.log(file)
-//         const image = await resizeFile(file);
-//         console.log(image);
-//       } catch (err) {
-//         console.log(err);
-//       }
-// }
 
   const handleDrop = async (dropped) => {
     try{
@@ -105,7 +76,8 @@ const EditPostModal = ({show, handleClose, currentId}) => {
       console.log(err);
     }
   }
-
+console.log(editPost.text)
+// console.log(postEdit ? postEdit.PostText : null)
 
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
@@ -126,7 +98,7 @@ const EditPostModal = ({show, handleClose, currentId}) => {
                 InputProps={{
                     className: classes.input,
                 }}
-                defaultValue={editPost.PostText}  
+                value={editPost.text}  
               />  
             </Grid>
             <Grid item xs={12}>

@@ -59,7 +59,7 @@ function Home() {
                 <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModal} handleClose={handleClose} />
                 {posts.length!=0 && 
                 <InView as="div" onChange={handleLoadMore}>
-                    <h1>Loading <CircularProgress /></h1>
+                    <h1><CircularProgress /></h1>
                 </InView>
                 }
             </Grid>

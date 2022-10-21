@@ -3,9 +3,10 @@
 - INFINTE SCROLLING -> (done) -> https://www.npmjs.com/package/react-intersection-observer
  -> https://stackoverflow.com/questions/6435122/lazy-loading-in-mongodb
 
-- Add new post to the first state/post data
-- Fix infinite scroll when deleting & create a post
-- 
+- Add new post to the first state/post data -> done
+- Fix infinite scroll when deleting & create a post -> done
+OPTIONAL:
+- Adding option compresed true from frontend to backend so it can't be spam with large size image to backend
 
 - Auto Add new post card when submit new post (Done)
 - Navbar Function (almost done)
