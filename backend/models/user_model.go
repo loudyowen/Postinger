@@ -13,7 +13,7 @@ type User struct {
 
 type UserPost struct {
 	Id           primitive.ObjectID `json:"id"`
-	FirstName    string             `json:"firstName,omitempty" validate:"required"`
+	FirstName    string             `json:"firstName,omitempty"`
 	LastName     string             `json:"lastName,omitempty"`
 	Email        string             `json:"email,omitempty" validate:"required"`
 	ProfileImage string             `json:"profileImage,omitempty"`

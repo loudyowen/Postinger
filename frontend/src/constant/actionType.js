@@ -10,3 +10,6 @@ export const FETCH_MORE = 'FETCH_MORE'
 // auth
 export const AUTH = 'AUTH'
 export const LOG_OUT = 'LOG_OUT'
+
+// account
+export const EDIT_ACC = 'EDIT_ACC'

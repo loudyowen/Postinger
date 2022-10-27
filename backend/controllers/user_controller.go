@@ -197,16 +197,15 @@ func GetUser() gin.HandlerFunc {
 func UpdateUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		userId := c.Param("id")
-		var user models.User
+		var user models.UserPost
 		defer cancel()
-		objId, _ := primitive.ObjectIDFromHex(userId)
 
 		//validation request body
 		if err := c.BindJSON(&user); err != nil {
 			ReqValidate(c, err, "Request Error")
 			return
 		}
+		userId, _ := primitive.ObjectIDFromHex(user.Id.Hex())
 
 		// using validator to validate the required request field
 		if validationErr := validate.Struct(&user); validationErr != nil {
@@ -215,7 +214,7 @@ func UpdateUser() gin.HandlerFunc {
 		}
 
 		// if user is not found
-		if err := userCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&user); err != nil {
+		if err := userCollection.FindOne(ctx, bson.M{"id": userId}).Err(); err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
 				responses.UserResponse{
@@ -228,12 +227,13 @@ func UpdateUser() gin.HandlerFunc {
 		}
 
 		update := bson.M{
-			"firstName": user.FirstName,
-			"lastName":  user.LastName,
-			"email":     user.Email,
-			"password":  user.Password,
+			"profileimage": user.ProfileImage,
+			"email":        user.Email,
+			"firstname":    user.FirstName,
+			"lastname":     user.LastName,
 		}
-		result, err := userCollection.UpdateOne(c, bson.M{"id": objId}, bson.M{"$set": update})
+
+		result, err := userCollection.UpdateOne(c, bson.M{"id": userId}, bson.M{"$set": update})
 		if err != nil {
 			c.JSON(
 				http.StatusInternalServerError,
@@ -249,7 +249,7 @@ func UpdateUser() gin.HandlerFunc {
 		//return updated user detail
 		var updatedUser models.User
 		if result.MatchedCount == 1 {
-			err := userCollection.FindOne(ctx, bson.M{"id": objId}).Decode(&updatedUser)
+			err := userCollection.FindOne(ctx, bson.M{"id": userId}).Decode(&updatedUser)
 			if err != nil {
 				c.JSON(
 					http.StatusInternalServerError,

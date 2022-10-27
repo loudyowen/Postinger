@@ -1,4 +1,7 @@
 - Middleware auth
+--> add bio on user account 
+--> update bio on user Setting
+
 - Lazy Loading fetching image -> NEXT 
 - INFINTE SCROLLING -> (done) -> https://www.npmjs.com/package/react-intersection-observer
  -> https://stackoverflow.com/questions/6435122/lazy-loading-in-mongodb

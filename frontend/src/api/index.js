@@ -17,3 +17,5 @@ export const updatePost = (id, postData) => API.post(`${'/post'}/${id}`, postDat
 
 export const signUpApi = (form) => API.post('/user/signUp', form)
 export const signInApi = (form) => API.post('/user/signIn',form)
+
+export const editAccount = (form) => API.post('/user/editAccount',form)

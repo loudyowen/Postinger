@@ -8,6 +8,8 @@ import {useNavigate}from 'react-router-dom'
 import FileBase from 'react-file-base64';
 import Dropzone from 'react-dropzone';
 import Resizer from "react-image-file-resizer";
+import { editAccount } from '../../Actions/accountAction'
+
 
 const resizeFile = (file) =>
   new Promise((resolve) => {
@@ -34,9 +36,11 @@ function AccountSetting() {
     const userData = JSON.parse(localStorage.getItem('profile'))
     const [user, setUser] = React.useState(userData.userData);
     const [editProfile, setEditProfile] = useState({
+        id: user?.id,
         profileImage: user?.profileImage,
+        email : user?.email,
         firstName: user?.firstName,
-        lastNamme: user?.lastName,
+        lastName: user?.lastName,
         password: ""
     });
     const handleDrop = async (dropped) => {
@@ -48,13 +52,14 @@ function AccountSetting() {
           console.log(err);
         }
       }
-    // console.log(editPicture.image)
-    console.log(user)
+    // console.log(editProfile.profileImage)
+    // console.log(user)
     const handleChange = (e) => {
         setEditProfile({...editProfile,[e.target.name]: e.target.value})
     }
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(editAccount({...editProfile}))
     }
     const handleShowPassword = () => {
 
@@ -62,8 +67,7 @@ function AccountSetting() {
     const handleChangePicture = () => {
 
     }
-    console.log(editProfile.firstName)
-    console.log(editProfile.lastNamme)
+
 
   return (
     <>
@@ -95,13 +99,13 @@ function AccountSetting() {
                         <Grid xs={12}>
                             <Typography className={classes.textMenu} variant='h6'>Change Name:</Typography>
                         </Grid>
-                            <Input name="lastName" label="Last Name" half handleChange={handleChange}  />
                             <Input name="firstName" label="First Name"  half autoFocus handleChange={handleChange}  />
+                            <Input name="lastName" label="Last Name" half handleChange={handleChange}  />
                         <Grid xs={12}>
                             <Typography className={classes.textMenu} variant='h6'>Change Password:</Typography>
                         </Grid>
-                        <Input name="password" label="Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword}  />
-                        <Input label="Confirm Password" fullWidth />
+                        {/* <Input name="password" label="Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword}  /> */}
+                        {/* <Input label="Confirm Password" fullWidth /> */}
                     </Grid>
                     <Button  type='submit' color='primary' variant="contained" fullWidth>submit</Button>
                 </form>
