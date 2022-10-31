@@ -11,6 +11,7 @@
 OPTIONAL:
 - Adding option compresed true from frontend to backend so it can't be spam with large size image to backend
 
+
 - Auto Add new post card when submit new post (Done)
 - Navbar Function (almost done)
 - PostCard:
@@ -44,3 +45,15 @@ Some Idea:
 -> Buy And Sell product feature
 -> Cart System
 -> Account balance to shop
+
+
+Update 31-10-2022:
+1. change localStorage to cookie for saving information like token and user id because localStorage in invulnerable from XSS attak
+2. find how to implement saving JWT Token to redux with cookie
+3. is redux localStorage safe ?
+
+ref:
+https://stackoverflow.com/questions/68422889/is-it-safe-to-store-jwt-token-in-redux-store
+https://dev.to/lizlaffitte/persisting-data-using-cookies-in-react-apps-45pn
+key:
+cookie, redux-persist
