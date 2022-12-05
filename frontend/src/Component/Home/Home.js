@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 
 import useStyles from './Styles'
+import { useCookies } from "react-cookie";
 
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from '../Navbar/Navbar';
@@ -26,6 +27,7 @@ import { InView } from 'react-intersection-observer';
 function Home() {
     const [currentId, setCurrentId] = useState(null);
     const [openModal, setOpenModal] = useState(false)
+    // const [cookies, setCookie] = useCookies(["token"]);
     const [skip,setSkip] = useState(2)
     const dispatch = useDispatch();
     const posts = useSelector((state)=>state.posts)
@@ -34,7 +36,7 @@ function Home() {
         setCurrentId(null)
         setOpenModal(false)
     }
-
+    // console.log(cookies.token)
     const handleLoadMore = () =>{
         console.log("skip data:",skip)
         console.log(posts)

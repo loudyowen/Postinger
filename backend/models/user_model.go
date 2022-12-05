@@ -18,3 +18,8 @@ type UserPost struct {
 	Email        string             `json:"email,omitempty" validate:"required"`
 	ProfileImage string             `json:"profileImage,omitempty"`
 }
+
+type UserInfo struct {
+	Id    primitive.ObjectID `json:"id"`
+	About string             `json:"aboutMe"`
+}

@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	paginate "github.com/gobeam/mongo-go-pagination"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -177,30 +176,30 @@ func GetMorePost() gin.HandlerFunc {
 	}
 }
 
-func Paginate() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-		defer cancel()
-		// filter := bson.M{}
-		// limit, page := int64(2), int64(1)
-		data, err := paginate.New(postCollection).Context(ctx).Find()
-		if err != nil {
-			fmt.Print("Paginate error")
-		}
-		fmt.Println(data)
-		// var list []models.PostCard
-		// for _, raw := range data.Data {
-		// var product models.PostCard
-		// if marshallErr := bson.Unmarshal(raw, &product); marshallErr == nil {
-		// 	list = append(list, product)
-		// }
-		// fmt.Println(raw)
+// func Paginate() gin.HandlerFunc {
+// 	return func(c *gin.Context) {
+// 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+// 		defer cancel()
+// 		// filter := bson.M{}
+// 		// limit, page := int64(2), int64(1)
+// 		data, err := paginate.New(postCollection).Context(ctx).Find()
+// 		if err != nil {
+// 			fmt.Print("Paginate error")
+// 		}
+// 		// fmt.Println(data)
+// 		// var list []models.PostCard
+// 		// for _, raw := range data.Data {
+// 		// var product models.PostCard
+// 		// if marshallErr := bson.Unmarshal(raw, &product); marshallErr == nil {
+// 		// 	list = append(list, product)
+// 		// }
+// 		// fmt.Println(raw)
 
-		// }
-		// fmt.Println("Paginate data:", list)
+// 		// }
+// 		// fmt.Println("Paginate data:", list)
 
-	}
-}
+// 	}
+// }
 
 func UpdatePost() gin.HandlerFunc {
 	return func(c *gin.Context) {

@@ -60,6 +60,7 @@ function AccountSetting() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(editAccount({...editProfile}))
+        navigate("/")
     }
     const handleShowPassword = () => {
 
@@ -101,11 +102,8 @@ function AccountSetting() {
                         </Grid>
                             <Input name="firstName" label="First Name"  half autoFocus handleChange={handleChange}  />
                             <Input name="lastName" label="Last Name" half handleChange={handleChange}  />
-                        <Grid xs={12}>
-                            <Typography className={classes.textMenu} variant='h6'>Change Password:</Typography>
-                        </Grid>
-                        {/* <Input name="password" label="Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword}  /> */}
-                        {/* <Input label="Confirm Password" fullWidth /> */}
+                     
+                        <Button variant="contained">Change Password</Button>
                     </Grid>
                     <Button  type='submit' color='primary' variant="contained" fullWidth>submit</Button>
                 </form>

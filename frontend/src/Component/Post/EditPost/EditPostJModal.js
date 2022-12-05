@@ -76,7 +76,7 @@ const EditPostModal = ({show, handleClose, currentId}) => {
       console.log(err);
     }
   }
-console.log(editPost.text)
+// console.log(editPost.text)
 // console.log(postEdit ? postEdit.PostText : null)
 
   return (
@@ -103,15 +103,9 @@ console.log(editPost.text)
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6">Edit Image :</Typography>
-              {/* <img src={postEdit!==null?postEdit.Image:null} style={{width:'auto',height:'30vh'}}/> */}
             </Grid>
             <Grid item xs={12}>
               <div>
-                {/* <FileBase
-                  type="file"
-                  multiple={false}
-                  onDone={({base64})=> setEditPost({...editPost, postImage: base64})}
-                /> */}
                 <Dropzone
                   onDrop={handleDrop}
                   noKeyboard
@@ -119,7 +113,6 @@ console.log(editPost.text)
                   >
                   {({ getRootProps, getInputProps }) => (
                       <div {...getRootProps()}>
-                      {/* preview only */}
                       <img width={"80%"} height={"80%"} src={editPost.postImage} />
                       <input {...getInputProps()} />
                   </div>

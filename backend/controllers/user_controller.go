@@ -183,6 +183,16 @@ func GetUser() gin.HandlerFunc {
 			Email:        user.Email,
 			ProfileImage: user.ProfileImage,
 		}
+		// cookie := c.SetCookie("token", tokenString, 60*60*24, "/", "http://127.0.0.1:3000", false, false)
+		//  c.SetCookie()
+		// c.Cookie(tokenString)
+		// cookie := c.Cookie{
+		// 	Name:     "token",
+		// 	Value:    tokenString,
+		// 	Expires:  time.Now().Add(time.Hour * 24),
+		// 	HTTPOnly: true,
+		// }
+
 		c.JSON(
 			http.StatusOK,
 			responses.UserResponse{
@@ -191,6 +201,40 @@ func GetUser() gin.HandlerFunc {
 				Status:  http.StatusOK,
 			},
 		)
+
+		// c.JSON(http.StatusOK, gin.H{"token": tokenString})
+
+		// cookie_token, err := c.Cookie("token")
+
+		// if err != nil {
+		// 	cookie_token = tokenString
+		// 	// c.SetCookie("token", cookie_token, 3600, "/", "127.0.0.1", true, true)
+		// 	c.SetCookie("token", cookie_token, 60*60*24, "/", "localhost:3000", true, false)
+		// }
+		// cookie, err := c.Cookie("gin_cookie")
+
+		// if err != nil {
+		// cookie = "NotSet"
+		// c.SetCookie("cookie1", "test", 3600, "/", "localhost:3000", false, false)
+		// c.SetCookie("cookie2", "test", 3600, "/", "localhost:3000", true, false)
+		// c.SetCookie("cookie3", "test", 3600, "/", "localhost:3000", false, true)
+		// c.SetCookie("cookie4", "test", 3600, "/", "localhost:3000", true, true)
+		// c.SetCookie("token", "1234", 3600, "/", "localhost:3000", true, true)
+		// }
+
+		// c.Header("result", cookie_token)
+		// cookie := http.Cookie{
+		// 	Name:  "session_token",
+		// 	Value: tokenString,
+		// }
+		// http.SetCookie(c.Writer, &cookie)
+		// c.Cookie(
+		// 	http.Cookie{
+		// 		Name:  "session_token",
+		// 		Value: tokenString,
+		// 	},
+		// )
+
 	}
 }
 

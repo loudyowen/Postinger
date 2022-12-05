@@ -52,8 +52,16 @@ Update 31-10-2022:
 2. find how to implement saving JWT Token to redux with cookie
 3. is redux localStorage safe ?
 
+-> set cookie from golang, ex : https://stackoverflow.com/questions/71934019/cross-domain-cookie-golang-reactjs
+https://www.sohamkamani.com/golang/session-cookie-authentication/
+-> receive in react, ex : const [cookie, setCookie] = useCookies(['token'])
+
 ref:
 https://stackoverflow.com/questions/68422889/is-it-safe-to-store-jwt-token-in-redux-store
 https://dev.to/lizlaffitte/persisting-data-using-cookies-in-react-apps-45pn
 key:
 cookie, redux-persist
+
+Set cookie in redux after get data in json  
+or 
+in api index get axios cookie from 127.0.0.1:5000

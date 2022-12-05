@@ -1,11 +1,44 @@
 import axios from 'axios'
+import { useCookies } from "react-cookie";
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
 
 const API = axios.create({baseURL: "http://127.0.0.1:5000"})
+
+
+
 API.interceptors.request.use((req)=>{
-    if(localStorage.getItem('profile')){
-        req.headers.authorization = `${JSON.parse(localStorage.getItem('profile')).token}`
+    // const [cookies] = useCookies(["token"]);
+    const cookie = getCookie('token');
+//     // // const [cookies, setCookie] = useCookies(["token"]);
+//     // const token = useCookies(["token"])
+//     // const cookies = useCookies(["token"]);
+    if(document.cookie){
+        // req.headers.authorization = `${JSON.parse(useCookies(["token"][0]))}`
+        req.headers.authorization = `${JSON.parse(cookie)}`
+        // req.headers.authorization = cookie;
     }
     return req;
+
+    // if(localStorage.getItem('profile')){
+    //     req.headers.authorization = `${JSON.parse(localStorage.getItem('profile')).token}`
+    // }
+    // // console.log(req)
+    // return req;
 })
 
 

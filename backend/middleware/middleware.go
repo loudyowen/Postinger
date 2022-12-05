@@ -11,6 +11,7 @@ import (
 func Auth() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		tokenString := context.GetHeader("authorization")
+		// fmt.Println(tokenString)
 		if tokenString == "" {
 			context.JSON(
 				http.StatusUnauthorized,
