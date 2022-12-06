@@ -70,7 +70,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
           <Avatar src={post?.UserData?.profileImage} alt={post?.UserData?.firstName}>{post?.UserData?.firstName?.charAt(0)}</Avatar>
         }
         action={
-            user.userData.id === post.UserData.id && 
+            user.id === post.id && 
             <IconButton
             size="large"
             edge="end"

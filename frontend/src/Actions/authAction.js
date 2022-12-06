@@ -16,8 +16,9 @@ export const signUp = (form, navigate) => async (dispatch) =>{
 export const signIn = (form, navigate) => async (dispatch) => {
     try{
         const {data} = await api.signInApi(form)
-        // console.log(data.data.userData)
-        dispatch({type: AUTH, data: data.data.userData })
+        // console.log(data)
+        // console.log(data.data)
+        dispatch({type: AUTH, data: data.data })
         // console.log(data)
         // console.log(data.data.token)
         // console.log(data.data.userData)
