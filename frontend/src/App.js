@@ -13,7 +13,6 @@ import Cookies from 'js-cookie';
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import {Container} from '@material-ui/core'
 import Profile from "./Component/Profile/Profile";
 import AccountSetting from "./Component/AccountSetting/AccountSetting";
 
@@ -35,7 +34,6 @@ function App() {
      <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <BrowserRouter>
-          <Container disableGutters={true} maxWidth={false}>
               <Routes>
                   {userData ?
                     <Route path="/" element={<Navigate to="/home" replace />} />
@@ -48,7 +46,6 @@ function App() {
                   <Route path="/accountSetting" exact element={<AccountSetting />} />
                   <Route path="/testing" exact element={<Testing/>}/>
               </Routes>
-          </Container>
       </BrowserRouter>
    </ThemeProvider>
   );
