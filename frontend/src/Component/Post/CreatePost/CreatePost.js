@@ -30,7 +30,7 @@ const CreatePost = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'))
-  const uId = user.userData.id
+  const uId = user.id
   const [postData, setPostData] = useState({
     postText: '',
     postImage: ''

@@ -66,7 +66,7 @@ const Navbar = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const userData = JSON.parse(localStorage.getItem('profile'))
-  const [user, setUser] = React.useState(userData.userData);
+  const [user, setUser] = React.useState(userData);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

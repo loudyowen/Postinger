@@ -24,13 +24,14 @@ const API = axios.create({baseURL: "http://127.0.0.1:5000"})
 API.interceptors.request.use((req)=>{
     // const [cookies] = useCookies(["token"]);
     const cookie = getCookie('token');
+    // console.log(cookie)
 //     // // const [cookies, setCookie] = useCookies(["token"]);
 //     // const token = useCookies(["token"])
 //     // const cookies = useCookies(["token"]);
     if(document.cookie){
         // req.headers.authorization = `${JSON.parse(useCookies(["token"][0]))}`
-        req.headers.authorization = `${JSON.parse(cookie)}`
-        // req.headers.authorization = cookie;
+        // req.headers.authorization = `${JSON.parse(cookie)}`
+        req.headers.authorization = cookie;
     }
     return req;
 
