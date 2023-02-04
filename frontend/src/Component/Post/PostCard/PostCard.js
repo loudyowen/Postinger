@@ -20,8 +20,10 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
   const isMenuOpen = Boolean(anchorEl);
   const profileName = post?.UserData?.firstName + " " + post?.UserData?.lastName;
   const user = JSON.parse(localStorage.getItem('profile'))
-  console.log(user)
+  
+  
   const posts = useSelector((state)=>state.posts)
+  console.log("post: "+post+"\nuserId: "+user.id+"\npostId: "+post.id)
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
