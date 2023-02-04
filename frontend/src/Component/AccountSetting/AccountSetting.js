@@ -34,6 +34,9 @@ function AccountSetting() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const userData = JSON.parse(localStorage.getItem('profile'))
+    // console.log(JSON.parse(localStorage.getItem('profile'))['userData'])
+    console.log(localStorage.getItem('profile')['userData'])
+    // console.log(userData['userData'])
     const [user, setUser] = React.useState(userData.userData);
     const [editProfile, setEditProfile] = useState({
         id: user?.id,

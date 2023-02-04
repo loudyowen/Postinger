@@ -46,7 +46,7 @@ function App() {
                   <Route path="/home" exact element={<Home />} />
                   <Route path="/profile" exact element={<Profile />} />
                   <Route path="/accountSetting" exact element={<AccountSetting />} />
-                  <Route path="/testing" exact element={<Testing/>}/>
+                  {/* <Route path="/testing" exact element={<Testing/>}/> */}
               </Routes>
           </Container>
       </BrowserRouter>

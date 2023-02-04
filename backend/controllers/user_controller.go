@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson"
@@ -22,28 +21,28 @@ import (
 var userCollection *mongo.Collection = configs.GetCollection(configs.DB, "Users")
 var validate = validator.New()
 
-var jwtkey = []byte("supersecretkey") //should be stored in env
-type JWTClaim struct {
-	Email string `json:"email,omitempty" validate:"required"`
-	// FirstName string `json:"firstName,omitempty" validate:"required"`
-	// LastName  string `json:"lastName,omitempty"`
-	Username string `json:"firstName"+"lastName"`
-	jwt.StandardClaims
-}
+// var jwtkey = []byte("supersecretkey") //should be stored in env
+// type JWTClaim struct {
+// 	Email string `json:"email,omitempty" validate:"required"`
+// 	// FirstName string `json:"firstName,omitempty" validate:"required"`
+// 	// LastName  string `json:"lastName,omitempty"`
+// 	Username string `json:"firstName"+"lastName"`
+// 	jwt.StandardClaims
+// }
 
-func GenerateJWT(email, username string) (tokenString string, err error) {
-	expirationTime := time.Now().Add(1 * time.Hour)
-	claims := &JWTClaim{
-		Email:    email,
-		Username: username,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
-	tokenString, err = token.SignedString(jwtkey)
-	return
-}
+// func GenerateJWT(email, username string) (tokenString string, err error) {
+// 	expirationTime := time.Now().Add(1 * time.Hour)
+// 	claims := &JWTClaim{
+// 		Email:    email,
+// 		Username: username,
+// 		StandardClaims: jwt.StandardClaims{
+// 			ExpiresAt: expirationTime.Unix(),
+// 		},
+// 	}
+// 	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+// 	tokenString, err = token.SignedString(jwtkey)
+// 	return
+// }
 
 func ReqValidate(c *gin.Context, err error, message string) {
 	c.JSON(

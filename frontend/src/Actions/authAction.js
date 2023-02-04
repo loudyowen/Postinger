@@ -1,6 +1,6 @@
 import { display } from '@mui/system';
 import * as api from '../api';
-import {AUTH, CREATE} from '../constant/actionType'
+import {AUTH} from '../constant/actionType'
 
 export const signUp = (form, navigate) => async (dispatch) =>{
     try{
