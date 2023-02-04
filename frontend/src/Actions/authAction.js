@@ -19,12 +19,12 @@ export const signIn = (form, navigate) => async (dispatch) => {
         // console.log(data)
         // console.log(data.data)
         dispatch({type: AUTH, data: data.data })
-        // console.log(data)
+        console.log(data)
         // console.log(data.data.token)
         // console.log(data.data.userData)
         // return(data.data.token)
-        // navigate('/home')
-        // navigate(0)
+        navigate('/home')
+        navigate(0)
 
     }catch(err){
         console.log(err)

@@ -20,6 +20,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
   const isMenuOpen = Boolean(anchorEl);
   const profileName = post?.UserData?.firstName + " " + post?.UserData?.lastName;
   const user = JSON.parse(localStorage.getItem('profile'))
+  console.log(user)
   const posts = useSelector((state)=>state.posts)
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -79,7 +80,6 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
             color="inherit"
-            
           >
             <MoreVertIcon />
           </IconButton>

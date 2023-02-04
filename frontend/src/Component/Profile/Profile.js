@@ -11,10 +11,14 @@ function Profile() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const userData = JSON.parse(localStorage.getItem('profile'))
-    const user = React.useState(userData.userData)
+    const [user, setUser] = React.useState(userData);
     const [profile, setProfile] = useState({
-      status: "Hello!"
+      id: user?.id,
+      profileImage: user?.profileImage,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
     })
     const handleChange = () => {
 
@@ -25,13 +29,12 @@ function Profile() {
     const handleShowPassword = () => {
 
     }
-    // console.log()
+    console.log(user)
   return (
     <>
     <Navbar />
         <Container className={classes.container} component="main" maxWidth="md">
             <Paper className={`${classes.paper} ${classes.root}`} elevation={3}>
-                Profile
                 <IconButton
                 className={classes.profileImage}
                 size="large"
@@ -39,8 +42,9 @@ function Profile() {
                 aria-haspopup="true"
                 color="inherit"
                 > 
-                  <Avatar sx={{ width: 120, height: 120 }} src={user.profileImage} alt={user?.firstName}>{user?.firstName?.charAt(0)}</Avatar>
+                  <Avatar sx={{ width: 120, height: 120 }} src={profile.profileImage} alt={profile?.firstName}>{profile?.firstName?.charAt(0)}</Avatar>
                 </IconButton>
+                <Typography variant="h4">{ profile?.firstName} {profile?.lastName}</Typography>
             </Paper>
         </Container>
     </>

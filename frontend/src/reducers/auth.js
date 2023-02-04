@@ -7,6 +7,7 @@ const authReducer = (state={authData: null}, action) =>{
         // se
             localStorage.setItem('profile', JSON.stringify({...action?.data.userData}))
             Cookies.set('token', action?.data.token)
+            // Cookies.set('id', action?)
             // Cookies.set('token2', "value2")
             // Cookies.set('abc', "value3")
             // localStorage.setItem('token', JSON.stringify({...action?.token}))

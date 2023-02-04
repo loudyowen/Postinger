@@ -53,7 +53,7 @@ function AccountSetting() {
         }
       }
     // console.log(editProfile.profileImage)
-    // console.log(user)
+    console.log(user)
     const handleChange = (e) => {
         setEditProfile({...editProfile,[e.target.name]: e.target.value})
     }
