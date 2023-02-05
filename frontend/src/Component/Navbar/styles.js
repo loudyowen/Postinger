@@ -5,5 +5,8 @@ export default makeStyles((theme)=>({
       '& .MuiButton-text': {
         color: 'white'
       }
+    },
+    logo: {
+      color:'white'
     }
 }))

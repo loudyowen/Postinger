@@ -10,14 +10,15 @@ export default makeStyles((theme)=>({
         }
       },
     container: {
-      alignItems: 'center'
+      alignItems: 'center',
     },
     paper: {
       width: '80%',
-      top: '50%',
-      left: '50%',
-      position: 'absolute',
-      transform: 'translate(-50%, -50%)',
+      // top: '50%',
+      // left: '50%',
+      // position: 'absolute',
+      // display: 'inline',
+      // transform: 'translate(-50%, -50%)',
       margin: 'auto',
       padding: theme.spacing(2),
       textAlign: 'center'

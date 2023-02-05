@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Menu, MenuItem } from '@material-ui/core';
+import { formatMs, Menu, MenuItem } from '@material-ui/core';
 import { useDispatch,useSelector } from 'react-redux';
 import { deletePost } from '../../../Actions/postAction';
 

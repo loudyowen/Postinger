@@ -41,9 +41,8 @@ const Post = ({setCurrentId,setOpenModal, setSkipId, isProfile}) => {
             isProfile?
               posts.map((postData)=>(
                 <>
-                {/* {console.log(postData.UserData.id)} */}
                 {
-                postData.UserData.id ==user.id&&
+                // postData.UserData.id ==user.id&&
                 <Grid key={postData.Id} className={classes.PostContainer} container  justifyContent="center">
                   <PostCard post={postData} setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkipId={setSkipId} />
                 </Grid>

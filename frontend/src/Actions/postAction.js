@@ -13,10 +13,11 @@ export const getPosts = () => async (dispatch) =>{
     }
 }
 
-export const getMorePost = (skipIp) => async (dispatch) => {
+export const getMorePost = (skipId) => async (dispatch) => {
+    console.log(skipId)
 // export const getMorePost = (skip) => async (dispatch) => {
     try{
-        const { data } = await api.getMorePosts(skipIp);
+        const { data } = await api.getMorePosts(skipId);
         console.log(data)
         if(data == null){
             return null

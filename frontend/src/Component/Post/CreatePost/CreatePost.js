@@ -49,12 +49,9 @@ const CreatePost = () => {
     dispatch(postStatus({...postData,uId}))
     clear()
   }
-  // console.log(setPostData.postImage)
 const handleUploadImage = async(e) =>{
   try{
     const base64 = e.target.files
-    // console.log(base64)
-    // console.log(base64[0])
     const file = base64
     const image = await resizeFile(file[0])
     console.log(image)
@@ -64,20 +61,6 @@ const handleUploadImage = async(e) =>{
   }
 }
  
-
-  // const handleCompressedUpload = (e) => {
-  //   const image = e.target.files[0];
-  //   console.log(image)
-  //   new Compressor(image, {
-  //     quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
-  //     success: (compressedResult) => {
-  //       // compressedResult has the compressed file.
-  //       // Use the compressed file to upload the images to your server.        
-  //       setPostData({...postData, postImage: compressedResult})
-  //     },
-  //   });
-  // };
-  // console.log({...postData})
  return (
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>
@@ -91,15 +74,8 @@ const handleUploadImage = async(e) =>{
                             type="file"
                             multiple={false}
                             accept="image/*"
-                            // onDone={({base64})=> setPostData({...postData, postImage: base64})}
                             onChange={handleUploadImage}
                           />
-                          {/* <input
-                            accept="image/*,capture=camera"
-                            capture="”camera"
-                            type="file"
-                            onChange={(event) => handleCompressedUpload(event)}
-                          /> */}
                       </div>
                     </Grid>
                     <Grid item xs={4}>

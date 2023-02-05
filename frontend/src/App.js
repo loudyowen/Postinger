@@ -26,7 +26,6 @@ const darkTheme = createTheme({
 function App() {
   const userData = JSON.parse(localStorage.getItem('profile'))
   const [cookies, setCookies] = useCookies(['token'])
-  // Cookies.set('token', 'bar')
   const cookie = Cookies.get('token')
   console.log(cookies)
   console.log(cookie)

@@ -141,15 +141,15 @@ func GetMorePost() gin.HandlerFunc {
 		lookupStage = bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
 		unwindStage = bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
 		limit = bson.D{{"$limit", 1}}
-		skip = bson.D{{"$skip", skipId.Skip}}
 		sort = bson.D{{"$sort", bson.D{{"id", -1}}}}
+		skip = bson.D{{"$skip", skipId.Skip}}
 
 		//join table post and user
 		if skipId.UserId != "" {
 			var showLoadedCursor *mongo.Cursor
 			matchStage = bson.D{{"$match", bson.D{{"uid", uid}}}}
-			// need to fix: for now just call all post that matched uid, but it need to be called one by one
-			showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, matchStage, unwindStage, sort})
+			// showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, matchStage, unwindStage, sort})
+			showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, matchStage, unwindStage, sort, skip, limit})
 			if err != nil {
 				panic(err)
 			}
@@ -163,6 +163,7 @@ func GetMorePost() gin.HandlerFunc {
 			)
 		} else {
 			var showLoadedCursor *mongo.Cursor
+			// skip = bson.D{{"$skip", skipId.Skip}}
 			showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage, sort, skip, limit})
 			if err != nil {
 				panic(err)

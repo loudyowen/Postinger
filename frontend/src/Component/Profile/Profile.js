@@ -13,7 +13,8 @@ function Profile() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+    const [currentId, setCurrentId] = useState(null);
+    const [openModal, setOpenModal] = useState(false)
     const posts = useSelector((state)=>state.posts)
     const userData = JSON.parse(localStorage.getItem('profile'))
     const [user, setUser] = React.useState(userData);
@@ -33,7 +34,7 @@ function Profile() {
       console.log("post: "+posts.length)
       if (posts.length == skipId.skip){
         dispatch(getMorePost(skipId))
-        setSkipId({skip: posts.length+1})
+        setSkipId({skip: posts.length+1,userId: userId})
       }
     }
 
@@ -41,24 +42,32 @@ function Profile() {
     <>
     <Navbar />
         <Container className={classes.container} component="main" maxWidth="md">
-            <Paper className={`${classes.paper} ${classes.root}`} elevation={3}>
-                <IconButton
-                className={classes.profileImage}
-                size="large"
-                edge="end"
-                aria-haspopup="true"
-                color="inherit"
-                > 
-                  <Avatar sx={{ width: 120, height: 120 }} src={profile.profileImage} alt={profile?.firstName}>{profile?.firstName?.charAt(0)}</Avatar>
-                </IconButton>
-                <Typography variant="h4">{ profile?.firstName} {profile?.lastName}</Typography>
-            </Paper>
-            <Post isProfile={true}/>
-            {posts.length!=0 && 
-            <InView as="div" onChange={handleLoadMore}>
-                <h1><CircularProgress /></h1>
-            </InView>
-            }
+            <Grid item xs={12} sm={10} md={10}>
+                <Paper className={`${classes.paper} ${classes.root}`} elevation={3}>
+                    <IconButton
+                    className={classes.profileImage}
+                    size="large"
+                    edge="end"
+                    aria-haspopup="true"
+                    color="inherit"
+                    > 
+                      <Avatar sx={{ width: 120, height: 120 }} src={profile.profileImage} alt={profile?.firstName}>{profile?.firstName?.charAt(0)}</Avatar>
+                    </IconButton>
+                    <Typography variant="h4">{ profile?.firstName} {profile?.lastName}</Typography>
+                </Paper>
+            </Grid>
+            <Grid item xs={12} sm={10} md={10}>
+              
+              {/* <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} isProfile={true}/>  */}
+              {/* try this */}
+              {console.log("post length: "+posts.length)}
+              <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkipId={setSkipId} isProfile={true}/> 
+              {posts.length!=0 && 
+              <InView as="div" onChange={handleLoadMore}>
+                  <h1><CircularProgress /></h1>
+              </InView>
+              }
+            </Grid>
         </Container>
     </>
   )

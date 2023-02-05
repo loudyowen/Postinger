@@ -200,6 +200,7 @@ const Navbar = () => {
           </IconButton>
           <Button className={classes.logoBtn} disableRipple onClick={handleLogoBtn} >
             <Typography
+              className={classes.logo}
               variant="h6"
               noWrap
               component="div"
