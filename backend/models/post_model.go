@@ -24,6 +24,11 @@ type PostCard struct {
 	UserData  UserPost           `bson:"userData"`
 }
 
-type SkipStep struct {
-	Skip int `json: "skip"`
+// type SkipStep struct {
+// 	Skip int `json: "skip"`
+// }
+
+type SkipId struct {
+	Skip   int    `json: "skip"`
+	UserId string `json: "userId"`
 }

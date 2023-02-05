@@ -28,7 +28,10 @@ function Home() {
     const [currentId, setCurrentId] = useState(null);
     const [openModal, setOpenModal] = useState(false)
     // const [cookies, setCookie] = useCookies(["token"]);
-    const [skip,setSkip] = useState(2)
+    const [skipId,setSkipId] = useState({
+        skip: 2,
+        userId: ""
+    })
     const dispatch = useDispatch();
     const posts = useSelector((state)=>state.posts)
     const classes = useStyles();
@@ -38,13 +41,13 @@ function Home() {
     }
     // console.log(cookies.token)
     const handleLoadMore = () =>{
-        console.log("skip data:",skip)
-        console.log(posts)
-        if (posts.length == skip){
-          dispatch(getMorePost(skip))
-          setSkip(posts.length+1)
+        if (posts.length == skipId.skip){
+          dispatch(getMorePost(skipId))
+          setSkipId({skip: posts.length+1})
         }
       }
+
+      console.log("home: "+skipId.skip)
     
     return (
         <Container className={classes.Container} disableGutters={true} maxWidth={false}>
@@ -54,7 +57,7 @@ function Home() {
                 <Grid item xs={12} sm={10} md={10}>
                     <CreatePost />
                     <Grid className={classes.Post}>
-                        <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkip={setSkip}  />
+                        <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkipId={setSkipId} isProfile={false} />
                     </Grid>
                 </Grid>
                 <Grid item xs={false} sm={1} md={1} />

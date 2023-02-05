@@ -14,7 +14,7 @@ import { Menu, MenuItem } from '@material-ui/core';
 import { useDispatch,useSelector } from 'react-redux';
 import { deletePost } from '../../../Actions/postAction';
 
-const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
+const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
@@ -23,7 +23,6 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
   
   
   const posts = useSelector((state)=>state.posts)
-  console.log("post: "+post+"\nuserId: "+user.id+"\npostId: "+post.id)
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -40,7 +39,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
     console.log("called menu delete")
     dispatch(deletePost(post.Id))
     // if(posts.length==skip)
-    setSkip(posts.length-1)
+    setSkipId({skip: posts.length-1})
   }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -65,6 +64,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
       <MenuItem onClick={handleMenuDelete}>Delete</MenuItem>
     </Menu>
   );
+
   
   return (
     <Card sx={{ width: 550, marginTop: 2, overflowY:'auto', boxShadow: 4} }>
@@ -73,7 +73,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkip}) => {
           <Avatar src={post?.UserData?.profileImage} alt={post?.UserData?.firstName}>{post?.UserData?.firstName?.charAt(0)}</Avatar>
         }
         action={
-            user.id === post.id && 
+            user.id === post.UserData.id && 
             <IconButton
             size="large"
             edge="end"

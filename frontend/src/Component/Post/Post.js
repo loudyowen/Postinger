@@ -9,12 +9,15 @@ import CircularProgress from '@mui/material/CircularProgress';
 // import { useInView } from 'react-intersection-observer'
 import { InView } from 'react-intersection-observer';
 
-const Post = ({setCurrentId,setOpenModal, setSkip}) => {
+const Post = ({setCurrentId,setOpenModal, setSkipId, isProfile}) => {
   // const [skip,setSkip] = useState(2)
   // const limit = 2
+  // const isProfile = isProfile
   const classes = useStyles();
   const dispatch = useDispatch();
   const posts = useSelector((state)=>state.posts)
+  const userData = JSON.parse(localStorage.getItem('profile'))
+  const [user, setUser] = React.useState(userData);
   useEffect(()=>{
     dispatch(getPosts());
   },[getPosts]) 
@@ -35,11 +38,25 @@ const Post = ({setCurrentId,setOpenModal, setSkip}) => {
         !posts.length?<h1 style={{textAlign: "center"}}>Loading <CircularProgress /></h1>:(
           <>
           { 
-            posts.map((postData)=>(
-              <Grid key={postData.Id} className={classes.PostContainer} container  justifyContent="center">
-                <PostCard post={postData} setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkip={setSkip} />
-              </Grid>
-              ))
+            isProfile?
+              posts.map((postData)=>(
+                <>
+                {/* {console.log(postData.UserData.id)} */}
+                {
+                postData.UserData.id ==user.id&&
+                <Grid key={postData.Id} className={classes.PostContainer} container  justifyContent="center">
+                  <PostCard post={postData} setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkipId={setSkipId} />
+                </Grid>
+                }
+                </>
+                ))
+
+            :
+              posts.map((postData)=>(
+                <Grid key={postData.Id} className={classes.PostContainer} container  justifyContent="center">
+                  <PostCard post={postData} setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkipId={setSkipId} />
+                </Grid>
+                ))
             } 
            {/* { dispatch(getMorePost(skip)),
             setSkip(skip+2)} */}

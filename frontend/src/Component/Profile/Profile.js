@@ -3,33 +3,40 @@ import React, { useState } from 'react'
 import Input from '../Input/Input'
 import Navbar from '../Navbar/Navbar'
 import useStyles from './styles'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate}from 'react-router-dom'
-
-
+import Post from '../Post/Post'
+import { getMorePost, getPosts  } from '../../Actions/postAction';
+import CircularProgress from '@mui/material/CircularProgress';
+import { InView } from 'react-intersection-observer';
 function Profile() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    
+    const posts = useSelector((state)=>state.posts)
     const userData = JSON.parse(localStorage.getItem('profile'))
     const [user, setUser] = React.useState(userData);
+    const userId = user.id;
+    const [skipId,setSkipId] = useState({
+      skip: 2,
+      userId: userId 
+    })
     const [profile, setProfile] = useState({
       id: user?.id,
       profileImage: user?.profileImage,
       firstName: user?.firstName,
       lastName: user?.lastName,
     })
-    const handleChange = () => {
-
+    console.log("profile: "+skipId.skip)
+    const handleLoadMore = () =>{
+      console.log("post: "+posts.length)
+      if (posts.length == skipId.skip){
+        dispatch(getMorePost(skipId))
+        setSkipId({skip: posts.length+1})
+      }
     }
-    const handleSubmit = () => {
 
-    }
-    const handleShowPassword = () => {
-
-    }
-    console.log(user)
   return (
     <>
     <Navbar />
@@ -46,6 +53,12 @@ function Profile() {
                 </IconButton>
                 <Typography variant="h4">{ profile?.firstName} {profile?.lastName}</Typography>
             </Paper>
+            <Post isProfile={true}/>
+            {posts.length!=0 && 
+            <InView as="div" onChange={handleLoadMore}>
+                <h1><CircularProgress /></h1>
+            </InView>
+            }
         </Container>
     </>
   )
