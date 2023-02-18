@@ -37,6 +37,12 @@ function Profile() {
       }
     }
 
+    // useEffect(() => {
+      // dispatch({
+
+      // });
+    // }, []);
+
   return (
     <>
     <Navbar />

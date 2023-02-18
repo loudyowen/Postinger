@@ -5,6 +5,7 @@ export const FETCH_ALL = 'FETCH_ALL'
 export const UPDATE = 'UPDATE'
 export const LIKE = 'LIKE'
 export const FETCH_MORE = 'FETCH_MORE'
+export const EMPTY_POST = 'EMPTY_POST'
 
 
 // auth

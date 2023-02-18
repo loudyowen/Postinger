@@ -47,7 +47,7 @@ function Home() {
         }
       }
 
-      console.log("home: "+skipId.skip)
+    //   console.log("home: "+skipId.skip)
     
     return (
         <Container className={classes.Container} disableGutters={true} maxWidth={false}>

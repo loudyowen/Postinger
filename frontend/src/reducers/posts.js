@@ -1,4 +1,4 @@
-import {CREATE,UPDATE,LIKE, DELETE,FETCH_ALL,FETCH_MORE} from '../constant/actionType'
+import {CREATE,UPDATE,LIKE, DELETE,FETCH_ALL,FETCH_MORE, EMPTY_POST} from '../constant/actionType'
 
 export default (posts = [], action) => {
     switch(action.type){
@@ -6,9 +6,10 @@ export default (posts = [], action) => {
             // console.log("Fetch:", action.payload)
             return action.payload;
         case FETCH_MORE:
-         
-            // console.log(action.payload)
             return [...posts, ...action.payload];
+        case EMPTY_POST:
+            console.log("Empty payload : ", action.payload)
+            return action.payload;
         case CREATE:
             // console.log("CreateL ", action.payload)
             // for(let i=0;i<posts.length-1;i++){

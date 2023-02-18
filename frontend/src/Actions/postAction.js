@@ -1,6 +1,6 @@
 import { display } from '@mui/system';
 import * as api from '../api';
-import {CREATE, DELETE, FETCH_ALL, FETCH_MORE, EDIT_MODAL, UPDATE} from '../constant/actionType'
+import {CREATE, DELETE, FETCH_ALL, FETCH_MORE, EDIT_MODAL,EMPTY_POST, UPDATE} from '../constant/actionType'
 
 export const getPosts = () => async (dispatch) =>{
     try {
@@ -13,12 +13,12 @@ export const getPosts = () => async (dispatch) =>{
 
 export const getPostsProfile = (id) => async (dispatch) => {
     try{
-        // console.log("get post profile ",id)
-        const { data } = await api.getPostsProfile(id);
+        let { data } = await api.getPostsProfile(id);
         // console.log(data)
         if(data == null) {
             data = 0
         }
+        dispatch({type: EMPTY_POST, payload: []})
         dispatch({type: FETCH_ALL, payload: data})
     }catch(err){
         console.log(err)
@@ -28,7 +28,7 @@ export const getPostsProfile = (id) => async (dispatch) => {
 export const getMorePost = (skipId) => async (dispatch) => {
     try{
         const { data } = await api.getMorePosts(skipId);
-        console.log(data)
+        // console.log(data)
         if(data == null){
             return null
         }
