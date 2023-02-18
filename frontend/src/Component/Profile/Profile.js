@@ -60,10 +60,11 @@ function Profile() {
               {/* <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} isProfile={true}/>  */}
               {/* try this */}
               <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkipId={setSkipId} isProfile={true}/> 
-              {posts.length!=0 && 
+              {posts.length!=0 ? 
               <InView as="div" onChange={handleLoadMore}>
                   <h1><CircularProgress /></h1>
-              </InView>
+              </InView>:
+              <Typography>No Data</Typography>
               }
             </Grid>
         </Container>

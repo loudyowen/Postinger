@@ -8,6 +8,7 @@ import useStyles from './Styles'
 import CircularProgress from '@mui/material/CircularProgress';
 // import { useInView } from 'react-intersection-observer'
 import { InView } from 'react-intersection-observer';
+import { Typography } from '@mui/material';
 
 const Post = ({setCurrentId,setOpenModal, setSkipId, isProfile}) => {
   // const limit = 2
@@ -30,10 +31,13 @@ const Post = ({setCurrentId,setOpenModal, setSkipId, isProfile}) => {
     }
   }, [dispatch, isProfile]);
 
+  // if(posts==null){
+  //   posts.length = 0;
+  // }
 
 
   return (
-        !posts.length?<h1 style={{textAlign: "center"}}>Loading <CircularProgress /></h1>:(
+        !posts.length ?<h1 style={{textAlign: "center"}}>Loading <CircularProgress /></h1>:(
           <>
           { 
             isProfile?

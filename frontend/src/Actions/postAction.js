@@ -15,7 +15,10 @@ export const getPostsProfile = (id) => async (dispatch) => {
     try{
         // console.log("get post profile ",id)
         const { data } = await api.getPostsProfile(id);
-        console.log(data)
+        // console.log(data)
+        if(data == null) {
+            data = 0
+        }
         dispatch({type: FETCH_ALL, payload: data})
     }catch(err){
         console.log(err)
