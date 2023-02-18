@@ -83,9 +83,9 @@ func GetAllPosts() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 		defer cancel()
 		var showLoadedCursor *mongo.Cursor
-
 		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
 		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
+
 		limit := bson.D{{"$limit", 2}}
 		// skip := bson.D{{"$skip", 2}}
 		sort := bson.D{{"$sort", bson.D{{"id", -1}}}}
@@ -101,6 +101,33 @@ func GetAllPosts() gin.HandlerFunc {
 			panic(err)
 		}
 
+		c.JSON(
+			http.StatusOK,
+			&showsLoaded,
+		)
+	}
+}
+
+func GetAllPostsProfile() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+		defer cancel()
+		userId := c.Param("id")
+		objId, _ := primitive.ObjectIDFromHex(userId)
+		var showLoadedCursor *mongo.Cursor
+		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
+		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
+		matchStage := bson.D{{"$match", bson.D{{"uid", objId}}}}
+		limit := bson.D{{"$limit", 2}}
+		sort := bson.D{{"$sort", bson.D{{"id", -1}}}}
+		showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage, matchStage, sort, limit})
+		if err != nil {
+			panic(err)
+		}
+		var showsLoaded []models.PostCard
+		if err = showLoadedCursor.All(ctx, &showsLoaded); err != nil {
+			panic(err)
+		}
 		c.JSON(
 			http.StatusOK,
 			&showsLoaded,
@@ -177,19 +204,6 @@ func GetMorePost() gin.HandlerFunc {
 				&showsLoaded,
 			)
 		}
-
-		// showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage, sort, skip, limit})
-		// if err != nil {
-		// 	panic(err)
-		// }
-		// var showsLoaded []models.PostCard
-		// if err = showLoadedCursor.All(ctx, &showsLoaded); err != nil {
-		// 	panic(err)
-		// }
-		// c.JSON(
-		// 	http.StatusOK,
-		// 	&showsLoaded,
-		// )
 	}
 }
 
@@ -224,31 +238,6 @@ func GetMorePost() gin.HandlerFunc {
 // 			http.StatusOK,
 // 			&showsLoaded,
 // 		)
-// 	}
-// }
-
-// func Paginate() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-// 		defer cancel()
-// 		// filter := bson.M{}
-// 		// limit, page := int64(2), int64(1)
-// 		data, err := paginate.New(postCollection).Context(ctx).Find()
-// 		if err != nil {
-// 			fmt.Print("Paginate error")
-// 		}
-// 		// fmt.Println(data)
-// 		// var list []models.PostCard
-// 		// for _, raw := range data.Data {
-// 		// var product models.PostCard
-// 		// if marshallErr := bson.Unmarshal(raw, &product); marshallErr == nil {
-// 		// 	list = append(list, product)
-// 		// }
-// 		// fmt.Println(raw)
-
-// 		// }
-// 		// fmt.Println("Paginate data:", list)
-
 // 	}
 // }
 

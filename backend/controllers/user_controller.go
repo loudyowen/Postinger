@@ -115,7 +115,7 @@ func Createuser() gin.HandlerFunc {
 		c.JSON(
 			http.StatusCreated,
 			responses.UserResponse{
-				Data:    map[string]interface{}{"data": userPost},
+				Data:    map[string]interface{}{"message": "user created"},
 				Message: "User Created!",
 				Status:  http.StatusCreated,
 			},

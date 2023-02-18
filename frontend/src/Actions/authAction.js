@@ -5,8 +5,8 @@ import {AUTH} from '../constant/actionType'
 export const signUp = (form, navigate) => async (dispatch) =>{
     try{
         const { data } = await api.signUpApi(form)
-        dispatch({type: AUTH, data: data.data})
-        navigate('/home')
+        // dispatch({type: AUTH, data: data.data})
+        navigate('/')
         navigate(0)
     }catch(error){
         console.log(error)

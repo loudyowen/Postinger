@@ -6,16 +6,23 @@ export const getPosts = () => async (dispatch) =>{
     try {
         const { data } = await api.getPosts();
         dispatch({type: FETCH_ALL, payload: data})
-        // console.table(data)
     } catch (error) {
         console.log(error)
-        // console.log(error.response.data)
+    }
+}
+
+export const getPostsProfile = (id) => async (dispatch) => {
+    try{
+        // console.log("get post profile ",id)
+        const { data } = await api.getPostsProfile(id);
+        console.log(data)
+        dispatch({type: FETCH_ALL, payload: data})
+    }catch(err){
+        console.log(err)
     }
 }
 
 export const getMorePost = (skipId) => async (dispatch) => {
-    console.log(skipId)
-// export const getMorePost = (skip) => async (dispatch) => {
     try{
         const { data } = await api.getMorePosts(skipId);
         console.log(data)

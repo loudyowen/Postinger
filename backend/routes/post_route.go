@@ -13,6 +13,7 @@ func PostRoute(r *gin.Engine) {
 	{
 		auth.POST("/post", controllers.CreatePost())
 		auth.GET("/post", controllers.GetAllPosts())
+		auth.GET("/post/:id", controllers.GetAllPostsProfile())
 		auth.POST("/postMore", controllers.GetMorePost())
 		auth.DELETE("/post/:id", controllers.DeletePost())
 		auth.POST("/post/:id", controllers.UpdatePost())

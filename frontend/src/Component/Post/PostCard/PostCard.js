@@ -13,6 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { formatMs, Menu, MenuItem } from '@material-ui/core';
 import { useDispatch,useSelector } from 'react-redux';
 import { deletePost } from '../../../Actions/postAction';
+import { Button } from '@mui/material';
 
 const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -20,8 +21,6 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
   const isMenuOpen = Boolean(anchorEl);
   const profileName = post?.UserData?.firstName + " " + post?.UserData?.lastName;
   const user = JSON.parse(localStorage.getItem('profile'))
-  
-  
   const posts = useSelector((state)=>state.posts)
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -38,7 +37,6 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
   const handleMenuDelete = () => {
     console.log("called menu delete")
     dispatch(deletePost(post.Id))
-    // if(posts.length==skip)
     setSkipId({skip: posts.length-1})
   }
   const menuId = 'primary-search-account-menu';
@@ -59,7 +57,6 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
       onClose={handleMenuClose}
       
     >
-    
       <MenuItem onClick={handleMenuEdit} >Edit</MenuItem>
       <MenuItem onClick={handleMenuDelete}>Delete</MenuItem>
     </Menu>
@@ -112,9 +109,9 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <Typography>
+        <Button variant='text' sx={{color: 'white'}}>
           Comment
-        </Typography>
+        </Button>
       </CardActions>
     </Card>
   );

@@ -14,11 +14,9 @@ const Input = ({half,name,handleChange,label,autoFocus,type,handleShowPassword})
                 onChange={handleChange}
                 variant="outlined"
                 fullWidth
-                // required
                 label={label}
                 autoFocus={autoFocus}
                 type={type}
-                
                 InputProps={ name === "password" ? {
                     endAdornment: (
                         <InputAdornment position="end">
@@ -35,9 +33,6 @@ const Input = ({half,name,handleChange,label,autoFocus,type,handleShowPassword})
                         color: 'white'
                     }
                 }:{
-                    // style:{
-                    //     color: 'white',
-                    // },
                     inputProps:{ style: {  color: 'white', borderColor: 'white'}}
                 }
             }

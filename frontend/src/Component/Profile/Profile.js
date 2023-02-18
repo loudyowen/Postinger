@@ -29,7 +29,6 @@ function Profile() {
       firstName: user?.firstName,
       lastName: user?.lastName,
     })
-    console.log("profile: "+skipId.skip)
     const handleLoadMore = () =>{
       console.log("post: "+posts.length)
       if (posts.length == skipId.skip){
@@ -60,7 +59,6 @@ function Profile() {
               
               {/* <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} isProfile={true}/>  */}
               {/* try this */}
-              {console.log("post length: "+posts.length)}
               <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkipId={setSkipId} isProfile={true}/> 
               {posts.length!=0 && 
               <InView as="div" onChange={handleLoadMore}>

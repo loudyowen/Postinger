@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Container, Grid, Typography, Paper, Button} from '@mui/material';
+import {Container, Grid, Typography, Paper, Button, FormHelperText} from '@mui/material';
 import useStyles from './styles'
 import {useDispatch} from 'react-redux'
 import {useNavigate}from 'react-router-dom'
@@ -10,6 +10,7 @@ const Auth = () =>{
     const classes = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [error, setError] = useState('');
     const [isSignUp, setIsSignUp] = useState(false)
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const Auth = () =>{
         lastName: '',
         email: '',
         password: '',
+        confirmPassword: '',
         profileImage: ''
     })
 
@@ -34,6 +36,25 @@ const Auth = () =>{
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(isSignUp)
+        if(formData.email==''){
+            setError("Error: Email must not be empty")
+            return
+        }
+        if(formData.password==''){
+            setError("Error: Password must not be empty")
+            return
+        }
+        if(isSignUp){
+            if(formData.firstName==''){
+                setError("Error: First name must not be empty")
+                return
+            }
+            if(formData.password != formData.confirmPassword){
+                setError("Error: Confirm password is not match")
+                return
+            }
+        }
         if(isSignUp){
             dispatch(signUp({...formData},navigate))
         }else{
@@ -44,21 +65,23 @@ const Auth = () =>{
     <Container className={classes.container} component="main" maxWidth="md">
         <Paper className={`${classes.paper} ${classes.root}`} elevation={3}>
         <Typography variant='h5'>{isSignUp ? 'Sign Up' : 'Sign In' }</Typography>
+            <FormHelperText focused sx={{fontSize: 18,textAlign: "center",color: 'red'}}>{error}</FormHelperText>
+
             <form className={classes.form} autoComplete="off" onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                     {isSignUp && (
                         <>
-                            <Input name="firstName" label="First Name"  half autoFocus handleChange={handleChange}  />
+                            <Input name="firstName" label="First Name"  half autoFocus handleChange={handleChange} required  />
                             <Input name="lastName" label="Last Name" half handleChange={handleChange} />
                         </>
                     )}
 
-                    <Input name="email" label="Email" type="email" fullWidth handleChange={handleChange}  />
-                    <Input name="password" label="Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword}  />
+                    <Input name="email" label="Email" type="email" fullWidth handleChange={handleChange} required />
+                    <Input name="password" label="Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword} required />
                     
                     {isSignUp && (
                         <>
-                            <Input name="confirmPassword" label="Confirm Password" type="password" fullWidth handleChange={handleChange}  />
+                            <Input name="confirmPassword" label="Confirm Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword} />
                         <Grid xs={4}>
                             <div className={classes.filebase}>
                             <FileBase
