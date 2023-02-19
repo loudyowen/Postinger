@@ -15,7 +15,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { deletePost } from '../../../Actions/postAction';
 import { Button } from '@mui/material';
 
-const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
+const PostCard = ( {post, setCurrentId, setOpenModalEditPost,setOpenModalComment, setSkipId}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
@@ -31,7 +31,11 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
   };
   const handleMenuEdit = () => {
     setCurrentId(post.Id)
-    setOpenModal(true)
+    setOpenModalEditPost(true)
+    handleMenuClose()
+  }
+  const handleCommentModal = () => {
+    setOpenModalComment(true)
     handleMenuClose()
   }
   const handleMenuDelete = () => {
@@ -109,7 +113,7 @@ const PostCard = ( {post, setCurrentId, setOpenModal, setSkipId}) => {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <Button variant='text' sx={{color: 'white'}}>
+        <Button variant='text' sx={{color: 'white'}} onClick={handleCommentModal}>
           Comment
         </Button>
       </CardActions>

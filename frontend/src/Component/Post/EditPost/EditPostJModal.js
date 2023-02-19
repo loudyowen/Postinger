@@ -105,19 +105,22 @@ const EditPostModal = ({show, handleClose, currentId}) => {
               <Typography variant="h6">Edit Image :</Typography>
             </Grid>
             <Grid item xs={12}>
-              <div>
-                <Dropzone
-                  onDrop={handleDrop}
-                  noKeyboard
-                  style={{ width: '250px', height: '250px' }}
-                  >
-                  {({ getRootProps, getInputProps }) => (
-                      <div {...getRootProps()}>
-                      <img width={"80%"} height={"80%"} src={editPost.postImage} />
-                      <input {...getInputProps()} />
+              <div style={{ width: '100%', height: '100%', maxHeight: '80%', maxWidth: '80%', userSelect: 'none' }}>
+              <Dropzone onDrop={handleDrop} noKeyboard style={{ width: '250px', height: '250px', position: 'relative' }}>
+                {({ getRootProps, getInputProps }) => (
+                  <div {...getRootProps()}>
+                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                      <img src={editPost.postImage} style={{ width: '100%', height: '100%', maxHeight: '80%', maxWidth: '80%' }} />
+                      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', maxHeight: '80%', maxWidth: '80%',display: 'flex', justifyContent: 'center', alignItems: 'center', userSelect: 'none' }}>
+                        <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: '10px', borderRadius: '5px', color: '#fff', fontWeight: 'bold' }}>
+                          Click or Drop image here
+                        </div>
+                      </div>
+                    </div>
+                    <input {...getInputProps()} />
                   </div>
-                  )}
-                </Dropzone>
+                )}
+              </Dropzone>
               </div>
             </Grid>
             <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>

@@ -16,6 +16,7 @@ import CreatePost from '../Post/CreatePost/CreatePost';
 import { useNavigate } from 'react-router-dom';
 
 import EditPostModal from '../Post/EditPost/EditPostJModal';
+import CommentModal from '../Post/Comment/CommentModal';
 import { Modal } from '@mui/material';
 
 import { getMorePost, getPosts  } from '../../Actions/postAction';
@@ -26,7 +27,8 @@ import { InView } from 'react-intersection-observer';
 
 function Home() {
     const [currentId, setCurrentId] = useState(null);
-    const [openModal, setOpenModal] = useState(false)
+    const [openModalEditPost, setOpenModalEditPost] = useState(false)
+    const [openModalComment, setOpenModalComment] = useState(false)
     // const [cookies, setCookie] = useCookies(["token"]);
     const [skipId,setSkipId] = useState({
         skip: 2,
@@ -37,7 +39,8 @@ function Home() {
     const classes = useStyles();
     const handleClose = () => {
         setCurrentId(null)
-        setOpenModal(false)
+        setOpenModalEditPost(false)
+        setOpenModalComment(false)
     }
     // console.log(cookies.token)
     const handleLoadMore = () =>{
@@ -46,9 +49,6 @@ function Home() {
           setSkipId({skip: posts.length+1})
         }
       }
-
-    //   console.log("home: "+skipId.skip)
-    
     return (
         <Container className={classes.Container} disableGutters={true} maxWidth={false}>
             <Navbar  />
@@ -57,11 +57,12 @@ function Home() {
                 <Grid item xs={12} sm={10} md={10}>
                     <CreatePost />
                     <Grid className={classes.Post}>
-                        <Post setCurrentId={setCurrentId} setOpenModal={setOpenModal} setSkipId={setSkipId} isProfile={false} />
+                        <Post setCurrentId={setCurrentId} setOpenModalEditPost={setOpenModalEditPost} setOpenModalComment={setOpenModalComment} setSkipId={setSkipId} isProfile={false} />
                     </Grid>
                 </Grid>
                 <Grid item xs={false} sm={1} md={1} />
-                <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModal} handleClose={handleClose} />
+                <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModalEditPost} handleClose={handleClose} />
+                <CommentModal show={openModalComment} handleClose={handleClose} />
                 {posts.length!=0 && 
                 <InView as="div" onChange={handleLoadMore}>
                     <h1><CircularProgress /></h1>

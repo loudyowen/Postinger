@@ -84,10 +84,12 @@ const Auth = () =>{
                             <Input name="confirmPassword" label="Confirm Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword} />
                         <Grid xs={4}>
                             <div className={classes.filebase}>
+                            <Typography sx={{textAlign: 'left'}}>Profile Image:</Typography>
                             <FileBase
                                     type="file"
                                     multiple={false}
                                     onDone={({base64})=> setFormData({...formData, profileImage: base64})}
+                                    name="profileImage"
                                 />
                             </div>
                         </Grid>
