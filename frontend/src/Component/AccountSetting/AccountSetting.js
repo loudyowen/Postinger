@@ -97,7 +97,7 @@ function AccountSetting() {
                             )}
                           </Dropzone>
                         </IconButton>
-                        <Grid xs={12}>
+                        <Grid item xs={12}>
                             <Typography className={classes.textMenu} variant='h6'>Change Name:</Typography>
                         </Grid>
                             <Input name="firstName" label="First Name"  half autoFocus handleChange={handleChange}  />

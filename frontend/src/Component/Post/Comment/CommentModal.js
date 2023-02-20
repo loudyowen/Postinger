@@ -1,16 +1,16 @@
 import React,{useState, useEffect} from 'react'
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Grid, TextField } from '@material-ui/core';
-import FileBase from 'react-file-base64';
-import { useDispatch, useSelector } from "react-redux";
-import { updatePost } from '../../../Actions/postAction';
+// import { Grid, TextField } from '@material-ui/core';
+// import FileBase from 'react-file-base64';
+// import { useDispatch, useSelector } from "react-redux";
+// import { updatePost } from '../../../Actions/postAction';
 import useStyles from './Styles'
-import Dropzone from 'react-dropzone';
-import AvatarEditor from 'react-avatar-editor';
-import Resizer from "react-image-file-resizer";
+// import Dropzone from 'react-dropzone';
+// import AvatarEditor from 'react-avatar-editor';
+// import Resizer from "react-image-file-resizer";
 const style = {
   position: 'absolute',
   top: '50%',

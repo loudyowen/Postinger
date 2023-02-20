@@ -8,7 +8,7 @@ export default (posts = [], action) => {
         case FETCH_MORE:
             return [...posts, ...action.payload];
         case EMPTY_POST:
-            console.log("Empty payload : ", action.payload)
+            // console.log("Empty payload : ", action.payload)
             return action.payload;
         case CREATE:
             // console.log("CreateL ", action.payload)

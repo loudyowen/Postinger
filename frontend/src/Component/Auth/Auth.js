@@ -82,7 +82,7 @@ const Auth = () =>{
                     {isSignUp && (
                         <>
                             <Input name="confirmPassword" label="Confirm Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword} />
-                        <Grid xs={4}>
+                        <Grid item xs={4}>
                             <div className={classes.filebase}>
                             <Typography sx={{textAlign: 'left'}}>Profile Image:</Typography>
                             <FileBase

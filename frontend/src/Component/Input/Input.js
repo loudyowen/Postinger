@@ -9,7 +9,7 @@ const Input = ({half,name,handleChange,label,autoFocus,type,handleShowPassword})
 
         <Grid item={true} xs={12} sm={half?6:12}>
             <TextField 
-                color="neutral"
+                color="primary"
                 name={name}
                 onChange={handleChange}
                 variant="outlined"
@@ -29,7 +29,7 @@ const Input = ({half,name,handleChange,label,autoFocus,type,handleShowPassword})
                         color: 'white',
                         
                     },
-                    InputLabelProps: {
+                    inputlabelprops: {
                         color: 'white'
                     }
                 }:{
