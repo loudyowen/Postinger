@@ -39,24 +39,16 @@ function Profile() {
         setOpenModalComment(false)
     }
     const handleLoadMore = () =>{
-      // console.log("post: "+posts.length)
       if (posts.length == skipId.skip){
         dispatch(getMorePost(skipId))
         setSkipId({skip: posts.length+1,userId: userId})
       }
     }
 
-    // useEffect(() => {
-      // dispatch({
-
-      // });
-    // }, []);
-
   return (
     <>
     <Navbar />
         <Container className={classes.container} component="main" maxWidth="md">
-           {/* profile box */}
             <Grid item xs={12} sm={10} md={10}>
                 <Paper className={`${classes.paper} ${classes.root}`} elevation={3}>
                     <IconButton
@@ -71,7 +63,6 @@ function Profile() {
                     <Typography variant="h4">{ profile?.firstName} {profile?.lastName}</Typography>
                 </Paper>
             </Grid>
-            {/* post data */}
             <Grid item xs={12} sm={10} md={10}>
               <Post setCurrentId={setCurrentId} setOpenModalEditPost={setOpenModalEditPost} setOpenModalComment={setOpenModalComment} setSkipId={setSkipId} isProfile={true}/> 
               <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModalEditPost} handleClose={handleClose} />

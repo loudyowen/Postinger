@@ -21,29 +21,6 @@ import (
 var userCollection *mongo.Collection = configs.GetCollection(configs.DB, "Users")
 var validate = validator.New()
 
-// var jwtkey = []byte("supersecretkey") //should be stored in env
-// type JWTClaim struct {
-// 	Email string `json:"email,omitempty" validate:"required"`
-// 	// FirstName string `json:"firstName,omitempty" validate:"required"`
-// 	// LastName  string `json:"lastName,omitempty"`
-// 	Username string `json:"firstName"+"lastName"`
-// 	jwt.StandardClaims
-// }
-
-// func GenerateJWT(email, username string) (tokenString string, err error) {
-// 	expirationTime := time.Now().Add(1 * time.Hour)
-// 	claims := &JWTClaim{
-// 		Email:    email,
-// 		Username: username,
-// 		StandardClaims: jwt.StandardClaims{
-// 			ExpiresAt: expirationTime.Unix(),
-// 		},
-// 	}
-// 	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
-// 	tokenString, err = token.SignedString(jwtkey)
-// 	return
-// }
-
 func ReqValidate(c *gin.Context, err error, message string) {
 	c.JSON(
 		http.StatusBadRequest,
@@ -182,15 +159,6 @@ func GetUser() gin.HandlerFunc {
 			Email:        user.Email,
 			ProfileImage: user.ProfileImage,
 		}
-		// cookie := c.SetCookie("token", tokenString, 60*60*24, "/", "http://127.0.0.1:3000", false, false)
-		//  c.SetCookie()
-		// c.Cookie(tokenString)
-		// cookie := c.Cookie{
-		// 	Name:     "token",
-		// 	Value:    tokenString,
-		// 	Expires:  time.Now().Add(time.Hour * 24),
-		// 	HTTPOnly: true,
-		// }
 
 		c.JSON(
 			http.StatusOK,
@@ -200,39 +168,6 @@ func GetUser() gin.HandlerFunc {
 				Status:  http.StatusOK,
 			},
 		)
-
-		// c.JSON(http.StatusOK, gin.H{"token": tokenString})
-
-		// cookie_token, err := c.Cookie("token")
-
-		// if err != nil {
-		// 	cookie_token = tokenString
-		// 	// c.SetCookie("token", cookie_token, 3600, "/", "127.0.0.1", true, true)
-		// 	c.SetCookie("token", cookie_token, 60*60*24, "/", "localhost:3000", true, false)
-		// }
-		// cookie, err := c.Cookie("gin_cookie")
-
-		// if err != nil {
-		// cookie = "NotSet"
-		// c.SetCookie("cookie1", "test", 3600, "/", "localhost:3000", false, false)
-		// c.SetCookie("cookie2", "test", 3600, "/", "localhost:3000", true, false)
-		// c.SetCookie("cookie3", "test", 3600, "/", "localhost:3000", false, true)
-		// c.SetCookie("cookie4", "test", 3600, "/", "localhost:3000", true, true)
-		// c.SetCookie("token", "1234", 3600, "/", "localhost:3000", true, true)
-		// }
-
-		// c.Header("result", cookie_token)
-		// cookie := http.Cookie{
-		// 	Name:  "session_token",
-		// 	Value: tokenString,
-		// }
-		// http.SetCookie(c.Writer, &cookie)
-		// c.Cookie(
-		// 	http.Cookie{
-		// 		Name:  "session_token",
-		// 		Value: tokenString,
-		// 	},
-		// )
 
 	}
 }

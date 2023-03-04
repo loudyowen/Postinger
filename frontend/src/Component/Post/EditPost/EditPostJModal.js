@@ -73,8 +73,6 @@ const EditPostModal = ({show, handleClose, currentId}) => {
       console.log(err);
     }
   }
-// console.log(editPost.text)
-// console.log(postEdit ? postEdit.PostText : null)
 
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >

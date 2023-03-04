@@ -64,8 +64,7 @@ func CreatePost() gin.HandlerFunc {
 		}
 		var postCard []models.PostCard
 		if err = showLoadedCursor.All(ctx, &postCard); err != nil {
-			fmt.Println("ERROR DI CURSOR")
-
+			fmt.Println(err)
 		}
 
 		c.JSON(
@@ -87,16 +86,12 @@ func GetAllPosts() gin.HandlerFunc {
 		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
 
 		limit := bson.D{{"$limit", 2}}
-		// skip := bson.D{{"$skip", 2}}
 		sort := bson.D{{"$sort", bson.D{{"id", -1}}}}
 		showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage, sort, limit})
-		// showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage})
 		if err != nil {
 			panic(err)
 		}
 		var showsLoaded []models.PostCard
-		// showLoadedCursor.
-		// iterate cursor then using limit, and skip & limit the next load
 		if err = showLoadedCursor.All(ctx, &showsLoaded); err != nil {
 			panic(err)
 		}
@@ -139,30 +134,19 @@ func GetMorePost() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 		defer cancel()
-		// var showLoadedCursor *mongo.Cursor
-		// var step int
 		var skipId models.SkipId
-		// id := c.Param("id")
-		// if id != "" {
-		// 	fmt.Println(id)
-		// }
-
 		if err := c.BindJSON(&skipId); err != nil {
 			fmt.Println(err)
-			fmt.Println("error bind skipId")
 			return
 		}
 
 		uid, _ := primitive.ObjectIDFromHex(skipId.UserId)
-		// fmt.Println(skipId.Skip)
-		// fmt.Println(skipId.UserId)
 		lookupStage := bson.D{}
 		unwindStage := bson.D{}
 		limit := bson.D{}
 		skip := bson.D{}
 		sort := bson.D{}
 		matchStage := bson.D{}
-		// showLoadedCursor := bson.D{}
 
 		//look data from users with post.uid == user.id as userData
 		lookupStage = bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
@@ -175,7 +159,6 @@ func GetMorePost() gin.HandlerFunc {
 		if skipId.UserId != "" {
 			var showLoadedCursor *mongo.Cursor
 			matchStage = bson.D{{"$match", bson.D{{"uid", uid}}}}
-			// showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, matchStage, unwindStage, sort})
 			showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, matchStage, unwindStage, sort, skip, limit})
 			if err != nil {
 				panic(err)
@@ -190,7 +173,6 @@ func GetMorePost() gin.HandlerFunc {
 			)
 		} else {
 			var showLoadedCursor *mongo.Cursor
-			// skip = bson.D{{"$skip", skipId.Skip}}
 			showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage, sort, skip, limit})
 			if err != nil {
 				panic(err)
@@ -207,47 +189,12 @@ func GetMorePost() gin.HandlerFunc {
 	}
 }
 
-// func GetMorePost() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-// 		defer cancel()
-// 		var showLoadedCursor *mongo.Cursor
-// 		var step int
-
-// 		if err := c.BindJSON(&step); err != nil {
-// 			// ReqValidate(c, err, "Request Error")
-// 			fmt.Println("error bind")
-// 			return
-// 		}
-// 		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
-// 		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
-// 		limit := bson.D{{"$limit", 1}}
-// 		skip := bson.D{{"$skip", step}}
-// 		sort := bson.D{{"$sort", bson.D{{"id", -1}}}}
-// 		// memory := bson.D{{"$allowDiskUse", true}}
-
-// 		showLoadedCursor, err := postCollection.Aggregate(ctx, mongo.Pipeline{lookupStage, unwindStage, sort, skip, limit})
-// 		if err != nil {
-// 			panic(err)
-// 		}
-// 		var showsLoaded []models.PostCard
-// 		if err = showLoadedCursor.All(ctx, &showsLoaded); err != nil {
-// 			panic(err)
-// 		}
-// 		c.JSON(
-// 			http.StatusOK,
-// 			&showsLoaded,
-// 		)
-// 	}
-// }
-
 func UpdatePost() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 		var post models.Post
 		postId := c.Param("id")
-		// need update only valid user ID can update the post
 		objId, _ := primitive.ObjectIDFromHex(postId)
 
 		if err := c.BindJSON(&post); err != nil {
@@ -285,7 +232,6 @@ func UpdatePost() gin.HandlerFunc {
 			}
 			var postCard []models.PostCard
 			if err = showLoadedCursor.All(ctx, &postCard); err != nil {
-				fmt.Println("ERROR DI CURSOR")
 				panic(err)
 			}
 

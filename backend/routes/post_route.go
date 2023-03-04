@@ -8,7 +8,6 @@ import (
 )
 
 func PostRoute(r *gin.Engine) {
-	// r.GET("/paginate", controllers.Paginate())
 	auth := r.Use(middlewares.Auth())
 	{
 		auth.POST("/post", controllers.CreatePost())
