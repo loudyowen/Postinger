@@ -31,19 +31,18 @@ function App() {
   return (
      <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <BrowserRouter>
+      <BrowserRouter basename="/">
           <Container disableGutters={true} maxWidth={false}>
               <Routes>
-                  {userData ?
-                    <Route path="/" element={<Navigate to="/home" replace />} />
-                    :
+                  { userData==null ?
                     <Route path="/home" element={<Navigate to="/" replace />} />
+                    :
+                    <Route path="/" element={<Navigate to="/home" replace />} />
                   }
-                  <Route path="/" exact element={<Auth />} />  
-                  <Route path="/home" exact element={<Home />} />
+                  <Route path="/"  element={<Auth />} />  
+                  <Route path="/home"  element={<Home />} />
                   <Route path="/profile" exact element={<Profile />} />
                   <Route path="/accountSetting" exact element={<AccountSetting />} />
-                  {/* <Route path="/testing" exact element={<Testing/>}/> */}
               </Routes>
           </Container>
       </BrowserRouter>

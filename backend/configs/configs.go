@@ -28,16 +28,12 @@ func ConnectDB() *mongo.Client {
 		log.Fatal(err)
 	}
 
-	// client.adminCommand({{setParameter: 1},{allowDiskUse: true}})
-	//
 	fmt.Print("==> Database is connected!!!\n")
 	return client
 }
 
 // Client instances => usefull for creating databases colletions
 var DB *mongo.Client = ConnectDB()
-
-// DB.allowDiskUse/
 
 // getting databases collections
 func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {

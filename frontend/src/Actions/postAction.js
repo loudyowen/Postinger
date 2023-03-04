@@ -14,7 +14,6 @@ export const getPosts = () => async (dispatch) =>{
 export const getPostsProfile = (id) => async (dispatch) => {
     try{
         let { data } = await api.getPostsProfile(id);
-        // console.log(data)
         if(data == null) {
             data = 0
         }
@@ -28,7 +27,6 @@ export const getPostsProfile = (id) => async (dispatch) => {
 export const getMorePost = (skipId) => async (dispatch) => {
     try{
         const { data } = await api.getMorePosts(skipId);
-        // console.log(data)
         if(data == null){
             return null
         }
@@ -44,7 +42,6 @@ export const postStatus = (postData) => async (dispatch) =>{
     try{
         const { data } = await api.postStatus(postData)
         const payload = data.data.data;
-       
         dispatch({type: CREATE, payload: payload})
     }catch(error){
         console.log(error)
@@ -55,8 +52,6 @@ export const deletePost = (postId) => async (dispatch) =>{
     try{
         await api.deletePost(postId)
         dispatch({type: DELETE, payload: postId})
-    console.log("DELETE POST CALLED!!!")
-
     }catch(error){
         console.log(error)
     }

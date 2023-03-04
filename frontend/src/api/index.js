@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useCookies } from "react-cookie";
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -17,29 +16,16 @@ function getCookie(cname) {
     return "";
   }
 
-const API = axios.create({baseURL: "http://127.0.0.1:5000"})
+const API = axios.create({baseURL: "https://backend-ogmwfxnr5q-as.a.run.app/"})
 
 
 
 API.interceptors.request.use((req)=>{
-    // const [cookies] = useCookies(["token"]);
     const cookie = getCookie('token');
-    // console.log(cookie)
-//     // // const [cookies, setCookie] = useCookies(["token"]);
-//     // const token = useCookies(["token"])
-//     // const cookies = useCookies(["token"]);
     if(document.cookie){
-        // req.headers.authorization = `${JSON.parse(useCookies(["token"][0]))}`
-        // req.headers.authorization = `${JSON.parse(cookie)}`
         req.headers.authorization = cookie;
     }
     return req;
-
-    // if(localStorage.getItem('profile')){
-    //     req.headers.authorization = `${JSON.parse(localStorage.getItem('profile')).token}`
-    // }
-    // // console.log(req)
-    // return req;
 })
 
 

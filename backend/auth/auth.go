@@ -7,9 +7,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-var jwtKey = []byte("secretkey") //ambil dari .ENV next
+var jwtKey = []byte("secretkey") //get from .ENV next
 type JWTClaim struct {
-	// Username string `bson:"userame"`
 	Email string `bson:"email"`
 	jwt.StandardClaims
 }
@@ -18,7 +17,6 @@ func GenerateJWT(email string) (tokenString string, err error) {
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &JWTClaim{
 		Email: email,
-		// Username: username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
@@ -51,5 +49,3 @@ func ValidateToken(signedToken string) (err error) {
 	}
 	return
 }
-
-// <-- update Middleware

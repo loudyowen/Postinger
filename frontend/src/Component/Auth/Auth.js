@@ -36,7 +36,6 @@ const Auth = () =>{
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(isSignUp)
         if(formData.email==''){
             setError("Error: Email must not be empty")
             return
