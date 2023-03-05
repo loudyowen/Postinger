@@ -29,7 +29,6 @@ function Home() {
     const [currentId, setCurrentId] = useState(null);
     const [openModalEditPost, setOpenModalEditPost] = useState(false)
     const [openModalComment, setOpenModalComment] = useState(false)
-    // const [cookies, setCookie] = useCookies(["token"]);
     const [skipId,setSkipId] = useState({
         skip: 2,
         userId: ""
@@ -42,7 +41,6 @@ function Home() {
         setOpenModalEditPost(false)
         setOpenModalComment(false)
     }
-    // console.log(cookies.token)
     const handleLoadMore = () =>{
         if (posts.length == skipId.skip){
           dispatch(getMorePost(skipId))
@@ -64,7 +62,8 @@ function Home() {
                 <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModalEditPost} handleClose={handleClose} />
                 <CommentModal show={openModalComment} handleClose={handleClose} />
                 {posts.length!=0 && 
-                <InView as="div" onChange={handleLoadMore}>
+                <InView as="div"  onChange={handleLoadMore}>
+                    {/* cannot change the position as it make the inview error */}
                     <h1><CircularProgress /></h1>
                 </InView>
                 }

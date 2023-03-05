@@ -8,5 +8,12 @@ export default makeStyles((theme)=>({
     Post:{
         display: 'flex',
         flexDirection: 'column'
+    },
+    CircularProgress: {
+        alignItem: 'center',
+        display: 'flex',
+        position: 'fixed',
+        bottom: '0',
+        left: '50%',
     }
 }))

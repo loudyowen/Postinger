@@ -19,6 +19,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
+  overflowY: 'scroll'
 };
 
 const resizeFile = (file) =>
@@ -101,21 +102,21 @@ const EditPostModal = ({show, handleClose, currentId}) => {
             </Grid>
             <Grid item xs={12}>
               <div style={{ width: '100%', height: '100%', maxHeight: '80%', maxWidth: '80%', userSelect: 'none' }}>
-              <Dropzone onDrop={handleDrop} noKeyboard style={{ width: '250px', height: '250px', position: 'relative' }}>
-                {({ getRootProps, getInputProps }) => (
-                  <div {...getRootProps()}>
-                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                      <img src={editPost.postImage} style={{ width: '100%', height: '100%', maxHeight: '80%', maxWidth: '80%' }} />
-                      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', maxHeight: '80%', maxWidth: '80%',display: 'flex', justifyContent: 'center', alignItems: 'center', userSelect: 'none' }}>
-                        <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: '10px', borderRadius: '5px', color: '#fff', fontWeight: 'bold' }}>
-                          Click or Drop image here
+                <Dropzone onDrop={handleDrop} noKeyboard style={{ width: '250px', height: '250px', position: 'relative' }}>
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps()}>
+                      <div style={{ position: 'relative' }}>
+                        <img src={editPost.postImage} style={{ display: 'flex', maxHeight: '100%', maxWidth: '100%' }} />
+                        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', userSelect: 'none' }}>
+                          <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: '10px', borderRadius: '5px', color: '#fff', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                            Click or Drop image here
+                          </div>
                         </div>
                       </div>
+                      <input {...getInputProps()} />
                     </div>
-                    <input {...getInputProps()} />
-                  </div>
-                )}
-              </Dropzone>
+                  )}
+                </Dropzone>
               </div>
             </Grid>
             <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
