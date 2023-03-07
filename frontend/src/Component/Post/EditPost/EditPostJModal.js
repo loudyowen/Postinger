@@ -9,17 +9,17 @@ import { updatePost } from '../../../Actions/postAction';
 import useStyles from './Styles'
 import Dropzone from 'react-dropzone';
 import Resizer from "react-image-file-resizer";
+import { Scrollbars } from 'react-custom-scrollbars';
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '60vw',
-  height: '75vh',
+  maxHeight: '75vh',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  overflowY: 'scroll'
+  borderRadius: '10px'
 };
 
 const resizeFile = (file) =>
@@ -77,52 +77,53 @@ const EditPostModal = ({show, handleClose, currentId}) => {
 
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
-        <Box sx={style}>
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <Grid container
-          sx={{
-            textAlign: '-webkit-center',
-            margin: '10px'
-          }}
-          >
-            <Grid item xs={12} >
-              <Typography variant="h4" sx={{textAlign: 'center'}}>Edit Post</Typography>
-            </Grid>
-            <Grid item xs={12} sx={{width: '80%'}} >
-              <Typography variant="h6">Edit Text :</Typography>
-              <TextField name="postText" variant="filled" multiline fullWidth minRows={6} onChange={handleChange}
-                InputProps={{
-                    className: classes.input,
-                }}
-                value={editPost.text}  
-              />  
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h6">Edit Image :</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <div style={{ width: '100%', height: '100%', maxHeight: '80%', maxWidth: '80%', userSelect: 'none' }}>
-                <Dropzone onDrop={handleDrop} noKeyboard style={{ width: '250px', height: '250px', position: 'relative' }}>
-                  {({ getRootProps, getInputProps }) => (
-                    <div {...getRootProps()}>
-                      <div style={{ position: 'relative' }}>
-                        <img src={editPost.postImage} style={{ display: 'flex', maxHeight: '100%', maxWidth: '100%' }} />
-                        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', userSelect: 'none' }}>
-                          <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: '10px', borderRadius: '5px', color: '#fff', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-                            Click or Drop image here
-                          </div>
+          <Box sx={style}>
+         <Scrollbars style={{ width: '50vw', height: '75vh' }}>
+          <form autoComplete="off" onSubmit={handleSubmit}>
+            <Grid container
+            sx={{
+              textAlign: '-webkit-center',
+              margin: '10px'
+            }}
+            >
+              <Grid item xs={12} >
+                <Typography variant="h4" sx={{textAlign: 'center'}}>Edit Post</Typography>
+              </Grid>
+              <Grid item xs={12} sx={{width: '80%'}} >
+                <Typography variant="h6">Edit Text :</Typography>
+                <TextField name="postText" variant="filled" multiline fullWidth minRows={6} onChange={handleChange}
+                  InputProps={{
+                      className: classes.input,
+                  }}
+                  value={editPost.text}  
+                />  
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h6">Edit Image :</Typography>
+              </Grid>
+              <Grid item xs={12} className={classes.dropZone}>
+                <div style={{ width: '100%', height: '100%', maxHeight: '80%', maxWidth: '80%', userSelect: 'none' }}>
+                  <Dropzone onDrop={handleDrop} noKeyboard style={{ width: '250px', height: '250px', position: 'relative' }}>
+                    {({ getRootProps, getInputProps }) => (
+                      <div {...getRootProps()}>
+                        <div style={{ position: 'relative' }}>
+                          <img src={editPost.postImage} style={{ display: 'flex', maxHeight: '100%', maxWidth: '100%' }} />
+                            <div className={classes.dropZoneOverlay}>
+                              Click or Drop image here
+                            </div>
                         </div>
+                        <input {...getInputProps()} />
                       </div>
-                      <input {...getInputProps()} />
-                    </div>
-                  )}
-                </Dropzone>
-              </div>
+                    )}
+                  </Dropzone>
+                </div>
+              </Grid>
+              <Button className={classes.submit}  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
             </Grid>
-            <Button  type='submit' color='primary' variant="contained" fullWidth>Submit</Button>
-          </Grid>
-        </form>
-        </Box>
+          </form>
+        </Scrollbars>
+
+          </Box>
       </Modal>
   );
 }

@@ -17,7 +17,7 @@ import {Container} from '@material-ui/core'
 import Profile from "./Component/Profile/Profile";
 import AccountSetting from "./Component/AccountSetting/AccountSetting";
 
-const darkTheme = createTheme({
+const theme = createTheme({
   palette: {
     mode: 'dark',
   },
@@ -29,7 +29,7 @@ function App() {
   const [cookies, setCookies] = useCookies(['token'])
   const cookie = Cookies.get('token')
   return (
-     <ThemeProvider theme={darkTheme}>
+     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter basename="/">
           <Container disableGutters={true} maxWidth={false}>
