@@ -55,6 +55,7 @@ const EditPostModal = ({show, handleClose, currentId}) => {
       setEditPost({...editPost, postImage: postEdit.Image})
     }
   },postEdit)
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updatePost(postId,editPost))
@@ -63,7 +64,6 @@ const EditPostModal = ({show, handleClose, currentId}) => {
   const handleChange = (e) =>{
     setEditPost({...editPost, [e.target.name]: e.target.value})
   }
-
 
   const handleDrop = async (dropped) => {
     try{

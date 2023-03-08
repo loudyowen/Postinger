@@ -35,11 +35,11 @@ const PostCard = ( {post, setCurrentId, setOpenModalEditPost,setOpenModalComment
     handleMenuClose()
   }
   const handleCommentModal = () => {
+    setCurrentId(post.Id)
     setOpenModalComment(true)
     handleMenuClose()
   }
   const handleMenuDelete = () => {
-    console.log("called menu delete")
     dispatch(deletePost(post.Id))
     setSkipId({skip: posts.length-1})
   }

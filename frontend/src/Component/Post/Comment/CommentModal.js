@@ -2,6 +2,7 @@ import React,{useState, useEffect} from 'react'
 import Box from '@mui/material/Box';
 import { Grid, TextField } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
+import { useDispatch, useSelector } from "react-redux";
 import Modal from '@mui/material/Modal';
 import useStyles from './Styles'
 const style = {
@@ -16,8 +17,21 @@ const style = {
   boxShadow: 24,
 };
 
-const CommentModal = ({show, handleClose}) => {
+const CommentModal = ({show, handleClose, currentId}) => {
+  const postComment = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
   const classes = useStyles();
+  const [commentData, setCommentData] = useState({
+    text: "null",
+    image: null
+  })
+  useEffect(()=>{
+    if(postComment){
+      // console.log("post called")
+      setCommentData({...commentData, text: postComment.PostText})
+      setCommentData({...commentData, image: postComment.Image})
+    }
+  },postComment)
+  console.log(commentData.text)
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
         <Box sx={style}>
@@ -30,15 +44,16 @@ const CommentModal = ({show, handleClose}) => {
                 {/* how if there is no image? */}
                 {/* image ? */}
                 <Grid item xs={9}>
-                  Image
+                <img style={{ display: 'flex', maxHeight: '100%', maxWidth: '100%' }} />
                 </Grid>
                 {/* : */}
                 <Grid item xs={3}>
                   <Grid item xs={12}>
-                    user profile
+                    {/* user profile */}
+                    {commentData.text}
                   </Grid>
                   <Grid item xs={12}>
-                    comment box
+                    create comment box
                   </Grid>
                   <Grid item xs={12}>
                     comment

@@ -60,7 +60,7 @@ function Home() {
                 </Grid>
                 <Grid item xs={false} sm={1} md={1} />
                 <EditPostModal setCurrentId={setCurrentId} currentId={currentId} show={openModalEditPost} handleClose={handleClose} />
-                <CommentModal show={openModalComment} handleClose={handleClose} />
+                <CommentModal setCurrentId={setCurrentId} currentId={currentId} show={openModalComment} handleClose={handleClose} />
                 {posts.length!=0 && 
                 <InView as="div"  onChange={handleLoadMore}>
                     {/* cannot change the position as it make the inview error */}
