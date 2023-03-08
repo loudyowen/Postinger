@@ -60,6 +60,11 @@ const Auth = () =>{
             dispatch(signIn({...formData},navigate))
         }
     }
+    const handleDemoLogin = (e) => {
+        setFormData(formData.email='demo@mail.com')
+        setFormData(formData.password='admin123')
+        dispatch(signIn({...formData},navigate))
+    }
     return(
     <Container className={classes.container} component="main" maxWidth="md">
         <Paper className={`${classes.paper} ${classes.root}`} elevation={3}>
@@ -75,8 +80,8 @@ const Auth = () =>{
                         </>
                     )}
 
-                    <Input name="email" label="Email" type="email" fullWidth handleChange={handleChange} required />
-                    <Input name="password" label="Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword} required />
+                    <Input name="email" label="Email" type="email" fullWidth handleChange={handleChange} value={formData.email} required />
+                    <Input name="password" label="Password" type={showPassword ? 'text' : 'password'} fullWidth handleChange={handleChange} handleShowPassword={handleShowPassword} value={formData.password} required />
                     
                     {isSignUp && (
                         <>
@@ -99,7 +104,13 @@ const Auth = () =>{
                 <Button  type='submit' color='primary' variant="contained" fullWidth>{isSignUp ? 'Sign Up' : 'Sign In'}</Button>
                 <Button onClick={switchSignMode}>
                         {isSignUp?"Already have account? Click here to login" : "Don't have account? click here to sign up"}
-                </Button>      
+                </Button>   
+                {!isSignUp &&
+                    <>
+                        <p>OR</p>
+                        <Button  type='submit' color='primary' variant="contained" onClick={handleDemoLogin} fullWidth> Demo Login</Button>
+                    </>
+                }
             </form>
         </Paper>
     </Container>

@@ -28,3 +28,11 @@ type SkipId struct {
 	Skip   int    `json: "skip"`
 	UserId string `json: "userId"`
 }
+
+type CommentPost struct {
+	Id          primitive.ObjectID `bson: "id"`
+	UID         primitive.ObjectID `bson:"uId"`
+	PostId      primitive.ObjectID `bson: "postId`
+	CommentText string             `bson: "commentText, omitempty"`
+	Like        []string           `bson:"like,omitempty"`
+}
