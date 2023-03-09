@@ -66,7 +66,7 @@ const handleUploadImage = async(e) =>{
          <form autoComplete="off" onSubmit={handleSubmit}>
                 <Grid container>
                     <Grid item xs={12}>
-                    <TextField name="postText" label="What's on your mind?" variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
+                      <TextField name="postText" label="What's on your mind?" variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
                     </Grid>
                     <Grid item xs={4}>
                       <div >

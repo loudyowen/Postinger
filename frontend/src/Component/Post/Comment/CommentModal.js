@@ -4,8 +4,10 @@ import { Grid, TextField } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from "react-redux";
 import Modal from '@mui/material/Modal';
+import Avatar from '@mui/material/Avatar';
 import useStyles from './Styles'
-const style = {
+import { useMediaQuery } from '@material-ui/core';
+const style1 = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -16,51 +18,67 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
 };
+const style2 = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '45vw',
+  height: '75vh',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+};
 
 const CommentModal = ({show, handleClose, currentId}) => {
-  const postComment = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
+  const postData = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
   const classes = useStyles();
+  const isMobile = useMediaQuery('(max-width: 960px)');
+  const firstName = postData?.UserData.firstName
+  const lastName = postData?.UserData.lastName!= undefined ? postData?.UserData.lastName : "";
+  const profileName = firstName + " " + lastName ;
   const [commentData, setCommentData] = useState({
     text: "null",
     image: null,
     name: null
   })
   useEffect(()=>{
-    if(postComment){
-      console.log("post called")
-      // setCommentData({...commentData, name: postComment.UserData.firstName})
-      setCommentData({text: postComment.PostText,
-        image: postComment.Image,
-        name: postComment.UserData.firstName})
-      // setCommentData({...commentData, image: postComment.Image})
+    if(postData){
+      setCommentData({text: postData.PostText,
+        image: postData.Image,
+        name: postData.UserData.firstName})
     }
-  },postComment)
-  console.log(commentData)
+  },postData)
+
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
-        <Box sx={style}>
+        <Box sx={postData?.Image ? style1 : style2}>
           <Grid container
             sx={{
               textAlign: '-webkit-center',
               margin: '10px'
             }}>
-  
-                {/* how if there is no image? */}
-                {/* image ? */}
-                <Grid item xs={9}>
-                <img src={commentData.image} style={{ display: 'flex', maxHeight: '100%', maxWidth: '100%' }} />
+                <Grid item xs={postData?.Image ? 12 : 0} md={postData?.Image ? 9 : 0} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <img src={postData?.Image} className={isMobile ? classes.imageCommentXs : classes.imageCommentSm}  />
                 </Grid>
-                {/* : */}
-                <Grid item xs={3}>
-                  <Grid item xs={12}>
-                    {/* user profile */}
-                    {commentData.text}
+                <Grid item xs={12} md={postData?.Image ? 3 : 12}>
+                  <Grid item xs={12} style={{display: 'flex'}}>
+                    <Grid item xs={3} style={{display: 'flex', justifyContent:'center'}}>
+                      <Avatar src={postData?.UserData?.profileImage} alt={postData?.UserData?.firstName} >{postData?.UserData?.firstName?.charAt(0)}</Avatar>
+                    </Grid>
+                    <Grid item xs={9} style={{display: 'flex',  alignItems: 'center'}}>
+                      <Typography style={{textAlign: 'left'}}>
+                        {profileName}
+                      </Typography>
+                    </Grid>
                   </Grid>
                   <Grid item xs={12}>
-                    create comment box
+                  <Typography style={{marginLeft:'10px'}}>
+                        {/* {postData?.PostText} */}
+                      </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    comment
+                    On Progress...
                   </Grid>
                 </Grid>
                 {/*Grid Left PostImage 

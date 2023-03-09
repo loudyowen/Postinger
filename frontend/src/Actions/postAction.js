@@ -59,6 +59,7 @@ export const deletePost = (postId) => async (dispatch) =>{
 
 export const updatePost = (id,postData) => async (dispatch) => {
     try{
+        console.log("update: ",postData)
         const { data }  = await api.updatePost(id,postData)
         const  payload  = data.data.data
         dispatch({type: UPDATE, payload: payload})
