@@ -51,10 +51,10 @@ const EditPostModal = ({show, handleClose, currentId}) => {
   // do useEffect so it will show the image when we load the modal 
   useEffect(()=>{
     if(postEdit){
-      setEditPost({...editPost, text: postEdit.PostText})
-      setEditPost({...editPost, postImage: postEdit.Image})
+      setEditPost({text: postEdit.PostText, postImage: postEdit.Image})
     }
   },postEdit)
+  console.log(editPost.text)
 
   const handleSubmit = (e) => {
     e.preventDefault();

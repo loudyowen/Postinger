@@ -22,16 +22,20 @@ const CommentModal = ({show, handleClose, currentId}) => {
   const classes = useStyles();
   const [commentData, setCommentData] = useState({
     text: "null",
-    image: null
+    image: null,
+    name: null
   })
   useEffect(()=>{
     if(postComment){
-      // console.log("post called")
-      setCommentData({...commentData, text: postComment.PostText})
-      setCommentData({...commentData, image: postComment.Image})
+      console.log("post called")
+      // setCommentData({...commentData, name: postComment.UserData.firstName})
+      setCommentData({text: postComment.PostText,
+        image: postComment.Image,
+        name: postComment.UserData.firstName})
+      // setCommentData({...commentData, image: postComment.Image})
     }
   },postComment)
-  console.log(commentData.text)
+  console.log(commentData)
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
         <Box sx={style}>
@@ -44,7 +48,7 @@ const CommentModal = ({show, handleClose, currentId}) => {
                 {/* how if there is no image? */}
                 {/* image ? */}
                 <Grid item xs={9}>
-                <img style={{ display: 'flex', maxHeight: '100%', maxWidth: '100%' }} />
+                <img src={commentData.image} style={{ display: 'flex', maxHeight: '100%', maxWidth: '100%' }} />
                 </Grid>
                 {/* : */}
                 <Grid item xs={3}>
