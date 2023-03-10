@@ -44,17 +44,16 @@ const EditPostModal = ({show, handleClose, currentId}) => {
   const dispatch =  useDispatch();
   const classes = useStyles();
   const [editPost, setEditPost] = useState({
-    text: null,
+    postText: null,
     postImage: null
   })
-
+  console.log(editPost.text)
   // do useEffect so it will show the image when we load the modal 
   useEffect(()=>{
     if(postEdit){
-      setEditPost({text: postEdit.PostText, postImage: postEdit.Image})
+      setEditPost({postText: postEdit.PostText, postImage: postEdit.Image})
     }
   },postEdit)
-  console.log(editPost.text)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -95,7 +94,7 @@ const EditPostModal = ({show, handleClose, currentId}) => {
                   InputProps={{
                       className: classes.input,
                   }}
-                  value={editPost.text}  
+                  value={editPost.postText}  
                 />  
               </Grid>
               <Grid item xs={12}>

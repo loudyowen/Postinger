@@ -13,4 +13,12 @@ export default makeStyles((theme)=>({
         left: '50%',
         transform: 'translate(-50%, -50%)',
     },
+    imageCommentSm: {
+        height: '75vh', 
+        maxWidth: '100%'
+    },
+    imageCommentXs: {
+        height: '40vh', 
+        maxWidth: '100%'
+    }
 }))

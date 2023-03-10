@@ -19,7 +19,9 @@ const PostCard = ( {post, setCurrentId, setOpenModalEditPost,setOpenModalComment
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
-  const profileName = post?.UserData?.firstName + " " + post?.UserData?.lastName;
+  const firstName = post?.UserData.firstName
+  const lastName = post?.UserData.lastName!= undefined ? post?.UserData.lastName : "";
+  const profileName = firstName + " " + lastName ;
   const user = JSON.parse(localStorage.getItem('profile'))
   const posts = useSelector((state)=>state.posts)
   const handleProfileMenuOpen = (event) => {
@@ -68,7 +70,7 @@ const PostCard = ( {post, setCurrentId, setOpenModalEditPost,setOpenModalComment
 
   
   return (
-    <Card sx={{ width: 550, marginTop: 2, overflowY:'auto', boxShadow: 4} }>
+    <Card sx={{ width: 600,  height: 'auto', marginTop: 2, overflowY:'auto', boxShadow: 4} }>
       <CardHeader
         avatar={
           <Avatar src={post?.UserData?.profileImage} alt={post?.UserData?.firstName}>{post?.UserData?.firstName?.charAt(0)}</Avatar>
