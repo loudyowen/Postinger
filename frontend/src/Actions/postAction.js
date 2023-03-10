@@ -1,18 +1,22 @@
 import { display } from '@mui/system';
 import * as api from '../api';
 import {CREATE, DELETE, FETCH_ALL, FETCH_MORE, EDIT_MODAL,EMPTY_POST, UPDATE} from '../constant/actionType'
-import {useNavigate}from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import {LOG_OUT} from '../constant/actionType'
 
 
-export const getPosts = () => async (dispatch) =>{
-    const navigate = useNavigate();
+export const getPosts = (navigate) => async (dispatch) =>{
     try {
         const { data } = await api.getPosts();
         dispatch({type: FETCH_ALL, payload: data})
     } catch (error) {
-        console.log(error)
-        navigate(0)
-        navigate('/home')
+        if(error.response.status=='401'){
+            dispatch({type: LOG_OUT})
+            navigate(0)
+            navigate('/home')
+        }else{
+            console.log(error)
+        }
     }
 }
 
@@ -44,7 +48,6 @@ export const getMorePost = (skipId) => async (dispatch) => {
 }
 
 export const postStatus = (postData) => async (dispatch) =>{
-    console.log(postData)
     try{
         const { data } = await api.postStatus(postData)
         const payload = data.data.data;

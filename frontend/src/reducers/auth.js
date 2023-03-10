@@ -10,6 +10,7 @@ const authReducer = (state={authData: null}, action) =>{
             return {...state, authData: action?.data}
         case LOG_OUT:
             localStorage.removeItem('profile')
+            Cookies.remove('token')
             return{...state, authData: null}
         default:
             return state;

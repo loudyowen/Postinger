@@ -5,5 +5,6 @@ export default makeStyles((theme)=>({
         direction:"column",
         alignItems:"center",
         justifyContent:"center",
+        
     },
 }))

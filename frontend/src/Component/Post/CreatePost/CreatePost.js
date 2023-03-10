@@ -64,7 +64,7 @@ const handleUploadImage = async(e) =>{
  return (
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>
-                <Grid container>
+                <Grid container style={{width: '600px'}}>
                     <Grid item xs={12}>
                       <TextField name="postText" label="What's on your mind?" variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
                     </Grid>

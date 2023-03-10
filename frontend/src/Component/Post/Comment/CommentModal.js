@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from '@mui/material/Avatar';
 import Modal from '@mui/material/Modal';
-import Avatar from '@mui/material/Avatar';
 import useStyles from './Styles'
 import { useMediaQuery } from '@material-ui/core';
 const style1 = {
