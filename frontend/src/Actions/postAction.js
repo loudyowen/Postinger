@@ -1,13 +1,18 @@
 import { display } from '@mui/system';
 import * as api from '../api';
 import {CREATE, DELETE, FETCH_ALL, FETCH_MORE, EDIT_MODAL,EMPTY_POST, UPDATE} from '../constant/actionType'
+import {useNavigate}from 'react-router-dom'
+
 
 export const getPosts = () => async (dispatch) =>{
+    const navigate = useNavigate();
     try {
         const { data } = await api.getPosts();
         dispatch({type: FETCH_ALL, payload: data})
     } catch (error) {
         console.log(error)
+        navigate(0)
+        navigate('/home')
     }
 }
 
@@ -21,6 +26,7 @@ export const getPostsProfile = (id) => async (dispatch) => {
         dispatch({type: FETCH_ALL, payload: data})
     }catch(err){
         console.log(err)
+        
     }
 }
 

@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { useDispatch } from 'react-redux';
+import { LOG_OUT } from '../constant/actionType';
+import { useNavigate } from 'react-router-dom';
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -16,15 +19,26 @@ function getCookie(cname) {
     return "";
   }
 
-const API = axios.create({baseURL: "https://backend-ogmwfxnr5q-as.a.run.app/"})
+// const API = axios.create({baseURL: "https://backend-ogmwfxnr5q-as.a.run.app/"})
+const API = axios.create({baseURL: "127.0.0.1:5000"})
 
 
 
 API.interceptors.request.use((req)=>{
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const cookie = getCookie('token');
+    console.log("cookie: ",cookie)
+    console.log("header :",req.headers.authorization)
+    // if(document.cookie!=req.headers.authorization){
+    //   dispatch({type: LOG_OUT})
+    //   navigate('/')
+    //   navigate(0)
+    // }
     if(document.cookie){
         req.headers.authorization = cookie;
     }
+    
     return req;
 })
 

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { Grid, TextField } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from "react-redux";
+import Avatar from '@mui/material/Avatar';
 import Modal from '@mui/material/Modal';
 import useStyles from './Styles'
 const style = {
@@ -23,38 +24,37 @@ const CommentModal = ({show, handleClose, currentId}) => {
   const [commentData, setCommentData] = useState({
     text: "null",
     image: null,
-    name: null
   })
   useEffect(()=>{
     if(postComment){
-      console.log("post called")
+      // console.log("post called")
       // setCommentData({...commentData, name: postComment.UserData.firstName})
       setCommentData({text: postComment.PostText,
         image: postComment.Image,
-        name: postComment.UserData.firstName})
+        })
       // setCommentData({...commentData, image: postComment.Image})
     }
   },postComment)
-  console.log(commentData)
+  console.log(postComment)
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
         <Box sx={style}>
-          <Grid container
-            sx={{
-              textAlign: '-webkit-center',
-              margin: '10px'
-            }}>
+          <Grid container>
   
                 {/* how if there is no image? */}
                 {/* image ? */}
-                <Grid item xs={9}>
-                <img src={commentData.image} style={{ display: 'flex', maxHeight: '100%', maxWidth: '100%' }} />
+                <Grid item xs={9} style={{ display: 'flex', justifyContent: 'center' }} >
+                  <img src={postComment?.Image} style={{ maxHeight: '75vh', maxWidth: '100%' }} />
                 </Grid>
                 {/* : */}
                 <Grid item xs={3}>
                   <Grid item xs={12}>
-                    {/* user profile */}
-                    {commentData.text}
+                    <Grid item xs={3}>
+                      <Avatar src={postComment?.UserData?.profileImage}alt={postComment?.UserData?.firstName}>{postComment?.UserData?.firstName?.charAt(0)}</Avatar>
+                    </Grid>
+                    <Grid item xs={9}>
+                      {postComment?.UserData?.firstName}
+                    </Grid>
                   </Grid>
                   <Grid item xs={12}>
                     create comment box
