@@ -30,9 +30,21 @@ type SkipId struct {
 }
 
 type CommentPost struct {
-	Id          primitive.ObjectID `bson: "id"`
-	UID         primitive.ObjectID `bson:"uId"`
-	PostId      primitive.ObjectID `bson: "postId`
-	CommentText string             `bson: "commentText, omitempty"`
-	Like        []string           `bson:"like,omitempty"`
+	Id        primitive.ObjectID `bson: "id"`
+	UID       primitive.ObjectID `bson: "uId"`
+	PID       primitive.ObjectID `bson: "pId"`
+	PostImage string             `bson: "postImage, omitempty"`
+	PostText  string             `bson: "postText, omitempty"`
+	Like      []string           `bson:"like,omitempty"`
+	CreatedAt time.Time          `bson:"createdat"`
+}
+
+type CommentData struct {
+	Id        primitive.ObjectID `bson:"id"`
+	PID       primitive.ObjectID `bson: "pId"`
+	Image     string             `bson:"postimage,omitempty"`
+	PostText  string             `bson:"posttext,omitempty"`
+	Like      []string           `bson:"like,omitempty"`
+	CreatedAt time.Time          `bson:"createdat"`
+	UserData  UserPost           `bson:"userData"`
 }

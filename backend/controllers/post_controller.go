@@ -16,6 +16,7 @@ import (
 )
 
 var postCollection *mongo.Collection = configs.GetCollection(configs.DB, "Posts")
+var commentColletion *mongo.Collection = configs.GetCollection(configs.DB, "Comments")
 
 func CreatePost() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -77,6 +78,68 @@ func CreatePost() gin.HandlerFunc {
 		)
 	}
 }
+
+func CreateComment() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		var commentPost models.CommentPost
+		defer cancel()
+
+		if err := c.BindJSON(&commentPost); err != nil {
+			ReqValidate(c, err, "Request Error")
+			return
+		}
+
+		if validationErr := validate.Struct(&commentPost); validationErr != nil {
+			ReqValidate(c, validationErr, "Validation Error")
+			return
+		}
+
+		newCommentPost := models.CommentPost{
+			Id:        primitive.NewObjectID(),
+			UID:       commentPost.UID,
+			PID:       commentPost.PID,
+			PostImage: commentPost.PostImage,
+			PostText:  commentPost.PostText,
+			CreatedAt: time.Now(),
+		}
+
+		res, err := commentColletion.InsertOne(ctx, newCommentPost)
+		if err != nil {
+			c.JSON(
+				http.StatusInternalServerError,
+				responses.UserResponse{
+					Data:    map[string]interface{}{"data": err.Error()},
+					Message: "error",
+					Status:  http.StatusInternalServerError,
+				},
+			)
+			return
+		}
+		// lookup for the newest data with inserted id
+		matchStage := bson.D{{"$match", bson.D{{"_id", res.InsertedID}}}}
+		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
+		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
+		showLoadedCursor, err := commentColletion.Aggregate(ctx, mongo.Pipeline{matchStage, lookupStage, unwindStage})
+		if err != nil {
+			panic(err)
+		}
+		var CommentData []models.CommentData
+		if err = showLoadedCursor.All(ctx, &CommentData); err != nil {
+			fmt.Println(err)
+		}
+
+		c.JSON(
+			http.StatusCreated,
+			responses.UserResponse{
+				Data:    map[string]interface{}{"data": CommentData[0]},
+				Message: "Comment Created!",
+				Status:  http.StatusCreated,
+			},
+		)
+	}
+}
+
 func GetAllPosts() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)

@@ -47,7 +47,6 @@ const EditPostModal = ({show, handleClose, currentId}) => {
     postText: null,
     postImage: null
   })
-  console.log(editPost.text)
   // do useEffect so it will show the image when we load the modal 
   useEffect(()=>{
     if(postEdit){

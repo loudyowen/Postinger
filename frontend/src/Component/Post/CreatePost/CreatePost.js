@@ -4,10 +4,11 @@ import React,{useState, useEffect} from 'react'
 import useStyles from './Styles'
 import FileBase from 'react-file-base64';
 import {useNavigate}from 'react-router-dom'
-import { postStatus } from '../../../Actions/postAction';
+import { postStatus, postComment } from '../../../Actions/postAction';
 import {useDispatch} from 'react-redux'
 import Compressor from 'compressorjs';
 import Resizer from "react-image-file-resizer";
+import { POSTING_COMMENT, POSTING_STATUS } from '../../../constant/actionType';
 
 const resizeFile = (file) =>
 new Promise((resolve) => {
@@ -25,7 +26,11 @@ new Promise((resolve) => {
 );
 });
 
-const CreatePost = () => {
+const CreatePost = ( {style,textLabel,type, postId}) => {
+  // console.log(createPostStyle)
+  const label = textLabel
+  const createPostStyle = style
+  const pId = postId
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -46,7 +51,12 @@ const CreatePost = () => {
   }
   const handleSubmit = (e) =>{
     e.preventDefault();
-    dispatch(postStatus({...postData,uId}))
+    if(type==POSTING_STATUS){
+      dispatch(postStatus({...postData,uId}))
+    }
+    if(type==POSTING_COMMENT){
+      dispatch(postComment({...postData,uId,pId}))
+    }
     clear()
   }
 const handleUploadImage = async(e) =>{
@@ -54,7 +64,6 @@ const handleUploadImage = async(e) =>{
     const base64 = e.target.files
     const file = base64
     const image = await resizeFile(file[0])
-    console.log(image)
     setPostData({ ...postData,postImage: image })
   } catch (err) {
     console.log(err);
@@ -64,9 +73,9 @@ const handleUploadImage = async(e) =>{
  return (
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>
-                <Grid container style={{width: '600px'}}>
+                <Grid container style={createPostStyle}>
                     <Grid item xs={12}>
-                      <TextField name="postText" label="What's on your mind?" variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
+                      <TextField name="postText" label={label} variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
                     </Grid>
                     <Grid item xs={4}>
                       <div >
