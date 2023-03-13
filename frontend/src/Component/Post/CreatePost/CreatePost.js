@@ -1,4 +1,4 @@
-import { Box, Grid } from '@material-ui/core'
+import { Box, Grid,useMediaQuery } from '@material-ui/core'
 import { Button, TextField, Typography } from '@mui/material';
 import React,{useState, useEffect} from 'react'
 import useStyles from './Styles'
@@ -9,7 +9,6 @@ import {useDispatch} from 'react-redux'
 import Compressor from 'compressorjs';
 import Resizer from "react-image-file-resizer";
 import { POSTING_COMMENT, POSTING_STATUS } from '../../../constant/actionType';
-
 const resizeFile = (file) =>
 new Promise((resolve) => {
     Resizer.imageFileResizer(
@@ -26,14 +25,15 @@ new Promise((resolve) => {
 );
 });
 
-const CreatePost = ( {style,textLabel,type, postId}) => {
+const CreatePost = ( {textLabel,type, postId}) => {
   // console.log(createPostStyle)
   const label = textLabel
-  const createPostStyle = style
+  // const createPostStyle = style
   const pId = postId
   const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery('(max-width: 600px)');
   const user = JSON.parse(localStorage.getItem('profile'))
   const uId = user.id
   const [postData, setPostData] = useState({
@@ -73,7 +73,7 @@ const handleUploadImage = async(e) =>{
  return (
     <Grid container className={classes.PostContainer} >
          <form autoComplete="off" onSubmit={handleSubmit}>
-                <Grid container style={createPostStyle}>
+                <Grid container style={type==POSTING_STATUS ? (isMobile ? {width: 'auto'} : {width: '600px'}): {width: 'auto'} }>
                     <Grid item xs={12}>
                       <TextField name="postText" label={label} variant='filled' multiline rows={4} fullWidth onChange={handleChange}  />
                     </Grid>

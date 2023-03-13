@@ -25,11 +25,15 @@ const style2 = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '45vw',
-  height: '75vh',
+  width: '600px',
+  height: '80vh',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
+
+  '@media (max-width: 600px)': {
+    width: '90vw',
+  }
 };
 
 const CommentModal = ({show, handleClose, currentId}) => {
@@ -42,48 +46,35 @@ const CommentModal = ({show, handleClose, currentId}) => {
   const firstName = postData?.UserData.firstName
   const lastName = postData?.UserData.lastName!= undefined ? postData?.UserData.lastName : "";
   const profileName = firstName + " " + lastName ;
-  // const [commentData, setCommentData] = useState({
-  //   text: null,
-  //   image: null,
-  // })
-  // useEffect(()=>{
-  //   if(postData){
-  //     setCommentData({text: postData.PostText,
-  //       image: postData.Image,
-  //       name: postData.UserData.firstName})
-  //   }
-  // },postData)
 
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
-        <Box sx={postData?.Image ? style1 : style2}>
+        {/* check based on  */}
+        <Box sx={postData?.Image ? (isMobile ? style2 : style1) : (isMobile ? style2 : style2 ) }>
           <Grid container
-            sx={{
-              textAlign: '-webkit-center',
-              margin: '10px'
-            }}>
+             style={{justifyContent: 'center', textAlign: '-webkit-center', height: '100%'}}>
                 {/* post image */}
-                <Grid item xs={postData?.Image ? 12 : 0} md={postData?.Image ? 9 : 0} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Grid item xs={postData?.Image ? 12 : 0} md={postData?.Image ? 9 : 0} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', maxWidth: '100%', maxHeight: '100%' }}>
                   <img src={postData?.Image} className={isMobile ? classes.imageCommentXs : classes.imageCommentSm}  />
                 </Grid>
                 {/* comment box */}
                 <Grid item xs={12} md={postData?.Image ? 3 : 12} style={{padding: '1vw'}}>
                   {/* avatar */}
-                  <Grid item xs={12} style={{display: 'flex'}}>
-                    <Grid item xs={3} style={{display: 'flex', justifyContent:'center'}}>
+                  <Grid item xs={12} style={isMobile ?{display: 'flex', padding: '1vw 0vw 0vw 1vw'}: {display: 'flex', padding: '1vw 0vw 0vw 1vw'}}>
+                    <Grid item xs={2} style={{display: 'flex', justifyContent:'center'}}>
                       <Avatar src={postData?.UserData?.profileImage} alt={postData?.UserData?.firstName} >{postData?.UserData?.firstName?.charAt(0)}</Avatar>
                     </Grid>
-                    <Grid item xs={9} style={{display: 'flex',  alignItems: 'center'}}>
+                    <Grid item xs={10} style={{display: 'flex',  alignItems: 'center'}}>
                       <Typography style={{textAlign: 'left'}}>
                         {profileName}
                       </Typography>
                     </Grid>
                   </Grid>
                   {/* post text */}
-                  <Grid item xs={12} style={{padding: '1vw 0vw 0vw 1vw'}}>
-                  <Typography>
-                        {postData?.PostText}
-                      </Typography>
+                  <Grid item xs={12} style={isMobile ?{display: 'flex', padding: '1vw 0vw 0vw 3vw', height: '120px'}: {display: 'flex', padding: '1vw 0vw 0vw 2vw',height: '120px'}}>
+                    <Typography style={{textAlign: 'left'}}>
+                      {postData?.PostText}
+                    </Typography>
                   </Grid>
                   
                   <Grid item xs={12} >

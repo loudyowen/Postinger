@@ -55,7 +55,7 @@ function Home() {
             <Grid container justifyContent="space-between" alignitem="strech" spacing={3} >
                 <Grid item xs={false} sm={1} md={1} />
                 <Grid item xs={12} sm={10} md={10}>
-                    <CreatePost style={{width: '600px'}} textLabel={"What's on your mind"} type={POSTING_STATUS} />
+                    <CreatePost textLabel={"What's on your mind"} type={POSTING_STATUS} />
                     <Grid className={classes.Post}>
                         <Post setCurrentId={setCurrentId} setOpenModalEditPost={setOpenModalEditPost} setOpenModalComment={setOpenModalComment} setSkipId={setSkipId} isProfile={false} />
                     </Grid>
