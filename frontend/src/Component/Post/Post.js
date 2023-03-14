@@ -15,6 +15,7 @@ const Post = ({setCurrentId,setOpenModalEditPost,setOpenModalComment, setSkipId,
   const userData = JSON.parse(localStorage.getItem('profile'));
   
   useEffect(() => {
+    // this use effect is for when we open user profile so it will only return post that has been made by user with current id
     if (isProfile) {
       dispatch(getPostsProfile(userData.id));
     } else {

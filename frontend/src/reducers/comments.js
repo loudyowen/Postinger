@@ -9,7 +9,6 @@ export default (comments = [], action) => {
         case EMPTY_COMMENT:
             return action.payload;
         case CREATE_COMMENT:
-            console.log(comments)
             return [action.payload, ...comments];      
         case DELETE_COMMENT:
             return comments.filter((comment)=>(comment.Id!==action.payload));

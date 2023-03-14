@@ -9,6 +9,9 @@ import useStyles from './Styles'
 import CreatePost from '../CreatePost/CreatePost'
 import { useMediaQuery } from '@material-ui/core';
 import { POSTING_COMMENT } from '../../../constant/actionType';
+import { getComment } from '../../../Actions/commentAction';
+import CommentData from './CommentData/CommentData';
+import CircularProgress from '@mui/material/CircularProgress';
 const style1 = {
   position: 'absolute',
   top: '50%',
@@ -40,12 +43,18 @@ const CommentModal = ({show, handleClose, currentId}) => {
   const postData = useSelector((state)=>(currentId ? state.posts.find(((post)=> post.Id === currentId)) : null));
   const postId = postData!==null?postData.Id:null
   const comments = useSelector((state)=>state.comments);
+
   console.log(comments)
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 960px)');
+  const dispatch = useDispatch();
   const firstName = postData?.UserData.firstName
   const lastName = postData?.UserData.lastName!= undefined ? postData?.UserData.lastName : "";
   const profileName = firstName + " " + lastName ;
+
+  useEffect (()=>{
+    dispatch(getComment(postId))
+  },[postId])
 
   return (
       <Modal disableAutoFocus disablePortal disableScrollLock open={show} onClose={handleClose} sx={{overflowY:'auto'}} >
@@ -76,10 +85,27 @@ const CommentModal = ({show, handleClose, currentId}) => {
                       {postData?.PostText}
                     </Typography>
                   </Grid>
-                  
+                  {/* create comment */}
                   <Grid item xs={12} >
                     <CreatePost textLabel={"Comment..."} type={POSTING_COMMENT} postId={postId} />
                   </Grid>
+                  {/* comment data */}
+                  <Grid item xs={12}>
+                    
+                    {!comments?.length 
+                      ?
+                        <h1 style={{textAlign: "center"}}>Loading <CircularProgress /></h1>
+                      :
+                        (
+                          comments?.map((commentData)=>(
+                            <Grid key={commentData.Id} container  justifyContent="center">
+                              <CommentData comment={commentData} />
+                            </Grid>
+                            ))
+                        )
+                    }
+                  </Grid>
+                  
                 </Grid>
                 {/*Grid Left PostImage 
                   Grid right:

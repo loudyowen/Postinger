@@ -166,6 +166,38 @@ func GetAllPosts() gin.HandlerFunc {
 	}
 }
 
+func GetComment() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+		defer cancel()
+		var showLoadedCursor *mongo.Cursor
+		pId := c.Param("id")
+		postId, _ := primitive.ObjectIDFromHex(pId)
+
+		// this query will search all data from the Comments collection that has the same postId (current post), and also it aggregate with Users
+		// collection as userData, so the return data will be comment with userData
+		matchStage := bson.D{{"$match", bson.D{{"pid", postId}}}}
+		lookupStage := bson.D{{"$lookup", bson.D{{"from", "Users"}, {"localField", "uid"}, {"foreignField", "id"}, {"as", "userData"}}}}
+		unwindStage := bson.D{{"$unwind", bson.D{{"path", "$userData"}, {"preserveNullAndEmptyArrays", false}}}}
+
+		limit := bson.D{{"$limit", 2}}
+		sort := bson.D{{"$sort", bson.D{{"id", -1}}}}
+		showLoadedCursor, err := commentColletion.Aggregate(ctx, mongo.Pipeline{lookupStage, matchStage, unwindStage, sort, limit})
+		if err != nil {
+			panic(err)
+		}
+		var showsLoaded []models.CommentData
+		if err = showLoadedCursor.All(ctx, &showsLoaded); err != nil {
+			panic(err)
+		}
+
+		c.JSON(
+			http.StatusOK,
+			&showsLoaded,
+		)
+	}
+}
+
 func GetAllPostsProfile() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)

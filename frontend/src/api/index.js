@@ -20,6 +20,7 @@ function getCookie(cname) {
   }
 
 // const API = axios.create({baseURL: "https://backend-ogmwfxnr5q-as.a.run.app/"})
+
 const API = axios.create({baseURL: "http://127.0.0.1:5000"})
 
 
@@ -38,6 +39,7 @@ export const getPostsProfile = (id) => API.get(`${'/post'}/${id}`)
 export const getMorePosts = (skipId) => API.post('/postMore', skipId)
 export const postStatus = (postData) => API.post('/post', postData)
 export const postComment = (postData) => API.post('/commentPost', postData)
+export const getComment = (postId) => API.get(`${'/commentPost'}/${postId}`)
 
 export const deletePost = (id) => API.delete(`${'/post'}/${id}`)
 export const updatePost = (id, postData) => API.post(`${'/post'}/${id}`, postData)

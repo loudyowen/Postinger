@@ -17,6 +17,7 @@ func PostRoute(r *gin.Engine) {
 		auth.DELETE("/post/:id", controllers.DeletePost())
 		auth.POST("/post/:id", controllers.UpdatePost())
 		auth.POST("/commentPost", controllers.CreateComment())
+		auth.GET("/commentPost/:id", controllers.GetComment())
 	}
 
 }
